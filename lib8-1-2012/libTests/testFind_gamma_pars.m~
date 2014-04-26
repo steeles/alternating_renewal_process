@@ -1,0 +1,4 @@
+function testFind_gamma_pars
+
+distr = gamrnd(2,5,1000);
+

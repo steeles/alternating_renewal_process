@@ -1,0 +1,11 @@
+The ideal code library for my PhD dissertation would look something like this:
+
+lib/ & lib/test/: a library of functions with generic applications to both real and simulated data, eg find_gamma_pars, find_fourier_fit, make_fourier_BUF, make_switchTriggeredBUF, make_trialAveragedBUF, calcRsquared, etc
+
+experiment_code/: code for running experiments, with subfolders for each expt
+
+experiment_data/ & experiment_data/figs/: 
+
+simulation_code: i may want to split this up into neural and population dynamical models
+
+simulation_data & simulation_data/figs

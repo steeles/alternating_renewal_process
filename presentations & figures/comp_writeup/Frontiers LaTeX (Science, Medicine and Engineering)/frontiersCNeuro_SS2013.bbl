@@ -1,0 +1,105 @@
+\begin{thebibliography}{16}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\selectlanguage}[1]{\relax}
+
+\bibitem[{\textbf{Anstis and Saida}(1985)}]{Anstis1985}
+Anstis, S. and Saida, S. (1985), {Adaptation to auditory streaming of
+  frequency-modulated tones.}, \emph{Journal of experimental psychology. Human
+  perception and performance}, 11, 3, 257--271
+
+\bibitem[{\textbf{Bee et~al.}(2010)\textbf{Bee, Micheyl, Oxenham, and
+  Klump}}]{Bee2010}
+Bee, M.~A., Micheyl, C., Oxenham, A.~J., and Klump, G.~M. (2010), {Neural
+  adaptation to tone sequences in the songbird forebrain: patterns,
+  determinants, and relation to the build-up of auditory streaming},
+  \emph{Journal of Comparative Physiology a-Neuroethology Sensory Neural and
+  Behavioral Physiology}, 196, 543--557, \doi{10.1007/s00359-010-0542-4.Neural}
+
+\bibitem[{\textbf{Carlyon}(2004)}]{Carlyon2004}
+Carlyon, R.~P. (2004), {How the brain separates sounds.}, \emph{Trends in
+  cognitive sciences}, 8, 10, 465--71, \doi{10.1016/j.tics.2004.08.008}
+
+\bibitem[{\textbf{Cusack et~al.}(2004)\textbf{Cusack, Deeks, Aikman, and
+  Carlyon}}]{Cusack2004}
+Cusack, R., Deeks, J., Aikman, G., and Carlyon, R.~P. (2004), {Effects of
+  location, frequency region, and time course of selective attention on
+  auditory scene analysis.}, \emph{Journal of experimental psychology. Human
+  perception and performance}, 30, 4, 643--56, \doi{10.1037/0096-1523.30.4.643}
+
+\bibitem[{\textbf{Denham and Gyimesi}(2010)}]{Denham2010}
+Denham, S. and Gyimesi, K. (2010), {Stability of perceptual organisation in
+  auditory streaming}, in E.~A. Lopez-Poveda, A.~R. Palmer, and R.~Meddis,
+  eds., The Neurophysiological Bases of Auditory Perception, chapter~44, 1
+  edition, 477--487
+
+\bibitem[{\textbf{Hup\'{e} and Pressnitzer}(2012)}]{Hupe2012}
+Hup\'{e}, J.-M. and Pressnitzer, D. (2012), {The initial phase of auditory and
+  visual scene analysis.}, \emph{Philosophical transactions of the Royal
+  Society of London. Series B, Biological sciences}, 367, 1591, 942--53,
+  \doi{10.1098/rstb.2011.0368}
+
+\bibitem[{\textbf{Kondo and Kashino}(2009)}]{Kondo2009}
+Kondo, H.~M. and Kashino, M. (2009), {Involvement of the thalamocortical loop
+  in the spontaneous switching of percepts in auditory streaming.}, \emph{The
+  Journal of neuroscience : the official journal of the Society for
+  Neuroscience}, 29, 40, 12695--701, \doi{10.1523/JNEUROSCI.1549-09.2009}
+
+\bibitem[{\textbf{Micheyl et~al.}(2005)\textbf{Micheyl, Tian, Carlyon, and
+  Rauschecker}}]{Micheyl2005}
+Micheyl, C., Tian, B., Carlyon, R.~P., and Rauschecker, J.~P. (2005),
+  {Perceptual organization of tone sequences in the auditory cortex of awake
+  macaques.}, \emph{Neuron}, 48, 1, 139--48, \doi{10.1016/j.neuron.2005.08.039}
+
+\bibitem[{\textbf{Moreno-Bote et~al.}(2007)\textbf{Moreno-Bote, Rinzel, and
+  Rubin}}]{Moreno-Bote2007}
+Moreno-Bote, R., Rinzel, J., and Rubin, N. (2007), {Noise-induced alternations
+  in an attractor network model of perceptual bistability}, \emph{Journal of
+  \ldots}, 1125--1139, \doi{10.1152/jn.00116.2007.When}
+
+\bibitem[{\textbf{Pastukhov et~al.}(2013)\textbf{Pastukhov,
+  Garc\'{\i}a-Rodr\'{\i}guez, Haenicke, Guillamon, Deco, and
+  Braun}}]{Pastukhov2013}
+Pastukhov, A., Garc\'{\i}a-Rodr\'{\i}guez, P.~E., Haenicke, J., Guillamon, A.,
+  Deco, G., and Braun, J. (2013), {Multi-stable perception balances stability
+  and sensitivity.}, \emph{Frontiers in computational neuroscience}, 7, March,
+  17, \doi{10.3389/fncom.2013.00017}
+
+\bibitem[{\textbf{Pressnitzer and Hupe}(2006)}]{Pressnitzer2006}
+Pressnitzer, D. and Hupe, J.-m. (2006), {Temporal Dynamics of Auditory and
+  Visual Bistability Reveal Common Principles of Perceptual Organization},
+  \emph{Current Biology}, 16, 1351--1357, \doi{10.1016/j.cub.2006.05.054}
+
+\bibitem[{\textbf{Pressnitzer et~al.}(2008)\textbf{Pressnitzer, Sayles, and
+  Micheyl}}]{Pressnitzer2008}
+Pressnitzer, D., Sayles, M., and Micheyl, C. (2008), {Perceptual Organization
+  of Sound Begins in the Auditory Periphery}, \emph{Current Biology},
+  1124--1128, \doi{10.1016/j.cub.2008.06.053}
+
+\bibitem[{\textbf{Rubin and Hup\'{e}}(2004)}]{Rubin2004}
+Rubin, N. and Hup\'{e}, J.-M. (2004), {Dynamics of perceptual bi-stability :
+  plaids and binocular rivalry compared}, in D.~Alais and R.~Blake, eds.,
+  Binocular rivalry. (MIT Press, Cambridge, MA), chapter~8, 1--13
+
+\bibitem[{\textbf{Shpiro et~al.}(2009)\textbf{Shpiro, Moreno-bote, Rubin, and
+  Rinzel}}]{Shpiro2009}
+Shpiro, A., Moreno-bote, R., Rubin, N., and Rinzel, J. (2009), {Balance between
+  noise and adaptation in competition models of perceptual bistability.},
+  \emph{Journal of Computational neuroscience}, 27, 1, 37--54,
+  \doi{10.1007/s10827-008-0125-3}
+
+\bibitem[{\textbf{Stinchcombe et~al.}(2012)\textbf{Stinchcombe, Peskin, and
+  Tranchina}}]{Stinchcombe2012}
+Stinchcombe, A., Peskin, C., and Tranchina, D. (2012), {Population density
+  approach for discrete mRNA distributions in generalized switching models for
+  stochastic gene expression}, \emph{Physical Review E}, 85, 6, 1--12,
+  \doi{10.1103/PhysRevE.85.061919}
+
+\bibitem[{\textbf{van Noorden}(1975)}]{Noorden1975}
+van Noorden, L. P. A.~S. (1975), {Temporal coherence in the perception of tone
+  sequences}
+
+\end{thebibliography}

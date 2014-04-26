@@ -1,0 +1,13 @@
+% I also need to remember that the BUF from make_buildup_function3 is from
+% 0:T, whereas BUF from make_fourier_buildup_function is from -T:T
+
+
+
+function error = compare_buildup_functions(bufpars,BUF,tax)
+
+[BUFproposed t] = make_fourier_buildup_function(bufpars);
+
+BUFproposed = BUFproposed(t>0); % 
+BUF_adj = interp1(tax,BUF,t(t>0));
+
+error = sum((BUFproposed - BUF_adj).^2);

@@ -1,0 +1,84 @@
+% Written 6/12/2012 by Sara Steele
+% 
+% The purpose of this function is to be used with fminsearch to find
+% parameters [a0,t0,a1,t1] which provide a good fit using Daniel Tranchina's
+% derivation of the BUF with two gamma functions in frequency domain. The
+% proposed BUFs will be constructed in the frequency domain, but least squares
+% objective function will be assessed in the time domain
+%
+% I should separate out the function that constructs the BUF from the one
+% that compares them; maybe do the compr in a subfunction.
+% 
+% function error = fourier_BUF_cmpr(bufpars,BUF,tax)
+
+
+function error = fourier_BUF_cmpr(bufpars,BUF,tax)
+
+% housekeeping, time distortion
+m = 18;
+N=2^m; % total number of points
+%L=20;   % I think I need 10 s symmetric around t=0
+
+%tax = BUF(1,:);
+L = 2* max(tax);
+df=1/L; 
+f=(0:(N-1))*df; % discrete frequencies, but not all are used; remember that f 
+                % is related to omega = 2*pi*f;
+dt=L/N;
+t=((-N/2):(N/2-1))*dt;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% specific parameters are a0, a1, b0, b1, etc
+% I'm actually going to use theta (th0 & th1), since all the builtin code seems geared
+% towards it
+a0 = bufpars(1); th0 = bufpars(2); a1 = bufpars(3); th1 = bufpars(4);
+mean0 = a0*th0; mean1 = a1*th1;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% expression time!
+
+% first, f is omega (w) /2 pi, so...
+w = 2 * pi * f;
+w = w(2:end);
+
+fT0_transform = (1 + 1i*w*th0).^-a0;
+fT1_transform = (1 + 1i*w*th1).^-a1;
+%FT1_CCDF_transform = 1./(1i*w) .* (1 - (1+1i*w*th1).^-a1);
+
+tmp_num = fT0_transform .* fT1_transform;
+tmp_den = 1-tmp_num;
+
+tmp_coeff = (1-(1+1i*w*th1).^-a1).*fT0_transform;
+
+p_transform_1given0 = tmp_coeff .* (1 + tmp_num./tmp_den);
+
+% p_transform_1given0 = fT0_transform .* FT1_CCDF_transform + ...
+%     1./(1i*w).*((FT1_CCDF_transform.*fT0_transform.^2 .* fT1_transform * 1i.*w)./...
+%     (1-fT0_transform.*fT1_transform));
+
+p_transform_1given0 = [mean1/(mean1+mean0) p_transform_1given0];
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% and now, "inverse fourier transform that, then integrate from 0:t"
+
+rho_hat_an=p_transform_1given0;
+
+rho_hat_an((N/2+1+1):N) = conj(rho_hat_an((N/2+1-1):-1:2)); % backwards to the second ind
+rho=(N/L)*ifft(rho_hat_an);
+rho=rho([ (N/2+1+1):N 1:(N/2+1) ]);
+
+p_1given0 = dt * cumsum(real(rho));
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% objective time
+
+% I need to make sure BUF is on same sampling grid as my reconstruction, so
+% I'm going to interpolate or upsample
+
+%BUF = BUF(2,:);
+BUF_up = interp1(tax,BUF,t);
+
+error = sum((p_1given0 - BUF_up).^2);
+
+

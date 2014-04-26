@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2010)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: committee_report.aux
+The style file: plos2009.bst
+Database file #1: /Users/steeles/Documents/library.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+`journal' is a missing field, not a string, for entry Noorden1975
+while executing---line 3964 of file plos2009.bst
+Warning--empty journal in Noorden1975
+You've used 9 entries,
+            2441 wiz_defined-function locations,
+            615 strings with 6803 characters,
+and the built_in function-call counts, 7560 in all, are:
+= -- 694
+> -- 112
+< -- 2
++ -- 55
+- -- 28
+* -- 651
+:= -- 895
+add.period$ -- 19
+call.type$ -- 9
+change.case$ -- 10
+chr.to.int$ -- 0
+cite$ -- 19
+duplicate$ -- 766
+empty$ -- 798
+format.name$ -- 36
+if$ -- 1680
+int.to.chr$ -- 0
+int.to.str$ -- 9
+missing$ -- 93
+newline$ -- 60
+num.names$ -- 11
+pop$ -- 129
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 58
+stack$ -- 0
+substring$ -- 1063
+swap$ -- 184
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 53
+width$ -- 10
+write$ -- 112
+(There was 1 error message)

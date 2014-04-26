@@ -1,0 +1,61 @@
+function [min_Alpha,betaAtMinAlpha,max_Alpha,betaAtMaxAlpha] = ...
+    find_gamma_confidence_intervals(alpha,beta,x,fval,g,bPlot)
+
+if ~exist('bPlot','var')
+    bPlot=0; end
+
+    % try to meshgrid over par space around alpha and beta to build a 2d
+    % likelihood surface, find contour where LL_best/LL_alt >100;
+    % 
+    % ACTUALLY I think I want to build 99% confidence intervals out of the
+    % likelihood ratio
+    
+    alphaRange = 0:.01:5*alpha;
+    betaRange = 0:.01:5*beta;
+    
+    [A B] = meshgrid(alphaRange,betaRange);
+    
+
+    % get rid of dimenosion errors by finding likelihood over all
+    % parameters for each datapoint
+    
+    lik_space(size(A,1),size(A,2),length(x))=0;
+    
+    for sInd=1:length(x)
+        lik_space(:,:,sInd) = A.*log(B)-log(gamma(A))...
+    + (A-1).*log(x(sInd))-B.*x(sInd);
+        
+    end
+    
+    likelihood_opt = exp(-fval);
+    likelihood_alt = exp(sum(lik_space,3));
+    
+    likelihood_ratio = likelihood_opt./likelihood_alt;
+    inside_confidence_interval99 = likelihood_ratio<100;
+    outside_confidence_interval95 = likelihood_ratio>20;
+    % set 0,0 to be an unreasonable parameter
+    %outside_confidence_interval99(1,1)=1;
+    
+    
+    if bPlot
+        
+        figure;
+        
+        imagesc(alphaRange,betaRange,likelihood_ratio); colorbar
+        hold on; imagesc(alphaRange,betaRange,...
+            inside_confidence_interval99&outside_confidence_interval95
+        plot(g(1),g(2),'ro'); set(gca,'YDir','Normal')
+    end
+    
+    min_Alpha = min(A(~outside_confidence_interval99));
+    max_Alpha = max(A(~outside_confidence_interval99));
+    
+%     min_Beta = min(B(~outside_confidence_interval99))
+%     max_Beta = max(B(~outside_confidence_interval99))
+%     
+    aInd = find(alphaRange==min_Alpha); % find which row corresponds to min,
+    betaAtMinAlpha = betaRange(min(find(~outside_confidence_interval99(:,aInd))));   % pick out the min Beta par for
+                                        % that
+    aInd = find(alphaRange==max_Alpha);
+    betaAtMaxAlpha = betaRange(min(find(~outside_confidence_interval99(:,aInd)))); 
+    

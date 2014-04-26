@@ -1,0 +1,658 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Creator: MATLAB, The Mathworks, Inc. Version 7.10.0.499 (R2010a). Operating System: Darwin 10.8.0 Darwin Kernel Version 10.8.0: Tue Jun  7 16:33:36 PDT 2011; root:xnu-1504.15.3~1/RELEASE_I386 i386.
+%%Title: /Users/steeles/Dropbox/my codes/rinzel/presentations & figures/g21_likelihood_space.eps
+%%CreationDate: 04/24/2012  16:25:00
+%%DocumentNeededFonts: Helvetica
+%%DocumentProcessColors: Cyan Magenta Yellow Black
+%%LanguageLevel: 2
+%%Pages: 1
+%%BoundingBox:    81   227   529   564
+%%EndComments
+
+%%BeginProlog
+% MathWorks dictionary
+/MathWorks 160 dict begin
+% definition operators
+/bdef {bind def} bind def
+/ldef {load def} bind def
+/xdef {exch def} bdef
+/xstore {exch store} bdef
+% operator abbreviations
+/c  /clip ldef
+/cc /concat ldef
+/cp /closepath ldef
+/gr /grestore ldef
+/gs /gsave ldef
+/mt /moveto ldef
+/np /newpath ldef
+/cm /currentmatrix ldef
+/sm /setmatrix ldef
+/rm /rmoveto ldef
+/rl /rlineto ldef
+/s {show newpath} bdef
+/sc {setcmykcolor} bdef
+/sr /setrgbcolor ldef
+/sg /setgray ldef
+/w /setlinewidth ldef
+/j /setlinejoin ldef
+/cap /setlinecap ldef
+/rc {rectclip} bdef
+/rf {rectfill} bdef
+% page state control
+/pgsv () def
+/bpage {/pgsv save def} bdef
+/epage {pgsv restore} bdef
+/bplot /gsave ldef
+/eplot {stroke grestore} bdef
+% orientation switch
+/portraitMode 0 def /landscapeMode 1 def /rotateMode 2 def
+% coordinate system mappings
+/dpi2point 0 def
+% font control
+/FontSize 0 def
+/FMS {/FontSize xstore findfont [FontSize 0 0 FontSize neg 0 0]
+  makefont setfont} bdef
+/reencode {exch dup where {pop load} {pop StandardEncoding} ifelse
+  exch dup 3 1 roll findfont dup length dict begin
+  { 1 index /FID ne {def}{pop pop} ifelse } forall
+  /Encoding exch def currentdict end definefont pop} bdef
+/isroman {findfont /CharStrings get /Agrave known} bdef
+/FMSR {3 1 roll 1 index dup isroman {reencode} {pop pop} ifelse
+  exch FMS} bdef
+/csm {1 dpi2point div -1 dpi2point div scale neg translate
+ dup landscapeMode eq {pop -90 rotate}
+  {rotateMode eq {90 rotate} if} ifelse} bdef
+% line types: solid, dotted, dashed, dotdash
+/SO { [] 0 setdash } bdef
+/DO { [.5 dpi2point mul 4 dpi2point mul] 0 setdash } bdef
+/DA { [6 dpi2point mul] 0 setdash } bdef
+/DD { [.5 dpi2point mul 4 dpi2point mul 6 dpi2point mul 4
+  dpi2point mul] 0 setdash } bdef
+% macros for lines and objects
+/L {lineto stroke} bdef
+/MP {3 1 roll moveto 1 sub {rlineto} repeat} bdef
+/AP {{rlineto} repeat} bdef
+/PDlw -1 def
+/W {/PDlw currentlinewidth def setlinewidth} def
+/PP {closepath eofill} bdef
+/DP {closepath stroke} bdef
+/MR {4 -2 roll moveto dup  0 exch rlineto exch 0 rlineto
+  neg 0 exch rlineto closepath} bdef
+/FR {MR stroke} bdef
+/PR {MR fill} bdef
+/L1i {{currentfile picstr readhexstring pop} image} bdef
+/tMatrix matrix def
+/MakeOval {newpath tMatrix currentmatrix pop translate scale
+0 0 1 0 360 arc tMatrix setmatrix} bdef
+/FO {MakeOval stroke} bdef
+/PO {MakeOval fill} bdef
+/PD {currentlinewidth 2 div 0 360 arc fill
+   PDlw -1 eq not {PDlw w /PDlw -1 def} if} def
+/FA {newpath tMatrix currentmatrix pop translate scale
+  0 0 1 5 -2 roll arc tMatrix setmatrix stroke} bdef
+/PA {newpath tMatrix currentmatrix pop	translate 0 0 moveto scale
+  0 0 1 5 -2 roll arc closepath tMatrix setmatrix fill} bdef
+/FAn {newpath tMatrix currentmatrix pop translate scale
+  0 0 1 5 -2 roll arcn tMatrix setmatrix stroke} bdef
+/PAn {newpath tMatrix currentmatrix pop translate 0 0 moveto scale
+  0 0 1 5 -2 roll arcn closepath tMatrix setmatrix fill} bdef
+/vradius 0 def /hradius 0 def /lry 0 def
+/lrx 0 def /uly 0 def /ulx 0 def /rad 0 def
+/MRR {/vradius xdef /hradius xdef /lry xdef /lrx xdef /uly xdef
+  /ulx xdef newpath tMatrix currentmatrix pop ulx hradius add uly
+  vradius add translate hradius vradius scale 0 0 1 180 270 arc 
+  tMatrix setmatrix lrx hradius sub uly vradius add translate
+  hradius vradius scale 0 0 1 270 360 arc tMatrix setmatrix
+  lrx hradius sub lry vradius sub translate hradius vradius scale
+  0 0 1 0 90 arc tMatrix setmatrix ulx hradius add lry vradius sub
+  translate hradius vradius scale 0 0 1 90 180 arc tMatrix setmatrix
+  closepath} bdef
+/FRR {MRR stroke } bdef
+/PRR {MRR fill } bdef
+/MlrRR {/lry xdef /lrx xdef /uly xdef /ulx xdef /rad lry uly sub 2 div def
+  newpath tMatrix currentmatrix pop ulx rad add uly rad add translate
+  rad rad scale 0 0 1 90 270 arc tMatrix setmatrix lrx rad sub lry rad
+  sub translate rad rad scale 0 0 1 270 90 arc tMatrix setmatrix
+  closepath} bdef
+/FlrRR {MlrRR stroke } bdef
+/PlrRR {MlrRR fill } bdef
+/MtbRR {/lry xdef /lrx xdef /uly xdef /ulx xdef /rad lrx ulx sub 2 div def
+  newpath tMatrix currentmatrix pop ulx rad add uly rad add translate
+  rad rad scale 0 0 1 180 360 arc tMatrix setmatrix lrx rad sub lry rad
+  sub translate rad rad scale 0 0 1 0 180 arc tMatrix setmatrix
+  closepath} bdef
+/FtbRR {MtbRR stroke } bdef
+/PtbRR {MtbRR fill } bdef
+/stri 6 array def /dtri 6 array def
+/smat 6 array def /dmat 6 array def
+/tmat1 6 array def /tmat2 6 array def /dif 3 array def
+/asub {/ind2 exch def /ind1 exch def dup dup
+  ind1 get exch ind2 get sub exch } bdef
+/tri_to_matrix {
+  2 0 asub 3 1 asub 4 0 asub 5 1 asub
+  dup 0 get exch 1 get 7 -1 roll astore } bdef
+/compute_transform {
+  dmat dtri tri_to_matrix tmat1 invertmatrix 
+  smat stri tri_to_matrix tmat2 concatmatrix } bdef
+/ds {stri astore pop} bdef
+/dt {dtri astore pop} bdef
+/db {2 copy /cols xdef /rows xdef mul dup 3 mul string
+  currentfile 
+  3 index 0 eq {/ASCIIHexDecode filter}
+  {/ASCII85Decode filter 3 index 2 eq {/RunLengthDecode filter} if }
+  ifelse exch readstring pop
+  dup 0 3 index getinterval /rbmap xdef
+  dup 2 index dup getinterval /gbmap xdef
+  1 index dup 2 mul exch getinterval /bbmap xdef pop pop}bdef
+/it {gs np dtri aload pop moveto lineto lineto cp c
+  cols rows 8 compute_transform 
+  rbmap gbmap bbmap true 3 colorimage gr}bdef
+/il {newpath moveto lineto stroke}bdef
+currentdict end def
+%%EndProlog
+
+%%BeginSetup
+MathWorks begin
+
+0 cap
+
+end
+%%EndSetup
+
+%%Page: 1 1
+%%BeginPageSetup
+%%PageBoundingBox:    81   227   529   564
+MathWorks begin
+bpage
+%%EndPageSetup
+
+%%BeginObject: obj1
+bplot
+
+/dpi2point 12 def
+portraitMode 0972 6768 csm
+
+    0     0  5376  4033 rc
+85 dict begin %Colortable dictionary
+/c0 { 0.000000 0.000000 0.000000 sr} bdef
+/c1 { 1.000000 1.000000 1.000000 sr} bdef
+/c2 { 0.900000 0.000000 0.000000 sr} bdef
+/c3 { 0.000000 0.820000 0.000000 sr} bdef
+/c4 { 0.000000 0.000000 0.800000 sr} bdef
+/c5 { 0.910000 0.820000 0.320000 sr} bdef
+/c6 { 1.000000 0.260000 0.820000 sr} bdef
+/c7 { 0.000000 0.820000 0.820000 sr} bdef
+c0
+1 j
+1 sg
+   0    0 5377 4034 rf
+6 w
+0 3287 3542 0 0 -3287 699 3589 4 MP
+PP
+-3542 0 0 3287 3542 0 0 -3287 699 3589 5 MP stroke
+gs 699 302 3543 3288 rc
+/mwscm { [/Indexed /DeviceRGB 63
+  <
+    00008f 00009f 0000af 0000bf 0000cf 0000df 0000ef 0000ff 000fff 001fff 
+    002fff 003fff 004fff 005fff 006fff 007fff 008fff 009fff 00afff 00bfff 
+    00cfff 00dfff 00efff 00ffff 0fffef 1fffdf 2fffcf 3fffbf 4fffaf 5fff9f 
+    6fff8f 7fff7f 8fff6f 9fff5f afff4f bfff3f cfff2f dfff1f efff0f ffff00 
+    ffef00 ffdf00 ffcf00 ffbf00 ffaf00 ff9f00 ff8f00 ff7f00 ff6f00 ff5f00 
+    ff4f00 ff3f00 ff2f00 ff1f00 ff0f00 ff0000 ef0000 df0000 cf0000 bf0000 
+    af0000 9f0000 8f0000 7f0000 
+  >
+] setcolorspace } bdef mwscm
+gs np 699 302 mt 0 3287 rl 3542 0 rl 0 -3287 rl cp c np
+[3542 0 0 3287 699 302] cc
+<< % Image dictionary
+  /ImageType 1
+  /Width 1585 /Height 465
+  /BitsPerComponent 8
+  /Decode [0 255]
+  /ImageMatrix [1585.000000 0 0 465.000000 0 0]
+  /DataSource currentfile
+  /ASCII85Decode filter
+  /RunLengthDecode filter
+>>
+image
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH4I*l2cG9JH16$JH16$JH16$JH16$JH16$JH5-=
+hZ89.JH16$JH16$JH16$JH16$JH16$JH5KGecC=%JH16$JH16$JH16$JH16$JH16$JH3srJH16$JH16$
+JH16$JH16$JH16$JH1N,klLS]kQ-57JH16$JH16$JH16$JH16$JH16$NWAPLjoXuPJH16$JH16$JH16$
+JH16$JH16$JH1l6nc@MInc=:AJH16$JH16$JH16$JH16$JH16$QN6[ZnH/=bnH/:_JH16$JH16$JH16$
+JH16$JH16$JH22?o`=afjTG2XoDsLCJH16$JH16$JH16$JH16$JH16$T)eQcp]C'ip&t!ipB($hJH16$
+JH16$JH16$JH16$JH16$JH2DEpAt'kq#fa^p]L<np&T^EJH16$JH16$JH16$JH16$JH16$V#^8kq?$Kq
+p]U$hp]UEqq#^9kJH16$JH16$JH16$JH16$JH16$JH2VKp]:6nq?-TtpBC?sp'(9qqZHZrpAogFJH16$
+JH16$JH16$JH16$JH16$WrVnqqZ?ZtqZQd"km%"gqZQcuq?$EmJH16$JH16$JH16$JH16$JH16$JH2eP
+q#UBpqucj"r!!!&lNd:kr!!!$quccsp]5pGJH16$JH16$JH16$JH16$JH16$YQ4J"quZcur<3'&r<E0)
+lj3Lor!**'r<3$#qZ?NnJH16$JH16$JH16$JH16$JH16$JH2qTq>pKqr<*!$r<<0)r<N6+m0W[rr<N9*
+r<<-&r<)oup]5pGJH16$JH16$JH16$JH16$JH16$ZiKq'quZg!r<3*'rW`?,r<W?.q[3-,q?m0-r<WB-
+r<E6)r<3'$qZ?QoJH16$JH16$JH16$JH16$JH16$JH3(Xq>pNrr<*$%rWW9*rWiE.rX&N1r<r6+r!WH1
+rX&Q0rWiE,rWW6'r<)s!q#Q$HJH16$JH16$JH16$JH16$JH16$[K-1*quZj"rWN3(rWWB.#Q=u0#mpS<
+rX8Z5nI>F*rX8]4rX&Q0!=&l/#6"f)"T8H#!r2kJ!.b-$!.b-$!.b-$!.b-$!.b-$!4`++!W<*!"9&H&
+"T\f3rW`N2#RLh:$3:MBrXAc8r=8N3r!r]8!=TD9$NUSArWrT2#lY&0"pY&1r<3*%quZZpJH16$JH16$
+JH16$JH16$JH16$JH37]qZ6TrrWE-&"U,&6"pYD4#RLeD$47.K$k*RSrXSo<r=Jf;r"/i<rXJr<%K6b@
+$O[:K#mgkCrW`H.#6"f*"T8H#!r;qK!.b-$!.b-$!.b-$!.b-$!.b-$!4r7.!W<*!"9&E9"U,)7#6tM?
+#mgqG$O[@O%1NgH%fm4QrXo#?rY,/ArXf_R&.]9]%LijU$k!FM$4."E#lY&0"pY&1rWN3&quZ]qJH16$
+JH16$JH16$JH16$JH16$JH3=_qZ6WsrW<0("TAQ?"pP;;#RLeE$4@7N%1NdX%hK9a&J>`U'D*"<'E/UX
+&J5Qc%hB-Z%1EXQ$OR1H#RCY?rWWB,"o\Z("8i5s!J(6%!.b-$!.b-$!.b-$!.b-$!.b-`!;cfr!r`<$
+"<%FI"pP;;#RLeE$4@7N%1WjY&.fEd&ebom'`JjG(B#'I(',-brY-.^'+tlh&.f?^%LigT$O[:J#m^eA
+#6kD3"T\`/r<*!"q>l-IJH16$JH16$JH16$JH16$JH16$^&\$2rW<'$rWF,C"U52:#RC_D$4@7N%1WmZ
+&.oNf',2,q()HlcrYYMMr>>MM)AX)''GM2o&eP]e%h9'Y$k*LN$4."E#6tG;rWW9(rWE*#q>l-IJH16$
+JH16$JH16$JH16$JH16$^B"-3rW<'$+9VfN"U5/9#7(VB$4@7N%1Wm[&.oNg'GM8t(Ddo*)&`Dlq&B;O
++;l%6(`*u('bqDr&eYcf%hB-Z$k*LN$4-tD#6tG;"U4l.rWE*#q>l-IJH16$JH16$JH16$JH16$JH16$
+^]=64rW<'$+p8#P"U5/9#RC_D$O[@P%M'*_&J>`k'c%T&(`=51)]Kb:p)P=s*#fh8)&X8-(D[`"',(uj
+&.]6\%1EUP$4."E#6tG;"U4l.rWE*#qZ26JJH16$JH16$JH16$JH16$JH16$^]=64rW<'$+TqoO"U52:
+#RLeE$OdIS%hK<b&ebro()If*)B0Y9*?H:$+8R,Z+!MaI*??+=)B'J1(D[`"',(uj&.]6[$k*LN#mgkB
+#6kA9"o\Z("8r;u!J(6%!.b-$!.b-$!.b-$!.b-$!.b-c!;lls!r`9H"9\l3"pYA=#mq%J$k3[W&.oNg
+'G_K%)&aG6*$$(B+<VgNpECk++WqmL*Zc=A)]BS2(D[`"'+tlg%hB-Z$k!CL#m^eA"pP57rWN3&r;uis
+JH16$JH16$JH16$JH16$JH16$JH3LdquQcurW=>I"9eu6#7(SA$4@7O%M'*_&ebro(Dn#.)]Tk>+!;^N
++s[(4qB[O8,U4NX+sA'N*ZZ4>)AsA.()7Ms&ePZc%LigS$47(F#R:P<"U,#3rWE*#qZ26JJH16$JH16$
+JH16$JH16$JH16$_#XB6rW<'$,Qn5R"pP;<#RLhG$k3[W&.oQi'c%W()B0Y;+!;^N,:"N\-78^>r@%Xm
+-RL/d,U=TY+WqjJ*?,n7(`*r&'+tlg%h9$W$O[:J#RCY>"pG/5"TAN%!rE"L!.b-$!.b-$!.b-$!.b-$
+!.b-$!5S[6!W<'I!s8Z/"U,)8#RC_D$OdIS%hTEf'G_K%)B0Y;+!;^O,UFcb-R^Dmq'mgB.4?Sl-7'o^
++sA'N*ZQ+;)&F&''GD)j%h9$W$O[:J#RCY>"pG/5"TAN%!rN(M!.b-$!.b-$!.b-$!.b-$!.b-$!5S[5
+!WE-I!s8Z/"U,)8#RC_D$OdIT&.oNh'c%W()]Tk?+<i$U,pk#h.4QkI/Gh"H/1`;$.Ocbn-7'o]+WqgH
+*#fb4(DRVt&ePWa%1EUO$4-tC#6kA9rWE6("8r;u!J(6%!.b-$!.b-$!.b-$!.b-$!.b-e!;lls![n-Q
+"9\l3"pYA=#mq%K%1a!^',2/t(`F>6*ZuUN,UOle.4Qi!/M8[T0**a\r\#]Q/hJV).k)ko-7'l\+WhaF
+)]BP0().Dp&J#?\$k!CK#m^b@"pG/5"TAN%!rN(M!.b-$!.b-$!.b-$!.b-$!.b-$!5S[6!WE0""""-R
+"U52:#RLhG$k3^Y&JGio(E",2*ZlOL,UFfd.P!&%/h\n51&<XV0eb:7/hJV).OZYk,U4HT*ZZ1<(`*r%
+'+tie%LigS$4-tD#6kA9"U"r1"8r;u!J(6%!.b-$!.b-$!.b-$!.b-$!.b-e!;lls![n-Q"9\l4"pYD?
+$4@7O%hK<d'G_K&)]TnA+X89[-n6_u/h\n51,C`c1]]Hkr\Q&[1,:R<0.e_*.4?Mh,9e6P*?,n6(DRVt
+&J,H_%1EUO#m^b@"pG/5"TAN&!rE"L!.b-$!.b-$!.b-$!.b-$!.b-$!5S[6!WE-M!s8Z/"U,)8#RLhG
+$k3[X&JGio(E"/4*ZuXP,pt,l/1rS01,CaE2)[Ak2_I!H2)R3H1,1I8/Lr;!-RC#^+<MUC)Aj8*'G:uh
+%h/pT$4."E#6kA9"U"r1"8r<!!J(6%!.b-$!.b-$!.b-$!.b-$!.b-c!;urt!\"3R"9\l4#6tM@$4I@R
+%hTEg()Ii-*?H=I,UOoh.kND.1,CaE2E*TTr&H8e3&``Q1c$mA0.ne*.46De+s7pI)]9J.'b_2l%h9$W
+$OR1G#6tG:"U"u-"9&B!!J(6%!.b-$!.b-$!.b-$!.b-$!.b-d!;urt!\+9S"9\l3"pYD?$4@7P%hK?f
+'c.`,*?H=I,UOoh/1rS11,LjH2`NfY3rM,j3]]8\2`<NM1GLR9/1W.s,pOTV*ZQ+:(D[\u&J,H_$k!CK
+#m^b?"pG,4rWE-$qZ26JJH16$JH16$JH16$JH16$JH16$^]=<6rW4JM!sA`1"pYD?$4@7O%hK?e'c.]*
+*$-4H,UOoh/1rV21Gq'L3BB2_q`HGl4$#A]2`<KK0eb42.OZYj,9\-L*#]Y1'bh8m%h9$W$OR1G#6kA9
+"U"r1"8r<!!J(6%!.b-$!.b-$!.b-$!.b-$!.b-c!;ljI!WiH+"9\l3"pYD?$4@:Q%hTHh()Rr0*ZuXP
+-7C>p/hf%:2)dKT3]fJ'4YT&`4Ztni4$#A\2Dd3E0.ne*-mg2`+<DOB)&F&&'+kcd%1EUO#m^b@"pG/5
+"9Sc)!rN(M!.b-$!.b-$!.b-$!.b-$!.b-$!5AO4!WE-O!s8Z/"U52;#RUqJ%1a!_'GVE%)]^"D,:+`f
+/1rV31Gq*N3]fGe4[)%o5Q3hq4Zkee3B&iQ1,1F6.k)hl,9\-L*#]Y0'b_2k%h9$V$4-tD#6k>8"9e]+
+rW;uuJH16$JH16$JH16$JH16$JH16$JH3Car;lm!-j'PS"U,)8#RLhG%1Wm\',23!)B9e@+seTc.kND/
+1Gq*N3]fGe5!Jm/.R$$Z4?GS`2`3BH0J4n+-mg2`+<DL@)&F#%&ePWa%1EUO#m^b?"pG,4rWE-$quM?K
+JH16$JH16$JH16$JH16$JH16$]`A!3.KTYR!sA`1"pP;<#mq(M%hK?e'c.`,*?QFM-7C>p/hf%;2E3]Y
+4?Yklq`cMn4Ztkf3B&iQ1,(@5.k)hl,9\-L)]9G-'G:uh%LigS$4-tC"pP56"TAN&!rN(M!.b-$!.b-$
+!.b-$!.b-$!.b-$!5&=1!@\'O!s8Z/"U52;#mq%K%M'-a'G_N(*$-4H,pt,l/MAh72)dKU4$5Yiq`cMn
+5!;"i3B/oR1GLO7.k)hl,9\-L)]9G-'GD&i%LigS$4-tC"pP56"TAN&!rN(M!.b-$!.b-$!.b-$!.b-$
+!.b-$!5&=0!@e-P!s8Z/"U52;#mq%L%M'-b'c%W)*?QFL,pt/n/hf%;2E*WW4$5Yi55d\p5!;%k3]T/X
+2)?s?/Lr7t,pOQT*?,k5().Do&.T-X$OR1G#6kA9"9e]+rW;uuJH16$JH16$JH16$JH16$JH16$JH3:^
+r;lm!-NaGR"U,)8#RLhG%1Wp]',;<$)]^"D,UOoh/1rV31c@9Q3]fGe4oIPp4Ztnh3]T,W1c$j>/Lr7t
+,pOQT*?,k4().An&.T-X$OR1G#6k>8"9\f/r;ultJH16$JH16$JH16$JH16$JH16$JH37]r;lm!.0BYT
+"U,)8#RLhH%1Wp^',;<$)]^"E,UOoh/1rV31c73O3BB5a4?Yk,4=N?Q3B/rT1bpa;/1N%q,U4HS*?,k4
+'bh8m%h9$W$4."E#6k>8"9\f/rW;uuJH16$JH16$JH16$JH16$JH16$JH31[r;lm!-3F>Q"U,)8#RLhH
+%1a!_'GVE%)]^"E,UOoh/1rV31Gq'L3&s#\rAuJi3]T/Y2)I*D0.e_)-mg2`+<DL@)&F#$&eGQ`%1<LL
+#R:S="U,#3!sAN(quM?KJH16$JH16$JH16$JH16$JH16$[fH@-rW4AJ!sAc2"pYD?$4I@S&/#Zl(E"/4
++!DjU-n6`!0/54=2)[BQ3;kib3&iiT2)I*D0J4n,.46Dd+Wh^D)Aj5)'+kcd%1EUO#m^b?"pG,4rWE-$
+quM?KJH16$JH16$JH16$JH16$JH16$[K-7,rW4;H!sAc2"pYD?$4I@S&/#Wk(E"/4+!DjT-RgPs/h\q7
+1Gguc2CC@=1GU[</hAM%-RL)_+<DLA)&F#%&ePWa%1EUO#m^b?"U,#3!sAN(quM?KJH16$JH16$JH16$
+JH16$JH16$ZN0t*rW4>I!sAc2"pYD?$4I@R&.oQj(Dn&1*ZuXP-7C;n/1rS00etO@r\XU1,;Lu-0.e_*
+.46Gf+sA$K)]BP/'b_2k%h9!U$4-tC#6k>8"TAN&!rN(M!.b-$!.b-$!.b-$!.b-$!.b-$!3uV'!@%XI
+!s8Z/"U52;#mq%L%M'-b'G_N()]^"D,:"Ta.4Zr$/hd2Xr\5cS0J>%1/1W2!-RL)_+Wh^E)Aj8*'G:ug
+%LigS$4-tC"pG/5"9Sc*!rN(M!.b-$!.b-$!.b-$!.b-$!.b-$!3cJ%!@%XI!s8Z/"U52;#mq%K%M'*`
+'GVE%)B9e@+X86Z-RgMq/1gcP!&"7&+tP8q.Oc_l,pOTV*uu=>(`*o$&ePZb%1EUO#m^b?"pG,4rWE-$
+quM?KJH16$JH16$JH16$JH16$JH16$Y5nM%rW42E"9\l4"pYD?$OdIS&.oQi()Ro.*$-4G+s\H]-R^Dm
+q^Nj?.4?Pj,pXZX+<DOB)Aj8*'GD&i%h/pT$4-tC#6k>8"9\f/rW;uuJH16$JH16$JH16$JH16$JH16$
+JH2ePr;lm!*WlKI"U,)8#RLhG$k<dZ&ebuq(`=84*ZlLJ,9nH[r[.Ul,UOia,pX]Z+WqjI*#fb4(DRVt
+&J,H_$k!CK#RCY>"U,#3!sAN(quM?KJH16$JH16$JH16$JH16$JH16$WW;tu+9DTH!sA`1"pYA=#n%.N
+%M'-a'GVB#)&aJ8*ZlLJ+X6b-+!MmP+<MXF*#fe6(D[`!&ePZc%1EUO#mgkB"pP56"TAN&!rN(M!.b-$
+!.b-$!.b-$!.b-$!.b-$!3#ts!WE-?!s8Z0"U52;#mq%K%1Wp]&ebuq(Dn#.)]Tk>*r[5^+<^Y**?H7B
+*#fh8(`*r&'GD)k%h9$W$OR1G#R:P<"U"u-"9&B"!J(6%!.b-$!.b-$!.b-$!.b-$!.b-I!<*#u!ZV:E
+"9\l4"pYD?$4@7O%M'-a',2/s(Dn#.)B0Xl*#on:)AsD0(D[`"'+tlg%h9$W$OR1G#R:P<"U"u-"9&B"
+!J(6%!.b-$!.b-$!.b-$!.b-$!.b-G!;urt!ZM4D"9er5#6tM@$4@7O%M'*_&ebro()@]&(`</grYQLh
+()@W!'GD)k&.]6[$k!CL#m^b@"pG/5"TAN&!rN(M!.b-$!.b-$!.b-$!.b-$!.b-$!20Dk!?)"@!s8Z/
+"U,)8#7(VC$OdIS%M'*_&eYil'`AaH(Anmc'GM2n&ePZd%h9$W$k!CK#RCY>"pG/5"9Sc)!rN(M!.b-$
+!.b-$!.b-$!.b-$!.b-$!1s8i!WE-9!s8Z/"U,)8#7(VC$4@7O%1Wm[&.oNK')iIV&.]9]%1N^R$OR1H
+#R:S="U,#3rWE-$qZ26JJH16$JH16$JH16$JH16$JH16$S,iKgrW3c9!sA`1"U5/9#RC_D$4@7N%1NdW
+r=Ai<rX\u<&If0X$k!CL#m^eA#6kA9"U"u-"9&B"!J(6%!.b-$!.b-$!.b-$!.b-$!.b-;!;urt!Y,;7
+"9\l3"pP;;#RC_D$N:G4%/CA3%/pVD$47(G#RCY?"pP57"9e]+r;ultJH16$JH16$JH16$JH16$JH16$
+JH1u9quQcurW<B."9er5"pYD4#QY5<r<iE0r!EH2$2t24#6tG;rWN<*"TAN%!rE"L!.b-$!.b-$!.b-$
+!.b-$!.b-$!0[E\!W<'#!sAN*!<iZ+#6"l*#l=r,#lOu/"pY&1rWN3&r;uisJH16$JH16$JH16$JH16$
+JH16$JH1]1quQcurWE-&r<<-(pBUX$r<<0'r<*!"qZ26JJH16$JH16$JH16$JH16$JH16$M?*PTr;up"
+r<2Woquls#quZ`rJH16$JH16$JH16$JH16$JH16$JH1E)qZ6TrqucKmqZH`tq>l-IJH16$JH16$JH16$
+JH16$JH16$JH5NIqZ?<jq#^BnJH16$JH16$JH16$JH16$JH16$JH16$qZ-Emm/m"_JH16$JH16$JH16$
+JH16$JH16$JH16$o`4"QJH16$JH16$JH16$JH16$JH16$JH16$m/ZGQJH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$
+JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$JH16$o`0L
+~>
+gr
+gr
+
+0 sg
+%%IncludeResource: font Helvetica
+/Helvetica /ISOLatin1Encoding 120 FMSR
+
+ 682 3632 mt 
+( ) s
+4225  344 mt 
+( ) s
+gs 699 302 3543 3288 rc
+gs 1060 3110 147 147 rc
+/c8 { 1.000000 0.000000 0.000000 sr} bdef
+c8
+  36   36 1133 3183 FO
+gr
+
+c8
+gr
+
+c8
+4 w
+DO
+SO
+6 w
+0 sg
+ 699 3589 mt 4241 3589 L
+ 699  302 mt 4241  302 L
+ 699 3589 mt  699  302 L
+4241 3589 mt 4241  302 L
+ 699 3589 mt 4241 3589 L
+ 699 3589 mt  699  302 L
+ 700 3589 mt  700 3553 L
+ 700  302 mt  700  337 L
+ 667 3734 mt 
+(0) s
+1817 3589 mt 1817 3553 L
+1817  302 mt 1817  337 L
+1784 3734 mt 
+(5) s
+2934 3589 mt 2934 3553 L
+2934  302 mt 2934  337 L
+2868 3734 mt 
+(10) s
+4052 3589 mt 4052 3553 L
+4052  302 mt 4052  337 L
+3986 3734 mt 
+(15) s
+ 699 3585 mt  734 3585 L
+4241 3585 mt 4205 3585 L
+ 598 3629 mt 
+(0) s
+ 699 3232 mt  734 3232 L
+4241 3232 mt 4205 3232 L
+ 498 3276 mt 
+(0.5) s
+ 699 2878 mt  734 2878 L
+4241 2878 mt 4205 2878 L
+ 598 2922 mt 
+(1) s
+ 699 2525 mt  734 2525 L
+4241 2525 mt 4205 2525 L
+ 498 2569 mt 
+(1.5) s
+ 699 2171 mt  734 2171 L
+4241 2171 mt 4205 2171 L
+ 598 2215 mt 
+(2) s
+ 699 1818 mt  734 1818 L
+4241 1818 mt 4205 1818 L
+ 498 1862 mt 
+(2.5) s
+ 699 1464 mt  734 1464 L
+4241 1464 mt 4205 1464 L
+ 598 1508 mt 
+(3) s
+ 699 1111 mt  734 1111 L
+4241 1111 mt 4205 1111 L
+ 498 1155 mt 
+(3.5) s
+ 699  757 mt  734  757 L
+4241  757 mt 4205  757 L
+ 598  801 mt 
+(4) s
+ 699  404 mt  734  404 L
+4241  404 mt 4205  404 L
+ 498  448 mt 
+(4.5) s
+ 699 3589 mt 4241 3589 L
+ 699  302 mt 4241  302 L
+ 699 3589 mt  699  302 L
+4241 3589 mt 4241  302 L
+1 sg
+0 3288 240 0 0 -3288 4422 3590 4 MP
+PP
+-240 0 0 3288 240 0 0 -3288 4422 3590 5 MP stroke
+gs 4422 302 241 3289 rc
+/mwscm { [/Indexed /DeviceRGB 63
+  <
+    00008f 00009f 0000af 0000bf 0000cf 0000df 0000ef 0000ff 000fff 001fff 
+    002fff 003fff 004fff 005fff 006fff 007fff 008fff 009fff 00afff 00bfff 
+    00cfff 00dfff 00efff 00ffff 0fffef 1fffdf 2fffcf 3fffbf 4fffaf 5fff9f 
+    6fff8f 7fff7f 8fff6f 9fff5f afff4f bfff3f cfff2f dfff1f efff0f ffff00 
+    ffef00 ffdf00 ffcf00 ffbf00 ffaf00 ff9f00 ff8f00 ff7f00 ff6f00 ff5f00 
+    ff4f00 ff3f00 ff2f00 ff1f00 ff0f00 ff0000 ef0000 df0000 cf0000 bf0000 
+    af0000 9f0000 8f0000 7f0000 
+  >
+] setcolorspace } bdef mwscm
+gs np 4422 302 mt 0 3288 rl 240 0 rl 0 -3288 rl cp c np
+[240 0 0 3288 4422 302] cc
+<< % Image dictionary
+  /ImageType 1
+  /Width 1 /Height 64
+  /BitsPerComponent 8
+  /Decode [0 255]
+  /ImageMatrix [1.000000 0 0 64.000000 0 0]
+  /DataSource currentfile
+  /ASCII85Decode filter
+  /RunLengthDecode filter
+>>
+image
+5<h=p4?GSa3&``Q1c$mA0J>%1/1W2!-mp>f,U4KV+<MXF*#fe6(`*r&'GD)k&.]6[$k!CK#R:P;"9S]+
+!.Y
+~>
+gr
+gr
+
+4 w
+DO
+SO
+6 w
+0 sg
+4422 3590 mt 4662 3590 L
+4422  302 mt 4662  302 L
+4422 3590 mt 4422  302 L
+4662 3590 mt 4662  302 L
+4422 3590 mt 4662 3590 L
+4662 3590 mt 4662  302 L
+4662 3590 mt 4629 3590 L
+4422 3590 mt 4454 3590 L
+4696 3634 mt 
+(0) s
+4662 3050 mt 4629 3050 L
+4422 3050 mt 4454 3050 L
+4696 3094 mt 
+(0.5) s
+4662 2511 mt 4629 2511 L
+4422 2511 mt 4454 2511 L
+4696 2555 mt 
+(1) s
+4662 1971 mt 4629 1971 L
+4422 1971 mt 4454 1971 L
+4696 2015 mt 
+(1.5) s
+4662 1432 mt 4629 1432 L
+4422 1432 mt 4454 1432 L
+4696 1476 mt 
+(2) s
+4662  892 mt 4629  892 L
+4422  892 mt 4454  892 L
+4696  936 mt 
+(2.5) s
+4662  353 mt 4629  353 L
+4422  353 mt 4454  353 L
+4696  397 mt 
+(3) s
+4662  248 mt 
+(x 10) s
+%%IncludeResource: font Helvetica
+/Helvetica /ISOLatin1Encoding 80 FMSR
+
+4888  174 mt 
+(-41) s
+4422 3590 mt 4662 3590 L
+4422  302 mt 4662  302 L
+4422 3590 mt 4422  302 L
+4662 3590 mt 4662  302 L
+
+end %%Color Dict
+
+eplot
+%%EndObject
+
+epage
+end
+
+showpage
+
+%%Trailer
+%%EOF

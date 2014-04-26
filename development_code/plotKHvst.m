@@ -1,0 +1,43 @@
+function plotKHvst(rawdata,filename)
+%   Nov 19, 2011 John Rinzel
+% this uses result(xxx).rawdata for cond=xxx
+% to plot the time courses of KHs, leftarrow denoted {1} and rightarrow {2}
+% refer to the keys here as 1 and 2
+%
+k1d=rawdata{1}.Down;k1u=rawdata{1}.Up;k2d=rawdata{2}.Down;k2u=rawdata{2}.Up;
+%k1d=rawdata{3}.Down;k1u=rawdata{3}.Up;k2d=rawdata{4}.Down;k2u=rawdata{4}.Up;
+
+% delete last 'down' in case no up, ease for plotting and code
+eps=0.001;
+%
+% JR did not analyze the final ups/downs in the trial
+%
+nk1=length(k1d(:,1))-1;nk2=length(k2d(:,1))-1;   
+k1tzero=k1d(1,5)*60+k1d(1,6); k2tzero=k2d(1,5)*60+k2d(1,6); 
+kdfirst=1;tzero=k1d(1,6);
+if k2tzero<k1tzero kdfirst=2; tzero=k2d(1,6); end;
+% get up/down times in sec
+for k=1:nk1 k1dt(k)=(k1d(k,5)+(k1d(k,4)-k1d(1,4))*60-k1d(1,5))*60+k1d(k,6);
+	 k1ut(k)=(k1u(k,5)+(k1u(k,4)-k1u(1,4))*60-k1u(1,5))*60+k1u(k,6); 
+end
+for k=1:nk2 k2dt(k)=(k2d(k,5)+(k2d(k,4)-k2d(1,4))*60-k2d(1,5))*60+k2d(k,6);
+	 k2ut(k)=(k2u(k,5)+(k2u(k,4)-k2u(1,4))*60-k2u(1,5))*60+k2u(k,6); 
+end
+% adjust for a one minute clock tic just after first down
+firstmin=k1d(1,5); if kdfirst==2 firstmin=k2d(1,5); end;
+k1dt=k1dt+(k1d(1,5)-firstmin)*60;k1ut=k1ut+(k1u(1,5)-firstmin)*60;k2dt=k2dt+(k2d(1,5)-firstmin)*60;k2ut=k2ut+(k2u(1,5)-firstmin)*60;
+for k=1:nk1 td=k1dt(k); k1t(4*k-3)=td; k1t(4*k-2)= td+eps;tu=k1ut(k);k1t(4*k-1)=tu-eps;k1t(4*k)=tu;end;
+k1tv=zeros(1,length(k1t));
+for k=1:nk1 k1tv(4*k-2)=1;k1tv(4*k-1)=1;end
+for k=1:nk2 td=k2dt(k); k2t(4*k-3)=td; k2t(4*k-2)= td+eps;tu=k2ut(k);k2t(4*k-1)=tu-eps;k2t(4*k)=tu;end;
+k2tv=zeros(1,length(k2t));
+for k=1:nk2 k2tv(4*k-2)=1.2;k2tv(4*k-1)=1.2;end;
+% adjust for a one minute clock tic just after first down
+%firstmin=k1d(1,5); if kdfirst==2 firstmin=k2d(1,5); end;
+%k1t=k1t+(k1u(1,5)-firstmin)*60;k2t=k2t+(k2u(1,5)-firstmin)*60;
+% define times relative to time of first key down
+k1t=k1t-tzero; k2t=k2t-tzero;
+plot(k1t,k1tv,'b',k2t,k2tv,'r')
+axis([-5,300,-.1,1.4])
+title(strcat('KHs vs t: 1,2 streams (blue,red)...',filename));
+end

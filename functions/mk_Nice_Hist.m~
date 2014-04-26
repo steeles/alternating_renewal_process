@@ -1,0 +1,8 @@
+% trying to make a principled way to get a good histogram that has the
+% same heights as the underlying pdf (density estimator) and that has a
+% good number of bins (based on sturge's formula)
+% 
+% source: http://www.mathwave.com/articles/create-use-histograms.html
+% 
+
+function mk_Nice_Hist(samples)

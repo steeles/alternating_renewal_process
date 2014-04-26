@@ -1,0 +1,63 @@
+% would be better if i added arguments dim for which 
+
+
+
+function plot_arp_data(s,opt)
+
+screenSize = get(0,'Screensize'); hists = figure;
+set(gcf, 'Position', screenSize); % Maximize figure
+
+tmp = size(s); nDfs = tmp(1); nSubjs = tmp(2); nTrials = tmp(3);
+
+if nSubjs == 1
+    % let's make me some hists
+     title(num2str(s(1,1,1).subjID));
+    
+    
+    for dfInd = 1:nDfs
+       
+        durs1_tot = vertcat(s(dfInd,:,:).durs1);
+        durs2_tot = vertcat(s(dfInd,:,:).durs2);
+        
+        d1_max = max(durs1_tot);
+        d2_max = max(durs2_tot);
+        
+        ax1 = [0 d1_max+5 0 1]; ax2 = [0 d2_max+5 0 1];
+        xlab = 'duration (s)'; yax = 'p(x)';
+        df = s(dfInd,:,1).df;
+        
+        for tInd = 1:nTrials 
+           whichPlot = ((tInd-1)*nDfs*2 + (dfInd-1)*2+1);
+           
+           durs1 = s(dfInd,:,tInd).durs1; durs2 = s(dfInd,:,tInd).durs2;
+           nDurs1 = length(durs1); nDurs2 = length(durs2);
+           ax1(4) = nDurs1/3.; ax2(4) = nDurs2/3.;
+           
+           subplot(nTrials+1,nDfs*2,whichPlot);
+           hist(durs1); xlabel(xlab); ylabel(yax); axis(ax1);
+           title(['DF = ' num2str(df) ', int. N=' num2str(nDurs1)]);
+           
+           
+           subplot(nTrials+1,nDfs*2,whichPlot+1);
+           hist(durs2); xlabel(xlab); ylabel(yax); axis(ax2);
+           title(['DF = ' num2str(df) ', seg. N=' num2str(nDurs2)]);
+           
+           
+        end
+        tInd = nTrials+1; whichPlot = ((tInd-1)*nDfs*2 + (dfInd-1)*2+1);
+        
+        
+            subplot(nTrials+1,nDfs*2,whichPlot);
+            nDurs1 = length(durs1_tot); nDurs2 = length(durs2_tot);
+            ax1(4)=1; ax2(4)=1;
+            
+           mk_Nice_Hist(durs1_tot); xlabel(xlab); ylabel(yax); %axis(ax1);
+           title(['DF = ' num2str(df) ', int. N=' num2str(nDurs1)]);
+           %legend([num2str(s(],'Location','SouthOutside');
+           
+           subplot(nTrials+1,nDfs*2,whichPlot+1);
+           mk_Nice_Hist(durs2_tot); xlabel(xlab); ylabel(yax); %axis(ax2);
+           title(['DF = ' num2str(df) ', seg. N=' num2str(nDurs2)]);
+        
+    end
+end

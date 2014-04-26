@@ -1,0 +1,21 @@
+% fourier_fit- script to search for parameters for BUF
+
+% you should calculate the mean of your p1 and p2 samples before you get
+% here. also the buf.
+
+mn0 = mean(durs1); mn1 = mean(durs2);
+var0 = sum((durs1 - mn0).^2)/(length(durs1)-1);
+var1 = sum((durs2 - mn1).^2)/(length(durs2)-1);
+
+
+th0 = var0/mn0; th1 = var1/mn1;
+a0 = mn0/th0; a1 = mn1/th1;
+
+% http://www.mathworks.com/help/toolbox/optim/ug/brhkghv-7.html
+% updated way to pass extra parameters with anonymous functions
+
+buf_pars = [a0 th0 a1 th1];     % try these pars first
+
+f = @(x)fourier_BUF_cmpr(x,BUF,tax);
+
+[bufpars fval exitflag] = fminsearch(f,buf_pars);

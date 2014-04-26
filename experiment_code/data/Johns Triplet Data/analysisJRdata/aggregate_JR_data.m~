@@ -1,0 +1,9 @@
+% so this is going to assume a nCondns x () data structure with
+% fields durs1, durs2, BUF, tax, nWindows and it'll fill in g1_pars, g2_pars, a
+% new aggregated BUF, BUFarp, rSquared, nWindows_tot, durs1_tot,
+% durs2_tot
+% will make a dim-1 output struct
+function condensed_struct = aggregate_JR_data(outcomes)
+
+    dimens = size(outcomes);
+    

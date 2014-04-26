@@ -1,0 +1,343 @@
+% analyze John's old data
+% script should get data from old subjects and sort by condition to give
+% long lists of durations
+
+% 11/08/2012 SS
+
+% start with subject 3
+
+bPlot = 1;
+
+cd ~/Dropbox/my' codes'/rinzel/experiment_code/data/Johns' Triplet Data'/steady_triplet_03/
+
+wind = 10; figure; subplot(4,6,1)
+% data file format SubjID.dd.mm.yyyy.trialnum
+% let's start with subj 3, session from 8/6/2011. 2 trials, DF=4,5,6
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+load 03.08.06.2011.1.mat
+% result is a 4D struct, but appears to have two sets of params for DF = 4,
+% HI7 Lo3 and HI 6 LO2. result(1).data (7 3) only has 6 entries, so let's
+% start from result(2) (params 9 4, df=5)
+
+n = 2; KPushETs_ss
+
+durs_DF5_s03 = durs(1:end-1,:); % i wanna make sure I don't include any interrupted durs
+
+    durs1 = durs_DF5_s03(durs_DF5_s03(:,2)==1,1);
+    durs2 = durs_DF5_s03(durs_DF5_s03(:,2)==2,1);
+    
+    durs1_DF5{1} = durs1; durs2_DF5{1} = durs2;
+
+    g1_DF5_s03_t1 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF5_s03_t1 = find_gamma_pars(durs2);     % pars and whether they change
+
+    subplot(463)
+    mk_Nice_Hist(durs1); title('DF=5,coh'); legend(['N=' num2str(length(durs1))]);
+    subplot(464);
+    mk_Nice_Hist(durs2); title('DF=5,seg'); legend(['N=' num2str(length(durs2))]);
+
+    [BUF5_t1 tax nWindows5(1)] = make_switchTriggeredBUF(durs_DF5_s03,.01,wind);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(3).params = [120 500 12 6 120 3], DF = 6;
+
+n = 3; KPushETs_ss
+
+durs_DF6_s03 = durs(1:end-1,:);
+
+    durs1 = durs_DF6_s03(durs_DF6_s03(:,2)==1,1);
+    durs2 = durs_DF6_s03(durs_DF6_s03(:,2)==2,1);
+    
+    durs1_DF6{1} = durs1; durs2_DF6{1} = durs2;
+
+    g1_DF6_s03_t1 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF6_s03_t1 = find_gamma_pars(durs2);     % pars and whether they change
+    
+    subplot(465);
+    mk_Nice_Hist(durs1); title('DF=6,coh'); legend(['N=' num2str(length(durs1))]);
+    subplot(466);
+    mk_Nice_Hist(durs2); title('DF=6,seg'); legend(['N=' num2str(length(durs2))]);
+    
+    [BUF6_t1 tax nWindows6(1)] = make_switchTriggeredBUF(durs_DF6_s03,.01,wind);
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(4).params = [120 500 6 2 120 4], DF = 4
+
+n = 4; KPushETs_ss
+
+durs_DF4_s03 = durs(1:end-1,:);
+
+    durs1 = durs_DF4_s03(durs_DF4_s03(:,2)==1,1);
+    durs2 = durs_DF4_s03(durs_DF4_s03(:,2)==2,1);
+    
+    durs1_DF4{1} = durs1; durs2_DF4{1} = durs2;
+
+    g1_DF4_s03_t1 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF4_s03_t1 = find_gamma_pars(durs2);     % pars and whether they change
+ 
+    subplot(461)
+    mk_Nice_Hist(durs1); title('DF=4,coh'); legend(['N=' num2str(length(durs1))]);
+    subplot(462);
+    mk_Nice_Hist(durs2); title('DF=4,seg'); legend(['N=' num2str(length(durs2))]);
+
+    
+    [BUF4_t1 tax nWindows4(1)] = make_switchTriggeredBUF(durs_DF4_s03,.01,wind);
+    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% trial 2 for same subj and conds (hopefully)
+
+load 03.08.06.2011.2.mat
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(1).params = [120 500 12 6 120 1] DF =6
+
+n = 1; KPushETs_ss
+
+% concatenate with other trial durs
+durs = durs(1:end-1,:);
+
+    durs1 = durs(durs(:,2)==1,1);
+    durs2 = durs(durs(:,2)==2,1);
+    
+    durs1_DF6{2} = durs1; durs2_DF4{2} = durs2;
+    
+    g1_DF6_s03_t2 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF6_s03_t2 = find_gamma_pars(durs2);     % pars and whether they change
+    
+    subplot(4,6,11)
+    mk_Nice_Hist(durs1); title('DF=6,coh'); legend(['N=' num2str(length(durs1))]);
+    subplot(4,6,12);
+    mk_Nice_Hist(durs2); title('DF=6,seg'); legend(['N=' num2str(length(durs2))]);
+    
+durs_DF6_s03 = vertcat(durs_DF6_s03,durs);
+
+
+    [BUF6_t2 tax nWindows6(2)] = make_switchTriggeredBUF(durs,.01,wind);  
+    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(2).params = [120 500 6 2 120 2], DF = 4
+
+n = 2; KPushETs_ss
+
+durs = durs(1:end-1,:);
+
+    durs1 = durs(durs(:,2)==1,1);
+    durs2 = durs(durs(:,2)==2,1);
+    
+    durs1_DF4{2} = durs1; durs2_DF4{2} = durs2;
+    
+    g1_DF4_s03_t2 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF4_s03_t2 = find_gamma_pars(durs2);     % pars and whether they change
+    
+durs_DF4_s03 = vertcat(durs_DF4_s03,durs);
+
+
+    [BUF4_t2 tax nWindows4(2)] = make_switchTriggeredBUF(durs,.01,wind);  
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(3).params = [120 500 9 4 120 3] DF = 5
+
+n = 3; KPushETs_ss
+
+durs = durs(1:end-1,:);
+
+    durs1 = durs(durs(:,2)==1,1);
+    durs2 = durs(durs(:,2)==2,1);
+    
+    durs1_DF5{2} = durs1; durs2_DF5{2} = durs2;
+    
+    g1_DF5_s03_t2 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF5_s03_t2 = find_gamma_pars(durs2);     % pars and whether they change
+    
+durs_DF5_s03 = vertcat(durs_DF5_s03,durs);
+
+
+   
+[BUF5_t2 tax nWindows5(2)] = make_switchTriggeredBUF(durs,.01,wind);  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% let's try to get that data out of 3.19.05.2011.1 & 2- going from data,
+% not rawdata, so i'll have a different durs array
+
+load 03.19.05.2011.1.mat
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(1).params = [120 500 9 4 120 1] DF = 5
+
+n = 1; durs = result(1).data(2:end,:);
+
+durs1 = data(data(:,2)==1,1); durs2 = data(data(:,2)==2,1);
+
+    durs1_DF5{3} = durs1; durs2_DF5{3} = durs2;
+    
+    g1_DF5_s03_t3 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF5_s03_t3 = find_gamma_pars(durs2);     % pars and whether they change
+    
+
+
+durs_DF5_s03 = vertcat(durs_DF5_s03,durs);
+
+[BUF5_t3 tax nWindows5(3)] = make_switchTriggeredBUF(durs,.01,wind);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(2).params = [120 500 6 2 120 2] DF =4
+
+durs = result(2).data(2:end,:);
+
+durs1 = data(data(:,2)==1,1); durs2 = data(data(:,2)==2,1);
+
+    durs1_DF4{3} = durs1; durs2_DF4{3} = durs2;
+    
+    g1_DF4_s03_t3 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF4_s03_t3 = find_gamma_pars(durs2);     % pars and whether they change
+
+durs_DF4_s03 = vertcat(durs_DF5_s03,durs);
+
+[BUF4_t3 tax nWindows4(3)] = make_switchTriggeredBUF(durs,.01,wind);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% result(3).params = [120 500 12 6 120 3] DF = 6
+
+durs = result(3).data(2:end,:);
+
+durs1 = data(data(:,2)==1,1); durs2 = data(data(:,2)==2,1);
+
+    durs1_DF6{3} = durs1; durs2_DF6{3} = durs2;
+    
+    g1_DF6_s03_t3 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+    g2_DF6_s03_t3 = find_gamma_pars(durs2);     % pars and whether they change
+    
+
+for ind = 1:sum(length(durs1)+length(durs2))
+    
+    if mod(ind,2)==1
+        durs(ind,:) = [durs1(ceil(ind/2)) 1];
+    else
+        durs(ind,:) = [durs2(ceil(ind/2)) 2];
+    end
+    
+end
+
+durs_DF6_s03 = vertcat(durs_DF6_s03,durs);
+
+[BUF6_t3 tax nWindows4(3)] = make_switchTriggeredBUF(durs,.01,wind);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+BUF_4 = mean([BUF4_t1; BUF4_t2; BUF4_t3]); 
+BUF_5 = mean([BUF5_t1; BUF5_t2; BUF5_t3]);
+BUF_6 = mean([BUF6_t1; BUF6_t2; BUF6_t3]); 
+
+clear('durs1'); clear('durs2');
+
+durs1{4} = durs_DF4_s03(durs_DF4_s03(:,2)==1,1); g1_4 = find_gamma_pars(durs1{4});
+durs1{5} = durs_DF5_s03(durs_DF5_s03(:,2)==1,1); g1_5 = find_gamma_pars(durs1{5});
+durs1{6} = durs_DF6_s03(durs_DF6_s03(:,2)==1,1); g1_6 = find_gamma_pars(durs1{6});
+
+nDurs1{4} = length(durs1{4});
+nDurs1{5} = length(durs1{5}) ;
+nDurs1{6} = length(durs1{6})
+
+durs2{4} = durs_DF4_s03(durs_DF4_s03(:,2)==2,1); g2_4 = find_gamma_pars(durs2{4});
+durs2{5} = durs_DF5_s03(durs_DF5_s03(:,2)==2,1); g2_5 = find_gamma_pars(durs2{5});
+durs2{6} = durs_DF6_s03(durs_DF6_s03(:,2)==2,1); g2_6 = find_gamma_pars(durs2{6});
+
+nDurs2{4} = length(durs2{4});
+nDurs2{5} = length(durs2{5});
+nDurs2{6} = length(durs2{6})
+
+bufpars4 = [g1_4;g2_4]; bufpars5 = [g1_5; g2_5]; bufpars6 = [g1_6; g2_6];
+
+[BUFfit4 taxfit] = make_fourier_buildup_function(bufpars4);
+[BUFfit5 taxfit] = make_fourier_buildup_function(bufpars5);
+[BUFfit6 taxfit] = make_fourier_buildup_function(bufpars6);
+
+subplot(311); mk_Nice_Plot
+plot(tax,BUF_4,taxfit,BUFfit4); axis([0 wind 0 1]); title('DF=4')
+mk_Nice_Plot
+subplot(312); mk_Nice_Plot
+plot(tax,BUF_5,taxfit,BUFfit5); axis([0 wind 0 1]); title('DF=5')
+mk_Nice_Plot
+subplot(313); mk_Nice_Plot
+plot(tax,BUF_6,taxfit,BUFfit6); axis([0 wind 0 1]); title('DF=6')
+mk_Nice_Plot
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% load 03.29.11.2011_3DF_1trl.mat % 3rd trial
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % result(1).params = [120 500 120 4] DF = 4 (i think)
+% 
+% n = 1; KPushETs_ss
+% 
+% durs = durs(1:end-1,:);
+% 
+%     durs1 = durs(durs(:,2)==1,1);
+%     durs2 = durs(durs(:,2)==2,1);
+%     
+%     durs1_DF4{3} = durs1; durs2_DF4{3} = durs2;
+%     
+%     g1_DF4_s03_t2 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+%     g2_DF4_s03_t2 = find_gamma_pars(durs2);     % pars and whether they change
+%     
+% durs_DF4_s03 = vertcat(durs_DF4_s03,durs);
+%     
+% if bPlot
+%     [BUF4 tax] = make_switchTriggeredBUF(durs,.01,7);  
+%     subplot(311); hold on; plot(tax,BUF4,'r'); legend('trial1','trial2','trial3')
+% end
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % result(2).params = [120 500 120 5]; DF = 5
+% 
+% n = 2; KPushETs_ss
+% 
+% durs = durs(1:end-1,:);
+% 
+%     durs1 = durs(durs(:,2)==1,1);
+%     durs2 = durs(durs(:,2)==2,1);
+%     
+%     durs1_DF5{3} = durs1; durs2_DF5{3} = durs2;
+%     
+%     g1_DF5_s03_t2 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+%     g2_DF5_s03_t2 = find_gamma_pars(durs2);     % pars and whether they change
+%     
+% durs_DF5_s03 = vertcat(durs_DF5_s03,durs);
+% 
+% if bPlot
+%     [BUF5 tax] = make_switchTriggeredBUF(durs,.01,7);  
+%     subplot(312); hold on; plot(tax,BUF5,'r'); legend('trial1','trial2','trial3')
+% end
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % result(3).params = [120 500 120 6]; DF = 6
+% 
+% n = 3; KPushETs_ss
+% 
+% durs = durs(1:end-1,:);
+% 
+%     durs1 = durs(durs(:,2)==1,1);
+%     durs2 = durs(durs(:,2)==2,1);
+%     
+%     durs1_DF6{3} = durs1; durs2_DF6{3} = durs2;
+%     
+%     g1_DF6_s03_t2 = find_gamma_pars(durs1);     %also wanna keep track of gamma
+%     g2_DF6_s03_t2 = find_gamma_pars(durs2);     % pars and whether they change
+%     
+% durs_DF6_s03 = vertcat(durs_DF6_s03,durs);
+% 
+% if bPlot
+%     [BUF6 tax] = make_switchTriggeredBUF(durs,.01,7);  
+%     subplot(313); hold on; plot(tax,BUF6,'r'); legend('trial1','trial2','trial3')
+% end
+
+

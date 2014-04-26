@@ -1,0 +1,13 @@
+function [h p]= goodness_of_gamma_fit(data,gampars)
+
+if ~exist('xax','var')
+    xax = .1:.1:30;
+end
+
+
+
+
+[propDistr] = gamcdf(data,gampars(1),gampars(2));
+cdfMatrix = [propDistr data];
+
+

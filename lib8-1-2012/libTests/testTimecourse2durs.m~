@@ -1,0 +1,7 @@
+function testTimecourse2durs
+
+initTestSuite;
+
+function testSinusoids
+
+x = 0:3

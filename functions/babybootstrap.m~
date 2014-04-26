@@ -1,0 +1,28 @@
+%% X and Y should be column vectors for the scatterplot
+
+function slopehist = babybootstrap(x,y,numBoot,k)
+
+%figure; plot(x,y,'.');
+if ~exist('k','var'), k = 1; end
+[coeff yHat] = leastsquares(x,y,k);
+
+
+slopehist = zeros(size(coeff,1),numBoot);
+for i = 1:numBoot
+
+%[coeff yHat] = leastsquares(x,y);
+ind = round(rand(1,length(x))*(length(x)-1))+1;
+newx = x(ind);
+newy = y(ind);
+[coeff yHat] = leastsquares(newx,newy);
+
+
+%figure(1); clf;
+%plot(x,y,'.'); hold on;
+%plot(newx,yHat,'r','linewidth', 2)
+
+
+slopehist(:,i) = coeff;
+
+end
+

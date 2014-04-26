@@ -1,0 +1,6 @@
+function test_suite = testMake_fourier_buildup_function
+initTestSuite;
+
+function correctmean
+bufpars = [2,.5,5,.5]; 
+assertEBUF 

@@ -1,0 +1,87 @@
+% [T1 T2] = timecourse_to_durs(u1,u2,tax)
+% added 8/16/2012 by sara steele 
+% T1 is taken to be the durations of events in a system that switches
+% between two states, those corresponding to the state entered first (T1)
+% T2 contains the durations of the state which occurs second ( and
+% subsequently throughout the trial )
+
+function [T1 T2 durs u1_timecourse] = timecourse2durs(u1,u2,tax,bPlot)
+
+
+firstu1 = find(u1>u2, 1 ); firstu2 = find(u2>u1, 1 );
+
+    
+% now I'm going to set the labels to always label the first duration the
+% first p1 duration
+  % convert to binary representation
+  % eliminate any 0 entries in beginning
+if firstu1<firstu2
+    u1_timecourse = u1<u2;      % mark first event with zeros
+    u1_timecourse = [zeros(1,firstu1-1) u1_timecourse(firstu1:end)];
+    
+else
+    u1_timecourse = u2<u1;
+    u1_timecourse = [zeros(1,firstu2-1) u1_timecourse(firstu2:end)];
+    disp('Reversed T1 and T2 identities from timecourse designations')
+end
+
+
+
+
+if exist('bPlot','var') && bPlot == 1
+    figure; title('Input binary timecourse')
+    plot(tax,u1_timecourse);
+end
+
+
+
+dt = mean(diff(tax));
+switches = [-1 diff(u1_timecourse)];
+
+
+
+switch_to_p1 = find(switches==-1)*dt;
+switch_to_p2 = find(switches==1)*dt;
+
+%figure out which event occurs last
+if max([switch_to_p1 switch_to_p2]) == switch_to_p1(end)
+    switch_to_p2(end+1) = length(u1_timecourse)*dt; % make last timepoint
+    
+% else
+%     switch_to_p1(end+1) = length(u1_timecourse)*dt;
+    
+end
+
+% switch_to_p1 = switch_to_p1(1:length(switch_to_p2));
+% switch_to_p2 = switch_to_p2(1:length(switch_to_p1));
+
+
+% I believe this should eliminate hte final state, which should be ignored
+% as it is necessarily truncated from the end of the trial
+for swInd = 1:length(switch_to_p1)-1%+length(switch_to_p2)-1
+    
+    T1(swInd) = (switch_to_p2(swInd)-switch_to_p1(swInd));
+    T2(swInd) = (switch_to_p1(swInd+1)-switch_to_p2(swInd));
+end
+
+% 
+% T1 = (switch_to_p2(1:end-1) - switch_to_p1(1:end-1));
+% T2 = (switch_to_p1(2:end) - switch_to_p2(1:end-1));
+%len = length(T1);
+
+
+if exist('bPlot','var') && bPlot == 1
+    figure; mk_Nice_Hist([T1 T2]);
+end
+
+% now I can convert to canonical durs thingie
+PTimes = reshape([T1;T2],1,length(T1)*2)';
+Labels = reshape([ones(1,length(T1));2*ones(1,length(T1))],1,length(T1)*2)';
+% 
+% PTimes(1:2:len*2-1)=T1;
+% PTimes(2:2:2*len) = T2;
+
+durs = [PTimes Labels];
+
+% figure; 
+% myacf = acf(PTimes,4);

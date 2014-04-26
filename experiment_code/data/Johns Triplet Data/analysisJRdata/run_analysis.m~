@@ -1,0 +1,24 @@
+%function [outcomes aggrOutcomes] = run_analysis(filenums);
+
+clear;
+
+if ~exist('filenums','var')
+    filenums = [1];
+end
+
+filename_database; % generate the filename database struct datafiles
+
+clear ind;
+bPlot = 1;
+BUF_window = 10;
+for ind = 1:length(filenums)
+    datastruct = datafiles(filenums(ind)); % pulls out all the info I need to analyze this in the next lower level
+    outcomes(ind) = process_JR_data(datastruct,BUF_window,bPlot);
+end
+
+
+
+% outcomes is nTrials x n_DFs x nSubjs struct with fields durs, durs1,
+% durs2, g1_pars, g2_pars, buf, nwindows
+
+% aggrOutcomes = aggregate_data(outcomes);

@@ -1,0 +1,18 @@
+function test_suite = testCompare_buildup_functions
+initTestSuite;
+
+function testIsErrorScalar
+
+generate_simulated_BUF;
+error = compare_buildup_functions(bufpars,BUF,tax);
+if any(size(error)~=1)
+    error('Error is not scalar')
+end
+
+if error<0
+    error('Sum of squared error is not positive')
+end
+
+if isnan(error)
+    error('error IsNan')
+end

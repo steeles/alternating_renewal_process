@@ -1,0 +1,19 @@
+% 
+
+
+function consolidated_struct = combine_arp_data(struct)
+
+ durs1_tot = vertcat(struct.durs1); 
+    durs2_tot = vertcat(struct.durs2);
+    g1_pars = find_gamma_pars(durs1_tot); g2_pars = find_gamma_pars(durs2_tot);
+    
+    weights = vertcat(struct.nWindows); nWindows_tot = sum(weights);
+    BUFs = vertcat(struct.BUF); tax = struct(1,1,1).tax;
+    
+    BUF_tot = [BUFs' * weights/nWindows_tot]'; bufpars = [g1_pars;g2_pars];
+    
+    [error rSquared BUFarp] = compare_buildup_functions2(bufpars,BUF_tot,tax);
+    
+    
+    herewego = v2struct(durs1_tot,durs2_tot, g1_pars,...
+        g2_pars, BUF_tot,BUFarp,rSquared,nWindows_tot,tax);

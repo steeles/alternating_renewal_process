@@ -1,0 +1,27 @@
+function [parmhat fval] = weibullFit(x,pc,guess)
+
+
+
+[parmhat,fval,exitFlags] = fminsearch(@weibull_error2,...
+             rand(2,1),[],x,pc);
+%
+% error = weibull_error(p,x,pc)
+%
+% p(1) = b, slope; p(2) = t, threshold: .75 correct
+
+
+function error = weibull_error2(p,x,pc)
+
+
+if any(p<0)
+    error = +inf;
+else
+    y = wblcdf(x,p(1),p(2));
+    
+    y = y*.99+.005;
+    
+    
+    logLikelihood = sum(pc.*log(y) + (1-pc).*log(1-y));
+    error = -logLikelihood;
+end
+

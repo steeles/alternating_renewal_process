@@ -1,0 +1,42 @@
+% trial averaged competition model simulations
+
+
+
+pars = struct('Gamma',.1,'Delta',0,'sig',.12, 'iboth',0,'SFA',1,'SD',....
+    0,'t_in_seconds',20,'i1',.6,'i2',.6);
+
+%% now let's look at how it compares to same pars with switch-triggered
+
+pars.t_in_seconds = 5000;
+[u1 u2 s1 s2 tax] = noise_adaptation(pars);
+[durs1 durs2 durs] = timecourse2durs(u1,u2,tax);
+[BUFst taxst nWindows] = make_switchTriggeredBUF(durs,.01,10);
+
+figure; plot(taxst,BUFst); legend(num2str(nWindows))
+
+%% 
+pars.t_in_seconds = 20;
+    
+% let's do nWindows 20 s trials to roughly match smoothness
+nTrials = nWindows;
+Durs = [0 0];
+%figure;
+
+for ind = 1:nTrials
+    [u1 u2 s1 s2 tax] = noise_adaptation(pars);
+    [T1 T2 durstmp] = timecourse2durs(u1,u2,tax);
+    Durs = [Durs; durstmp; 0 0];
+    %subplot(nTrials,1,ind); plot(tax,u1,tax,u2,'r',tax,s1,':',tax,s2,'r:');
+    %axis([0 10 0 1]);
+    trial(ind) = v2struct(u1,u2,s1,s2,tax,T1,T2,durstmp);
+end
+
+[BUFtasim taxtasim] = make_trial_averaged_BUF(Durs);
+T1 = [trial.T1]; T2 = [trial.T2]; g1 = find_gamma_pars(T1); g2 = find_gamma_pars(T2);
+[BUFarp taxarp] = make_fourier_buildup_function([g1;g2]);
+figure;
+plot(taxtasim,BUFtasim, taxarp,BUFarp,'r:');
+axis([0 10 0 1]);
+title('Trial Averaged')
+
+outcomes = v2struct(

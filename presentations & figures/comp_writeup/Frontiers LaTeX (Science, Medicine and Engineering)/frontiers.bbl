@@ -1,0 +1,23 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\selectlanguage}[1]{\relax}
+
+\bibitem[{\textbf{Author4 and Author5}(2013)}]{Neurobot2013}
+Author4, N. and Author5, N. (2013), Title of the article, \emph{Frontiers in
+  Neurorobotics}, 7, 25, \doi{10.3389/fnbot.2013.56789}
+
+\bibitem[{\textbf{LastName1 et~al.}(2013)\textbf{LastName1, LastName2, and
+  LastName2}}]{Neuro2013}
+LastName1, A., LastName2, A., and LastName2, A. (2013), Article title,
+  \emph{Frontiers in Neuroscience}, 30, 30, 10127--10134,
+  \doi{10.3389/fnins.2013.12345}
+
+\bibitem[{\textbf{OtherAuthor and Coauthor}(2012)}]{Gene2012}
+OtherAuthor, N. and Coauthor, N.~S. (2012), Article title, \emph{Frontiers in
+  Genetics}, 30, 49, 16417--16418, \doi{10.3389/fgene.2012.54321}
+
+\end{thebibliography}

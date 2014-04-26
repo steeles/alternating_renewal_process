@@ -1,0 +1,23 @@
+% take fft of a sample pdf and try to fit it with a fourier gamma
+% pdf
+
+function fourier_gam_fit(samples)
+
+[count bin] = mk_Nice_Hist(samples); % gives you a hist with area 1
+
+% is this useful at all?
+%count_remastered = interp1(bin,count,linspace(min(bin),max(bin),100),'cubic');
+
+f_sample_density = fft(count);
+
+figure;
+plot(abs(f_sample_density(1:round(length(f_sample_density)/2))))
+print -depsc '~/Dropbox/my codes/rinzel/fourier_sample_density'
+
+
+
+function fourier_gamma(g,x)
+
+fq = 0:length(x)-1;
+
+f_hat(fq) = 1+i(fq/g(2))

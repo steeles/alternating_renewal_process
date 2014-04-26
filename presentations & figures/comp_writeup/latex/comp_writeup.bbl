@@ -1,0 +1,65 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\bibAnnoteFile}[1]{%
+  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+\providecommand{\bibAnnote}[2]{%
+  \begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ #2\end{quotation}}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{Rubin2004}
+Rubin N, Hup\'{e} JM (2004) {Dynamics of perceptual bi-stability : plaids and
+  binocular rivalry compared}.
+\newblock In: Alais D, Blake R, editors, Binocular rivalry., Cambridge, MA: MIT
+  Press, chapter~8. pp. 1--13.
+\bibAnnoteFile{Rubin2004}
+
+\bibitem{Noorden1975}
+van Noorden L (1975) {Temporal coherence in the perception of tone sequences} .
+\bibAnnoteFile{Noorden1975}
+
+\bibitem{Bregman}
+Bregman AS (1990) {Auditory Scene Analysis: The Perceptual Organization of
+  Sound}.
+\newblock Cambridge, MA: MIT Press.
+\newblock
+  \urlprefix\url{http://www.amazon.com/Auditory-Scene-Analysis-Perceptual-Organization/dp/0262521954}.
+\bibAnnoteFile{Bregman}
+
+\bibitem{Micheyl2005}
+Micheyl C, Tian B, Carlyon RP, Rauschecker JP (2005) {Perceptual organization
+  of tone sequences in the auditory cortex of awake macaques.}
+\newblock Neuron 48: 139--48.
+\bibAnnoteFile{Micheyl2005}
+
+\bibitem{Pressnitzer2008}
+Pressnitzer D, Sayles M, Micheyl C (2008) {Perceptual Organization of Sound
+  Begins in the Auditory Periphery}.
+\newblock Current Biology : 1124--1128.
+\bibAnnoteFile{Pressnitzer2008}
+
+\bibitem{Shpiro2009}
+Shpiro A, Moreno-Bote R, Rubin N, Rinzel J (2009) {Balance between noise and
+  adaptation in competition models of perceptual bistability.}
+\newblock Journal of Computational neuroscience 27: 37--54.
+\bibAnnoteFile{Shpiro2009}
+
+\bibitem{Pastukhov2013}
+Pastukhov A, Garc\'{\i}a-Rodr\'{\i}guez PE, Haenicke J, Guillamon A, Deco G,
+  et~al. (2013) {Multi-stable perception balances stability and sensitivity.}
+\newblock Frontiers in computational neuroscience 7: 17.
+\bibAnnoteFile{Pastukhov2013}
+
+\bibitem{Deike2012}
+Deike S, Heil P, B\"{o}ckmann-Barthel M, Brechmann A (2012) {The Build-up of
+  Auditory Stream Segregation: A Different Perspective.}
+\newblock Frontiers in psychology 3: 461.
+\bibAnnoteFile{Deike2012}
+
+\end{thebibliography}

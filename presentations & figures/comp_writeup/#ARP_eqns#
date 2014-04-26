@@ -1,0 +1,4 @@
+gamma distribution:
+f(T; \theta, k) = \frac{1}{\theta^k} \frac{1}{\Gamma(k)} \left(\frac{T}{\theta}
+\right)^{k-1} e^{-T/\theta}
+
