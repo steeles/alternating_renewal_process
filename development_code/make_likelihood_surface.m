@@ -1,0 +1,49 @@
+% gonna pick the pars to vary, create axes, compute likelihood at each pair
+% and plot surface
+
+function [xax yax z] = make_likelihood_surface(Durs,parsMLE,bParsVaryVec)
+
+if ~exist('bParsVaryVec','var') || ...
+        sum(bParsVaryVec)~=2
+    disp('oy vey! picking 2 pars to vary, tau and m1')
+    
+    bParsVaryVec = [0 0 0 0 1 0 1];
+end
+
+labels = {'k1', 'k2', 'b1', 'b2', 'm1', 'm2', 'tau'};
+
+varNames = labels(logical(bParsVaryVec));
+xlab = varNames(1); ylab = varNames(2);
+
+varInds = find(bParsVaryVec); xInd = varInds(1); yInd = varInds(2);
+x = parsMLE(xInd);
+y = parsMLE(yInd);
+
+scale_exps = -10:10;
+scale_factors = 1.1.^scale_exps;
+
+xax = scale_factors * x;
+yax = scale_factors * y;
+
+z(length(xax),length(yax)) = 0;
+
+for xstep = 1:length(xax)
+    for ystep = 1:length(yax)
+        
+        parsTest = parsMLE;
+        parsTest(xInd) = xax(xstep);
+        parsTest(yInd) = yax(ystep);
+        
+        z(xstep,ystep) = compute_cumhist_LL_faster(Durs,parsTest);
+        
+    end
+end
+
+maxL = compute_cumhist_LL_faster(Durs,parsMLE)
+% is maxL actually the maximum?
+maxSurf = max(max(z))
+
+figure; surf(xax,yax,z); xlabel(xlab); ylabel(ylab);
+
+hold on; plot3(x,y,maxL,'w*');
+        

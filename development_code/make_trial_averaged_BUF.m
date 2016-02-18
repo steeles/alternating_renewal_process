@@ -38,6 +38,6 @@ for tInd = 2:nTrials
         percepts(tInd-1,1:window/timestep) = timecourse(1:window/timestep);
     end
 end
-rowscounter = size(percepts,1)
+rowscounter = size(percepts,1);
 BUF = mean(percepts);
 stdev = std(percepts);

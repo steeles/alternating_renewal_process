@@ -2,7 +2,7 @@
 
 clear all
 
-nSubjects = 1000;
+nSubjects = 10;
 nTrials = 1000;
 
 % from, what parameter values, etc
@@ -45,34 +45,35 @@ for ind = 1:nSubjects
     g2pdf = gampdf(xax,g2(1),g2(2));
     %figure; plot(xax,g2pdf);
     
-    nSwitches = 15; Durs = [];%Durs(nSwitches*nTrials,2)=0;
-    wind = 15;
-    for tInd = 1:nTrials
-        
-        tmp = make_2gamma_distrs(g1,g2,nSwitches-1);
-        cutoff = find(cumsum(tmp(:,1))>wind,1);
-        
-%        [Durs(((tInd-1) * nSwitches+1):(tInd*nSwitches) ,:)]=...
-        Durs = [Durs;
-        0 0 ; tmp(1:cutoff,:)]; %nSwitches has to be odd
-        
-        
-        
-    end
-    
-    
-    betweenSubjsDurs{ind} = Durs;
+%     nSwitches = 15; Durs = [];%Durs(nSwitches*nTrials,2)=0;
+%     wind = 15;
+%     for tInd = 1:nTrials
+%         
+%         tmp = make_2gamma_distrs(g1,g2,nSwitches-1);
+%         cutoff = find(cumsum(tmp(:,1))>wind,1);
+%         
+% %        [Durs(((tInd-1) * nSwitches+1):(tInd*nSwitches) ,:)]=...
+%         Durs = [Durs;
+%         0 0 ; tmp(1:cutoff,:)]; %nSwitches has to be odd
+%         
+%         
+%         
+%     end
+%     
+%     
+%     betweenSubjsDurs{ind} = Durs;
     
     %% using BUF to predict the gamma pars
+    [BUFta,taxta,Durs] = generate_MC_BUF(g1,g2);
     
-    [BUFta,taxta] = make_trial_averaged_BUF(Durs,.01,wind);
+    %[BUFta,taxta] = make_trial_averaged_BUF(Durs,.01,wind);
     [bufpars_fit BUFfit t] = find_fourier_BUF_fit(BUFta,taxta);
     durs1S = Durs(Durs(:,2)==1,1); durs2S = Durs(Durs(:,2)==2,1);
     [foo CI_gam1] = gamfit(durs1S); [foo CI_gam2] = gamfit(durs2S);
     
     %%
     
-    if 0
+    if 1
         bigFigure; subplot(1,2,1);
         plot(taxta,BUFta,'b',t,BUFfit,'r--');
         axis([0 15 0 1]);  mk_Nice_Plot; 

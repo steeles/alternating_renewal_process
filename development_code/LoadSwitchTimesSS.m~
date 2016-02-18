@@ -1,0 +1,303 @@
+% SwTimesCell and DurationsCell index by {i,j,k}
+% where i is the condition DFVals(i) (1--8)
+% k is the subject number (1--15)
+% k is the repetition number  (1--3)
+
+workingdir='/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/';
+cd(workingdir)
+data=load('SwitchTimes_NDF8_NSJ15_NREPS3.mat');
+
+DFvals=data.DFvals
+NumCond=data.NumCond
+NumSubj=data.NumSubj
+NumReps=data.NumReps
+SwTimesCell=data.SwTimesCell;
+DurationsCell=data.DurationsCell;
+
+
+% Get the SwitchTimes and Durations out for 1 trial
+CondNum=4;
+SubjNum=1;
+RepNum=1;
+disp(['DF=',num2str(DFvals(CondNum))])
+SwTimes=SwTimesCell{CondNum,SubjNum,RepNum}
+Durations=DurationsCell{CondNum,SubjNum,RepNum}
+% In 2nd column, 1 is one stream, 2 two streams, 3 ambiguous (not used
+% except as initial state)
+nDursVec = [];
+gammaViolations = [];
+dataPoor = [];
+violationInds = [];
+nonStarters = [];
+NumDurs(NumCond,NumSubj) = 0;
+
+rSq_mc_ARP = []; rSq_stBUF_ARP = []; rSqRatio = [];
+
+window = 15; step = .1;
+
+for i=1:NumCond
+    for j=1:NumSubj
+        
+        % store durs for all trials for one subj/condn here
+        
+        Durs = [];
+        corrs1 = [];
+        corrs2 = [];
+        corrDurs = [];
+        % concatenate all the durs
+        
+        % first order cors for durs1, durs2, and Durs
+        cor1 = []; cor2 = []; cor = []; 
+        
+        for k=1:NumReps
+            
+            % FIRST : look for correlations and find out if they're gamma distributed 
+            
+            tDurs = DurationsCell{i,j,k};
+            d1 = tDurs(tDurs(:,2) == 1); % trial durs1
+            d2 = tDurs(tDurs(:,2) == 2); % trial durs2
+            
+            % cut off the first dur
+            
+            if length(tDurs)>4, tDurs = tDurs(3:end,:);
+            else dataPoor = [dataPoor; i j k]; continue
+            end
+                
+            
+            Durs = vertcat(Durs, tDurs);
+            
+            % compute percept to percept correlations
+            c1 = corrcoef(d1(1:end-1), d1(2:end));
+            c2 = corrcoef(d2(1:end-1), d2(2:end));
+            c = corrcoef(tDurs(1:end-1), tDurs(2:end));
+            
+            try
+                cor1 = [cor1 c1(1,2)];
+            catch me
+                cor1 = [cor1 c1];
+            end
+            try
+                cor2 = [cor2 c2(1,2)];
+            catch me
+                
+                cor2 = [cor2 c2];
+            end
+            
+            try
+                cor = [cor c(1,2)];
+            catch me
+                
+                cor = [cor c];
+            end
+            
+        end
+        % maybe this should be mean(abs)
+        corr1(i,j) = mean(cor1); corr2(i,j) = mean(cor2);
+        corrDurs(i,j) = mean(cor);
+        
+        nDurs = length(Durs);
+        NumDurs(i,j) = nDurs;
+        if nDurs < 6
+                disp('too few samples')
+                dataPoor = [dataPoor; i j k];
+                continue 
+        end
+           
+        
+        % test for gamma 
+        
+        durs1 = Durs(Durs(:,2) == 1); durs2 = Durs(Durs(:,2) == 2);
+        %figure; histfit(durs1,round(nDurs(end)/6),'gamma'); title('grouped')
+        %figure; histfit(durs2,round(nDurs(end)/6),'gamma'); title('split')
+        [h1 p1 foo g1] = goodness_of_gamma_fit(durs1);
+        
+        [h2 p2 foo g2] = goodness_of_gamma_fit(durs2);
+        
+        if 0
+            if h1
+                figure; histfit(durs1,round(nDurs(end)/6),'gamma');
+                title(sprintf('grouped %d %d', i, j));
+                legend(sprintf('n = %.f',length(durs1)))
+            end
+            
+            if h2
+                figure; histfit(durs2,round(nDurs(end)/6),'gamma');
+                title(sprintf('split %d %d', i, j))
+                legend(sprintf('n = %.f',length(durs2)))
+            end
+        end
+        
+        gammaViolations = [gammaViolations; h1; h2];
+        if h1 || h2
+            violationInds = [violationInds; i j];
+        else
+            % run ARP if there's a good amount of data
+            
+            if nDurs > 100
+                
+                
+                for k = 1:NumReps
+                     %% plot values of r and r2 for different taus
+                    
+                    DursWithTransients = DurationsCell{i,j,k};
+                    
+                    durs1 = DursWithTransients(DursWithTransients(:,2)==1,1);
+                    durs2 = DursWithTransients(DursWithTransients(:,2)==2,1);                    
+                    
+                    % check for within 10% of equidominance
+                    
+                    fracDom = (mean(durs1(2:end-1))/(mean(durs2(2:end-1))+...
+                            mean(durs1(2:end-1))));
+                        
+                    if abs(fracDom-.5) < .1
+                        
+                        nTaus = 10;
+                        tau_ax = logspace(-2,1.75,nTaus);
+                        
+                        rVals = zeros(1,nTaus); r2Vals = zeros(1,nTaus);
+                        
+                        for hInd = 1:nTaus
+                           [rVals(hInd) r2Vals(hInd)] = compute_cum_history(DursWithTransients,tau_ax(hInd));
+                               
+                        end
+                        
+                        figure; 
+                        
+                        [foo maxRi] = max(rVals);
+                        [foo maxR2i] = max(r2Vals);
+                        
+                        maxRtau = tau_ax(maxRi);
+                        maxR2tau = tau_ax(maxR2i);
+                        
+                        Tbar = mean(Durs(:,1));
+                        
+                        
+                        semilogx(tau_ax,rVals,'g'); hold on; mk_Nice_Plot;
+                        semilogx(tau_ax,r2Vals,'r'); title(sprintf('r and r2 vs tau, best ~ %.2f, mnDur = %.2f',maxRtau,Tbar))
+                        legend('r','r2','Location','Best'); xlabel('tau'); ylabel('corr & r2')
+                        
+                        
+                        
+                        
+                        % we wanna make sure we don't look at first Dur,
+                        % but we do compute the history accrued from
+                        % that... double check later
+                    
+                    
+                    
+                    %% 
+                    
+                    %play around with cumhist measure
+                    
+                    f = @(tau)compute_cum_history(DursWithTransients,tau);
+                    g = @(tau)-f(tau);
+                    
+                    [tauH fval] = fminsearch(g,Tbar/2);
+                    
+                    compute_cum_history(DursWithTransients,tauH,1);
+                    
+                    end
+                   % compute_cum_history(DursWithTransients,tauH*10,1); 
+                   % compute_cum_history(DursWithTransients,tauH/10,1);
+                end
+                
+                
+                
+            end
+        end
+    end
+end
+                
+                %% separate analyses in separate for loops
+
+for i=1:NumCond
+    for j=1:NumSubj
+                
+        tax = []; BUF = [];
+                
+        for k = 1:NumReps
+            
+            % this chops off the first duration... not sure if
+            % that's what i want to do just yet, because those
+            % first durs could contribute to value of Hx
+            
+            
+            Durs = DurationsCell{i,j,k}(3:end,:);
+            
+            if Durs(1,2) == 1
+                [BUF(k,:) tax rows] = make_switchTriggeredBUF(Durs,step,window);
+            else
+                nonStarters = [nonStarters; i j k];
+                continue
+            end
+            
+        end
+        
+        BUF = mean(BUF);
+        
+        % make ARP prediction for BUF based on gamma pars
+        
+        [BUF_pred tax_pred] = make_fourier_buildup_function([g1 g2]);
+        
+        % time warp
+        
+        BUF_adj = interp1(tax_pred,BUF_pred,tax,'cubic','extrap');
+        
+        % make MC BUF based on the number of durations in BUF
+        %DursMC = make_2gamma_distrs(g1, g2, nDurs);
+        
+        %[BUFmc taxmc] = make_switchTriggeredBUF(DursMC,.1,15);
+        
+        
+        bigFigure; subplot(1,2,2);
+        plot(tax,BUF,'b',tax,BUF_adj,'r-.') %,tax,BUFmc,'g--');
+        %keyboard;
+        if 1
+            [upperbound lowerbound] = find_bootstrap_BUF_CIs(Durs,g1,g2,10000,tax,15,.1);
+            hold on; plot(tax,upperbound,'Color',[.7 .7 .7])
+            plot(tax,lowerbound,'Color',[.7 .7 .7])
+        end
+        
+        axis([0 10 0 1]);  mk_Nice_Plot;
+        legend('BUF','ARP','MC', 'Location', 'Best')
+        %title(['LSE fit for BUF '...
+        % [num2str(g1(ind,:)) num2str(g2(ind,:))] ', found ' num2str(bufpars_fit)]);
+        
+        %durs1S = Durs(Durs(:,2)==1,1); durs2S = Durs(Durs(:,2)==2,1);
+        subplot(2,2,1);
+        %histfit(durs1,10,'gamma')
+        plot_gamma_hist_fit(durs1,g1);
+        xlabel('')
+        %title(['Subject ' num2str(ind)]);
+        %[g1 CI_gam1] = gamfit(durs1S); %disp(CI_gam1)
+        legend(sprintf('r = %.3f ', corr1(i,j)), sprintf('p = %.2f', p1))
+        title(sprintf('grouped, n = %d',length(durs1)))
+        subplot(2,2,3);
+        %histfit(durs2,10,'gamma')
+        plot_gamma_hist_fit(durs2,g2)
+        legend(sprintf('r = %.3f ', corr2(i,j)), sprintf('p = %.2f', p2))
+        title(sprintf('split, n = %d',length(durs2)))
+        %[g2 CI_gam2] = gamfit(durs2S); %disp(CI_gam2)
+        %
+        %                 figure; plot(tax,BUF,'b'); hold on;
+        %                 plot(tax, BUFmc, 'g')
+        %                 plot(tax, BUF_adj,'r'); xlim([0 15]);
+        %                 title(sprintf('%d %d', i, j))
+        
+        
+        
+        %rSq_mc_ARP = [rSq_mc_ARP ; calc_rSquared(BUFmc,BUF_adj)];
+        rSq_stBUF_ARP = [rSq_stBUF_ARP ;  calc_rSquared(BUF,BUF_adj)];
+        
+        
+        
+    end
+end
+
+
+
+
+meanMC_ARP = mean(rSq_mc_ARP)
+meanBUF_ARP = mean(rSq_stBUF_ARP)
+meanRatio = mean(rSq_stBUF_ARP ./ rSq_mc_ARP)
+

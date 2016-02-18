@@ -1,4 +1,8 @@
-function [h p ksstat]= goodness_of_gamma_fit(data,gampars,bPlot,alpha)
+function [h p ksstat gampars]= goodness_of_gamma_fit(data,gampars,bPlot,alpha)
+
+if ~exist('gampars','var')
+    gampars = gamfit(data);
+end
 
 [propDistr] = gamcdf(data,gampars(1),gampars(2));
 cdfMatrix = [data propDistr];
