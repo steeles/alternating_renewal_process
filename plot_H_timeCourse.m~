@@ -1,0 +1,44 @@
+function plot_H_timeCourse(Durs,tau)
+
+[h1 h2] = compute_H_2(Durs,tau);
+
+dt = .01;
+switchtimes = round(cumsum(Durs(:,1))/dt)*dt; % round to hundredths 
+ttot = switchtimes(end);
+
+
+tax = dt:dt:ttot;
+h1timeCourse(length(tax)) = 0;
+h2timeCourse(length(tax)) = 0;
+
+for ind = 1:length(Durs-1)
+    
+    tInds = (switchtimes(ind)/dt):(switchtimes(ind+1)/dt);
+    tInds = tInds(2:end)+1;
+    
+    sInd = dt:dt:(length(tInds)*dt);
+    
+    dur = Durs(ind+1,1);
+    nSteps = round(dur/dt);
+    
+    if Durs(ind+1,2) == 1
+        h1timeCourse(tInds) = h1timeCourse(tInds(1)-1)...
+            * exp(-(sInd/tau)) + 1*(1-exp(-sInd/tau));
+        
+        h2timeCourse(tInds) = h2timeCourse(tInds(1)-1)...
+            * exp(-(sInd/tau));
+        
+    else
+        h1timeCourse(tInds) = h1timeCourse(tInds(1)-1)...
+            * exp(-(sInd/tau));
+        
+        h2timeCourse(tInds) = h2timeCourse(tInds(1)-1)...
+            * exp(-(sInd/tau)) + 1*(1-exp(-sInd/tau));
+        
+    end
+end
+
+figure; plot(tax,H1,
+        
+    
+    
