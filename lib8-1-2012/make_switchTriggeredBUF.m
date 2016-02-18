@@ -27,11 +27,15 @@ percepts(1,window/timestep)=0;
 rowsCounter = 1;
 
 if any(diff(durs(:,2))==0), 
-    error('Non-alternating percept found');
+    disp('Non-alternating percept found');
+    BUF = NaN;
+    return
 end
 
 if durs(1,2) ~=1
-    error('Coherent percept not first')
+    disp('Coherent percept not first');
+    BUF = NaN;
+    return
 end
     
     p1_inds = find(durs(:,2)==1);
@@ -72,5 +76,5 @@ end
        end
     end
 BUF = (sum(percepts)./rowsCounter);
-rowsCounter
+%rowsCounter
 %plot(timeline,BUF);

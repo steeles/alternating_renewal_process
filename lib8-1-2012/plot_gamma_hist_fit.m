@@ -1,8 +1,17 @@
 % plot_gamma_hist_fit(durs,g)
 
-function [h_bar scale h_plt] = plot_gamma_hist_fit(durs,g,gtrue)
+function [h_bar scale h_plt] = plot_gamma_hist_fit(durs,g,gtrue,group)
 
 [count bin] = hist(durs); h_bar = bar(bin,count,1); hold on;
+
+if exist('group','var')
+    if group == 0
+        set(h_bar,'FaceColor',[250 188 81]/256)
+    elseif group == 1
+        set(h_bar,'FaceColor',[87.3 195 226]/256)
+    end
+end
+
 scale = max(unique(diff(bin)));
 x = linspace(0,max(durs)+2,200);
 y = gampdf(x,g(1),(g(2)));
