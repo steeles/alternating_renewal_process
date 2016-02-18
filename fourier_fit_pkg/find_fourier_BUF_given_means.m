@@ -22,8 +22,8 @@ if ~exist('bufpars0','var') || isempty(bufpars0)
 end
 truepars = bufpars0;
 a0 = truepars(1); a1 = truepars(3); th0 = truepars(2); th1 = truepars(4);
-
-[BUF tax] = make_fourier_buildup_function(truepars);
+opt.T = 40; opt.m = 12;
+[BUF tax] = make_fourier_buildup_function(truepars,opt);
 mu0=a0*th0; mu1 = a1*th1;
 
 %bufpars0 = [a0,th0,a1,th1]; % these are the true parameters for the mc buf
@@ -36,7 +36,7 @@ shapepars0 = [a0 a1] + rand(1,2);
                                                         % proposed bufs in
                                                         % the search
 
-f_mns = @(shapepars)compare_buildup_functions_with_mns(shapepars,BUF,tax,mu0,mu1);
+f_mns = @(shapepars)compare_buildup_functions_with_mns(shapepars,BUF,tax,mu0,mu1,opt);
 
 
 %[bufpars fval] = fminsearch(f_mns,shapepars0); 
@@ -47,4 +47,4 @@ bufpars = [shapepars(1) mu0/shapepars(1) shapepars(2) mu1/shapepars(2)];
 
 %BUF_up = interp1(t,BUFfit,tax);
 
-plot(t,BUFfit,tax,BUF); title(num2str(bufpars))
+plot(t,BUFfit,'bo',tax,BUF,'r'); title(num2str(bufpars))
