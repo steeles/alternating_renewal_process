@@ -8,12 +8,13 @@
 
 % i should overload my functions for Durs & Durs Cell
 
-function [parmhat fval parsMaxR output] = estimate_cumhist_pars(Durs,bNull,init)
+function [parmhat fval parsMaxR output] = estimate_cumhist_pars(Durs,bNull,init,bPlot)
 
-if exist('init','var')
-    pars0 = init;
-    %keyboard;
-else
+if ~exist('bPlot','var')
+    bPlot = 0;
+end
+
+if ~exist('init','var') || isempty(init)
     
     if iscell(Durs)
         Durs = vertcat(Durs{:});
@@ -40,11 +41,13 @@ else
     pars0 = [k1; k2; b1; b2; m1; m2; tau];
    
     [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p22] = ...
-        compute_combined_cum_history(Durs,tau);
+        compute_combined_cum_history(Durs,tau,bPlot);
     
     parsMaxR = [k1; k2; p11(2); p22(2); p11(1); p22(1); tau];
-    
-    
+
+else    
+    pars0 = init;
+
     
 end
 
@@ -63,6 +66,8 @@ else
     [pars fval exitflag output] = fminsearch(nfun, pars0);
 end
 parmhat = pars;
+
+    
 %struct('k1',pars(1), 'k2', pars(2), 'b1', pars(3), 'b2', ...
 %    pars(4), 'm1', pars(5), 'm2', pars(6), 'tau', pars(7));
 

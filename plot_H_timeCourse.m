@@ -1,5 +1,15 @@
-function plot_H_timeCourse(Durs,tau)
+function options = plot_H_timeCourse(Durs,tau,options)
 
+if exist('options','var')
+    v2struct(options)
+else
+    bZ1 = 1;
+    bZ2 = 0;
+    bH1 = 0;
+    bH2 = 0;
+    options = v2struct(bZ1,bZ2,bH1,bH2);
+end
+    
 
 if Durs(1,1) ~=0
     Durs = [0 0 ; Durs];
@@ -11,8 +21,11 @@ ttot = switchtimes(end);
 
 
 tax = 0:dt:ttot;
-h1timeCourse(length(tax)) = 0;
-h2timeCourse(length(tax)) = 0;
+tsteps = length(tax);
+h1timeCourse(tsteps) = 0;
+h2timeCourse(tsteps) = 0;
+z1timecourse(tsteps) = 0;
+z2timecourse(tsteps) = 0;
 
 for ind = 1:length(Durs)-1
     
@@ -31,6 +44,8 @@ for ind = 1:length(Durs)-1
         
         h2timeCourse(tInds) = h2timeCourse(tInds(1)-1)...
             * exp(-(sInd/tau));
+        z1timecourse(tInds) = 1;
+        z2timecourse(tInds) = 0;
         
     else
         h1timeCourse(tInds) = h1timeCourse(tInds(1)-1)...
@@ -38,14 +53,38 @@ for ind = 1:length(Durs)-1
         
         h2timeCourse(tInds) = h2timeCourse(tInds(1)-1)...
             * exp(-(sInd/tau)) + 1*(1-exp(-sInd/tau));
+        z1timecourse(tInds) = 0;
+        z2timecourse(tInds) = 1;
         
     end
 end
 
-figure; plot(tax,h1timeCourse,'Color',[250 188 81]/256); hold on;
+figure; hold on;
+if bH1
+    plot(tax,h1timeCourse,'Color',[250 188 81]/256); mk_Nice_Plot;
+end
+if bH2
     plot(tax,h2timeCourse,'Color',...
         [87.3 195 226]/256);
     mk_Nice_Plot;
-        
+end
+if bZ1
+    plot(tax,z1timecourse,'k'); mk_Nice_Plot;
+end
+if bZ2
+    plot(tax,z2timecourse,'b'); mk_Nice_Plot;
+end
+
+if ~exist('xlm','var')
     
+    tmp = xlim;
+    
+    if tmp(2) > 70
+        xlim([10 70]);
+    end
+else
+    xlim(xlm);
+end
+
+options.xlm = xlim;
     

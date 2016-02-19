@@ -30,7 +30,7 @@ function [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation(pars,bPlot)
 
 
 tau_neur = 1;
-tau_slow = 200; % .2 sec real time
+tau_slow = 2000; % .2 sec real time
 tau_noise = 10; % 0.1 sec real time
  
 
@@ -54,6 +54,7 @@ if ~exist('pars','var') || isempty(pars)
     end
     
     sig =0;
+    
     
 else
     

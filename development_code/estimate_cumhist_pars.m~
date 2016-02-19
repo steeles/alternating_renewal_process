@@ -8,7 +8,7 @@
 
 % i should overload my functions for Durs & Durs Cell
 
-function [parmhat fval parsMaxR] = estimate_cumhist_pars(Durs,bNull,init)
+function [parmhat fval parsMaxR output] = estimate_cumhist_pars(Durs,bNull,init,bPlot)
 
 if exist('init','var')
     pars0 = init;
@@ -39,10 +39,10 @@ else
     
     pars0 = [k1; k2; b1; b2; m1; m2; tau];
    
-    [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p22 h] = ...
+    [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p22] = ...
         compute_combined_cum_history(Durs,tau);
     
-    parsMaxR = [
+    parsMaxR = [k1; k2; p11(2); p22(2); p11(1); p22(1); tau];
     
     
     
@@ -57,12 +57,14 @@ if exist('bNull','var') && bNull
     %options = optimset('Display','iter');
     
     [pars fval] = fmincon(nfun,pars0,[],[],[],[],[.1; .1; .1; .1; 0; 0; 1],...
-        [Inf; Inf; Inf; Inf; 0; 0; 1],[],options);
+        [Inf; Inf; Inf; Inf; 0; 0; 1],[]);%,options);
     
 else
-    [pars fval] = fminsearch(nfun, pars0);
+    [pars fval exitflag output] = fminsearch(nfun, pars0);
 end
 parmhat = pars;
+
+if bPlot
 %struct('k1',pars(1), 'k2', pars(2), 'b1', pars(3), 'b2', ...
 %    pars(4), 'm1', pars(5), 'm2', pars(6), 'tau', pars(7));
 

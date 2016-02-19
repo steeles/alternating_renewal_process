@@ -4,7 +4,7 @@
 
 function [lnT1 lnT2 H11 H22] = bundle_H_pred_T(Durs,H1,H2,bTrimmed)
 
-if ~bTrimmed || ~exist('bTrimmed','var')
+if  ~exist('bTrimmed','var') || ~bTrimmed
     disp('trimming!')
     bTrimmed = 0;
     Durs = Durs(4:end-1,:);

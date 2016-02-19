@@ -93,6 +93,13 @@ nBins = 5;
 edges1 = linspace(min(h1vec), max(h1vec), nBins+1);
 edges2 = linspace(min(h2vec), max(h2vec), nBins+1);
 
+max1 = max(H1_Dur_Sort(:,2));
+max2 = max(H2_Dur_Sort(:,2));
+
+axmax1 = ceil(max1/5) * 5;
+axmax2 = ceil(max2/5) * 5;
+
+
 bigFigure;
 for ind = 1:nBins
     LB = edges1(ind); UB = edges1(ind+1);
@@ -104,7 +111,9 @@ for ind = 1:nBins
     durs1_batch = H1_Dur_Sort(inds1 ,2);
     subplot(2,nBins,ind); 
     plot_gamma_hist_fit(durs1_batch,gampars_pred);
-    title(sprintf('H1 = %.2f',h1X))
+    title(sprintf('H1 = %.2f',h1X)); xlim([0 axmax1]);
+    ht1 = ylim; hold on; plot([u1_pred u1_pred], [0 ht1(2)],'g',...
+        'LineWidth',3); ylim(ht1);
     
     LB2 = edges2(ind); UB2 = edges2(ind+1);
     h2X = (LB2 + UB2)/2;
@@ -115,7 +124,9 @@ for ind = 1:nBins
     durs2_batch = H2_Dur_Sort(inds2 ,2);
     subplot(2,nBins,ind+nBins); 
     plot_gamma_hist_fit(durs2_batch,gampars_pred2);
-    title(sprintf('H2 = %.2f',h2X))
+    title(sprintf('H2 = %.2f',h2X)); xlim([0 axmax2]);
+    ht2 = ylim; hold on; plot([u2_pred u2_pred], [0 ht2(2)],'g',...
+        'LineWidth',3); ylim(ht2);
     
 end
 
@@ -222,6 +233,29 @@ subplot(222); plot_gamma_hist_fit(durs2,gamfit(durs2));
 subplot(223); plot_gamma_hist_fit(durs1_true,);
 subplot(224); plot_gamma_hist_fit(durs2_true,[k2 th2_hat]);
 
+%%
+h1X = .0;
+clf;
+u1_pred = exp(m1 * h1X + b1);
+gampars_pred = [k1 u1_pred/k1];
 
+xax = .01:.01:axmax1/2;
+g1pdf = gampdf(xax,gampars_pred(1),gampars_pred(2));
+ymax = max(g1pdf); ymax = ymax*1.25;
+
+plot(xax,g1pdf); mk_Nice_Plot;
+title(sprintf('H = %.1f',h1X));
+
+%set(gca,'YTick',[0 .5]);
+ylim([0 ymax]);
+
+set(gca,'YTick',[]);
+set(gca,'XTick',[0 axmax1/2]);
+set(gcf, 'Position', [1 1 240 240]);
+
+ht1 = ylim; hold on; plot([u1_pred u1_pred], [0 ht1(2)],'g',...
+    'LineWidth',3)
+
+print -depsc 'h0_pdf'
 
         
