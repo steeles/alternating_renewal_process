@@ -8,16 +8,16 @@ clear all;
 
 
 k1 = 2;
-th1_hat = 5.14;
+%th1_hat = 5.14;
 k2 = 1.48;
-th2_hat = 4;
+%th2_hat = 4;
 
 tau = 2.07;
 
 b1 = .7;
-m1 = 1.4;
-b2 = .32;
-m2 = 1.02;
+m1 = -2.4;
+b2 = 1.32;
+m2 = -2.02;
 
 pars0 = [k1 k2 b1 b2 m1 m2 tau];
 %%
@@ -85,6 +85,8 @@ H1_Dur_Sort = groupedMat(sortOrder1,[1 3]);
 H2_Dur_Sort = splitMat(sortOrder2,[2 3]);
 
 h1vec = H1_Dur_Sort(:,1); h2vec = H2_Dur_Sort(:,1);
+
+%%
 % split into 10 equally spaced parts and find expected distr and actual
 % stats
 nBins = 5;
@@ -120,27 +122,42 @@ end
 %%
 parmhat = estimate_cumhist_pars(Durs);
 
-lnT1_recovered_pred = parmhat(5) * h1vec + parmhat(3);
-lnT2_recovered_pred = parmhat(6) * h2vec + parmhat(4);
+% so this needs to actually adapt to the h1vec for the rec pars
+
+[h1_mle h2_mle] = compute_H_2(Durs,parmhat(end));
+
+[lnT1 lnT2 h11 h22] = bundle_H_pred_T(Durs,h1_mle,h2_mle,0);
+
+lnT1_recovered_pred = parmhat(5) * h1_mle(:,1) + parmhat(3);
+lnT2_recovered_pred = parmhat(6) * h2_mle(:,1) + parmhat(4);
 
 %[k1; k2; b1; b2; m1; m2; tau];
 
-lnT1_actual = pars0(5) * h1vec + parmhat(3);
-lnT2_actual = pars0(6) * h2vec + parmhat(4);
+lnT1_actual = pars0(5) * h1vec + pars0(3);
+lnT2_actual = pars0(6) * h2vec + pars0(4);
 
 bigFigure; subplot(211); 
+hold on; plot(h11, lnT1, 'c.')
+
 plot(h1vec, log(H1_Dur_Sort(:,2)), '.')
-hold on; plot(h1vec,lnT1_recovered_pred, 'r');
+
+plot(h1_mle(:,1),lnT1_recovered_pred, 'r');
 plot(h1vec, lnT1_actual, 'g');
 mk_Nice_Plot; xlabel('H1'); ylabel('ln T1'); 
-title(num2str([pars0; parmhat]))
+title(num2str([pars0; parmhat']))
 legend(sprintf('n=%d', nSwitches/2), 'Location', 'Best')
 
-subplot(212); plot(h2vec(:,1), log(H2_Dur_Sort(:,2)), '.');
-hold on; plot(h2vec,lnT2_recovered_pred, 'r');
+subplot(212); 
+hold on; plot(h22,lnT2,'c.');
+
+plot(h2vec(:,1), log(H2_Dur_Sort(:,2)), '.');
+
+plot(h2_mle(:,1),lnT2_recovered_pred, 'r');
 plot(h2vec, lnT2_actual, 'g');
 mk_Nice_Plot; xlabel('H2'); ylabel('ln T2'); 
-legend('data','recovered', 'generating', 'Location', 'best')
+legend(sprintf('data (tau = %.2f)',tau),...
+    sprintf('mle (tau = %.2f)',parmhat(end)),...
+    'recovered', 'generating', 'Location', 'best')
 %%
 
 i = 4; j = 2;
@@ -197,12 +214,12 @@ hold on; plot([k2 * th2 k2 * th2], [0 nSwitches/5],'r')
 
 durs1 = exp(lnT1); durs2 = exp(lnT2);
 
-figure; subplot(221); plot_gamma_hist_fit(durs1,gamfit(durs1),[k1 th1_hat]);
-subplot(222); plot_gamma_hist_fit(durs2,gamfit(durs2), [k2 th2_hat]);
+figure; subplot(221); plot_gamma_hist_fit(durs1,gamfit(durs1));
+subplot(222); plot_gamma_hist_fit(durs2,gamfit(durs2));
 
 % compare with originating data:
 
-subplot(223); plot_gamma_hist_fit(durs1_true,[k1 th1_hat]);
+subplot(223); plot_gamma_hist_fit(durs1_true,);
 subplot(224); plot_gamma_hist_fit(durs2_true,[k2 th2_hat]);
 
 
