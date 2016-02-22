@@ -54,7 +54,7 @@ end
 fun = @(pars)compute_cumhist_LL_faster(Durs,pars);
 nfun = @(pars)-fun(pars);
 
-if exist('bNull','var') && bNull
+if exist('bNull','var') && logical(bNull)
     pars0(5:7) = [0;0;1];
     %keyboard;
     %options = optimset('Display','iter');

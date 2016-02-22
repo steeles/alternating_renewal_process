@@ -15,7 +15,8 @@ load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Swi
 
 bPlot = 0;
 
-
+tmp = size(data.DurationsCell);
+NumReps = 
 % gamma pars
 per_trial_stats1(2, NumReps, NumSubj) = 0;
 % gamma pars with min/max model mean
@@ -48,7 +49,7 @@ mnscell1{NumReps,NumSubj} = [];
 mnscell2{NumReps,NumSubj} = [];
 
 
-%%
+%% Basic Stats
 if bPlot
     h = bigFigure;
     cmap = colormap(jet(NumSubj));
@@ -95,11 +96,13 @@ for sInd = 1:NumSubj
     grand_stats2(sInd,4) = max(mns2);
 end
 
-for ind
-    
+%% Cumhist stats; takes awhile
+
+for sInd = 1:NumSubj
+%%s    
     % now we start to look at cumhist model
     DursCell = {DurationsCell{1,sInd,:}};
-    [parmhat_cumhist(:,sInd) fval_cumhist(sInd) MaxR_parmhat(:,sInd)] = ...
+    [parmhat_cumhist(:,sInd) fval_cumhist(sInd) MaxR_parmhat(:,sInd) output] = ...
         estimate_cumhist_pars(DursCell);
     
     % null model -- actually, the k's and betas from this should match with

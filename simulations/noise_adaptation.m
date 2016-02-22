@@ -30,7 +30,7 @@ function [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation(pars,bPlot)
 
 
 tau_neur = 1;
-tau_slow = 2000; % .2 sec real time
+tau_slow = 200; % 2 sec real time
 tau_noise = 10; % 0.1 sec real time
  
 
@@ -74,6 +74,12 @@ else
     SFA = pars.SFA; SD = pars.SD;
     
     i1 = pars.i1; i2 = pars.i2;
+    
+    % optionally vary time scale; doesn't get output in pars bc idk what
+    % other codes reference this one and use that struct
+    if exist('pars.tau_slow','var')
+        tau_slow = pars.tau_slow;
+    end
 end
 if ~exist('i1','var')
     i1 = 0;
@@ -94,7 +100,7 @@ else
 end
 
 
-pars = v2struct(Gamma,i1,i2,t_in_seconds,Beta,Delta,SFA,SD);
+pars = v2struct(Gamma,i1,i2,t_in_seconds,Beta,Delta,SFA,SD,tau_slow);
 pars.iboth = iboth(1); pars.sig = sig*sqrt(dt);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % pars to vary

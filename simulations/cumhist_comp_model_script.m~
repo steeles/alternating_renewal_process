@@ -2,25 +2,74 @@
 
 [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation;
 
-pars.t_in_seconds = 5000;
+% try messing with this to change nSamples:
+
+tau_ax = [100 200 300 400 500 600 700 800 900 1000];
+nTaus = length(tau_ax);
+tau_hat(nTaus) = 0;
+
+for ind = 1:nTaus
+
+pars.t_in_seconds = 1000;
+
 pars.Gamma = 0.7;
-pars.sig = .06;
+pars.sig = .09;
+pars.tau_slow = tau_ax(ind);
 
 bPlot = 1;
 
 [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation(pars,bPlot);
-
+xlim = ([0 20]);
 [T1 T2 Durs] = timecourse2durs(u1, u2, tax);
 
 Durs = [0 0; Durs];
 
-[parmhat fval maxr output] = estimate_cumhist_pars(Durs);
+[parmhat fval maxr output] = estimate_cumhist_pars(Durs,[],1);
 
+tau_hat(ind) = parmhat(end);
+end
+
+figure; plot(tau_ax,tau_hat); mk_Nice_Plot; title('tauH vs tauA')
+
+xlabel('tauA'); ylabel('tau cumhist'); title('tauH vs tauA');
+legend(sprintf('G=%.1f, sig = %.2f',pars.Gamma,pars.sig));
 
 [parmNull fnull] = estimate_cumhist_pars(Durs,1);
 
+
+switchInds = find(abs(diff(u1-u2>0)));
+
+a1_switches = s1(switchInds);
+a2_switches = s2(switchInds);
+
+a1_switches = [0 a1_switches]';
+a2_switches = [0 a2_switches]';
+
 [H1 H2] = compute_H_2(Durs,parmhat(end));
 [lnT1 lnT2 H11 H22] = bundle_H_pred_T(Durs,H1,H2);
+
+% third column gives switch times which will be useful
+a1_H1 = [a1_switches H1(1:end-1,:)];
+a2_H2 = [a2_switches H2(1:end-1,:)];
+
+a11_inds = 1:2:(length(H1)-1);
+a22_inds = 2:2:(length(H2)-1);
+
+a1H1_pre_T2 = a1_H1(a11_inds,:);
+a2H2_pre_T1 = a2_H2(a22_inds,:);
+
+bigFigure; subplot(211);
+plot(a1H1_pre_T2(:,1), a1H1_pre_T2(:,2),'.');
+mk_Nice_Plot; xlabel('A1'); ylabel('H1');
+title('A1 vs H1 at switches into Int');
+legend(sprintf(...
+    'G=%.1f, tauA=%.1f, sig=%.2f',...
+    pars.Gamma,pars.tau_slow,pars.sig));
+
+subplot(212); plot(a2H2_pre_T1(:,1), a2H2_pre_T1(:,2),'.');
+mk_Nice_Plot; xlabel('A2'); ylabel('H2');
+title('A2 vs H2 at switches into Seg');
+
 
 bigFigure; subplot(211); 
 plot(H11,lnT1,'.'); mk_Nice_Plot;
@@ -38,6 +87,13 @@ set(gca,'Xtick',[0 .9]);
 
 fstat = (fnull - fval)/2;
 pVal_cumhist = chi2pdf(fstat,3)
+%% try same thing with mk2gammas
 
 
+Durs = make_2gamma_distrs([1.5 6],[1.5 6],2000);
 
+[parmhat fval maxr output] = estimate_cumhist_pars(Durs,[],1);
+[parmNull fnull] = estimate_cumhist_pars(Durs,1);
+
+fstat = (fnull - fval)/2;
+pVal_cumhist = chi2pdf(fstat,3)

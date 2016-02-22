@@ -5,13 +5,13 @@ data=load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Dat
 
 %i = condn; j = subj; k = trial;
 
-i = 4; j = 3; k = 2;
+i = 8; j = 10; k = 2;
 
 DursCell = cell(1,3);
 [DursCell{:}] = deal(data.DurationsCell{i,j,:});
 
 nDatasets = length(DursCell);
-
+%%
 pars.window = 15; pars.step = .1;
 
 for ind = 1:nDatasets
@@ -166,3 +166,36 @@ top = sum((groupedMat(:,1) - mean(groupedMat(:,1))) .* (groupedMat(:,3) - mean(g
 bottom = std(groupedMat(:,1)) * std(groupedMat(:,3));
 
 top/bottom
+
+%%
+
+i = 7; j = 14; k = 2;
+
+DursCell = cell(1,3);
+[DursCell{:}] = deal(data.DurationsCell{i,j,:});
+
+nDatasets = length(DursCell);
+
+Durs1t = [];
+Durs2t = [];
+
+for ind = 1:nDatasets
+    Durs = DursCell{ind};
+    Durs1t = [Durs1t; Durs(Durs(:,2)==1,1)];
+    Durs2t = [Durs2t; Durs(Durs(:,2)==2,1)];
+end
+
+axmax = max([Durs1t(:,1);Durs2t(:,1)])
+g1 = gamfit(Durs1t); g2 = gamfit(Durs2t);
+
+figure; subplot(211);
+histfit(Durs1t,20,'gamma'); xlim([0 axmax])
+mk_Nice_Plot;
+title(sprintf('DF= %d subj %d',data.DFvals(i),j))
+
+subplot(212);
+histfit(Durs2t,20,'gamma'); xlim([0 axmax])
+mk_Nice_Plot
+legend(sprintf('n = %d',length(Durs2t)))
+
+    

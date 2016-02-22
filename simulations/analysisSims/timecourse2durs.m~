@@ -1,11 +1,11 @@
-% [T1 T2] = timecourse_to_durs(u1,u2,tax)
+% [T1 T2] = timecourse2durs(u1,u2,tax)
 % added 8/16/2012 by sara steele 
 % T1 is taken to be the durations of events in a system that switches
 % between two states, those corresponding to the state entered first (T1)
 % T2 contains the durations of the state which occurs second ( and
 % subsequently throughout the trial )
 
-function [T1 T2 durs u1_timecourse T1E] = timecourse2durs(u1,u2,tax,bPlot)
+function [T1 T2 durs u1_timecourse] = timecourse2durs(u1,u2,tax,bPlot)
 
 
 % firstu1 = find(u1>u2, 1 ); firstu2 = find(u2>u1, 1 );
@@ -103,7 +103,7 @@ if bEnd_is_integrated
     if length(durs)<=2
         T1(end+1)=switch_to_p2(end) - switch_to_p1(end);
         
-        disp('using some truncated dur1s')
+       % disp('using some truncated dur1s')
     end
 elseif length(durs)>3
     T2(end) = [];
