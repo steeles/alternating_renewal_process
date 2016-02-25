@@ -77,7 +77,8 @@ else
     
     % optionally vary time scale; doesn't get output in pars bc idk what
     % other codes reference this one and use that struct
-    if exist('pars.tau_slow','var')
+    
+    if isfield(pars,'tau_slow')
         tau_slow = pars.tau_slow;
     end
 end
