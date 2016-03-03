@@ -6,7 +6,7 @@
 % source: http://www.mathwave.com/articles/create-use-histograms.html
 % [count,bin] = mk_Nice_Hist(samples)
 
-function [count,bin] = mk_Nice_Hist(samples)
+function [count,bin] = Hist_Nice(samples)
 
 standard_dev = std(samples);
 
