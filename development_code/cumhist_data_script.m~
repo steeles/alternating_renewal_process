@@ -293,7 +293,7 @@ for sInd = 1:NumSubj
     IStotCorr(sInd,:) = [rtmp(1,2) pval(1,2) cLo(1,2) cHi(1,2)]; 
     subplot(NumReps+1,2,(NumReps + 1) * 2 - 1);
     plot(IpreTot,SpostTot,'.'); %mk_Nice_Plot;
-    xlabel('I pre total'); ylabel('S post total');
+    xlabel('I pre'); ylabel('S post');
     
     %title('All trials')
     
