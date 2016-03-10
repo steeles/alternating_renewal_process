@@ -1,0 +1,78 @@
+% options.bPlot, bSpear, bPerm
+
+% stats.Pearson = [r p rlo rup]; stats.Spearman = [r p]; stats.perm = p
+
+function [statsIS statsSI] = find_IS_SI_corrs(DursCell,options)
+
+v2struct(options)
+
+if isCell(DursCell)
+    NumReps = length(DursCell);
+else
+    NumReps = 1; tmp = DursCell; DursCell = cell(1); DursCell{1} = tmp;
+end
+
+% % this would come before here
+% if exist('bNormalized','var') && bNormalized
+%     Durs = normalizeDurs(Durs);
+% end
+for rInd = 1:NumReps
+    
+    Durs = DursCell{rInd};
+    [Ipre Spre Ipost Spost] = split_Durs(Durs);
+    
+    [rPear pPear rlo rup] = corrcoef(Ipre,Spost);
+    statsIS.rPearson(rInd,1:4) = [rPear(1,2) pPear(1,2) rlo(1,2) rup(1,2)];
+    %
+    % IScorrPearson(sInd,rInd,cInd) = rPear(1,2);
+    % IS_pPear(sInd,rInd,cInd) = pPear(1,2);
+    
+    figISText = sprintf('r_p=%.2f, CI:(%.2f,%.4f)',rPear(1,2),rlo(1,2),rup(1,2));
+    
+    if exist('bSpear','var') && bSpear
+        
+        statsIS.rSpearman(rInd,1:2) = corr(Ipre,Spost,'type','Spearman');
+        figISText = [figText sprintf('\nr_s=%.2f, p=%.4f',rSpear,pSpear)];
+    end
+    
+    if exist('bPerm','var') && bPerm
+        pPerm = rPerm(Ipre,Spost);
+        statsIS.pPerm(rInd) 
+        figISText = [figText sprintf('\np_p=%.4f',pPerm)];
+    end
+    
+    if bPlot
+        %     IS_pPear(sInd,rInd,cInd) = pPerm;
+        subplot(2,NumReps,rInd);
+        plot(Ipre,Spost,'m.'); %mk_Nice_Plot;
+        xlabel('Integration'); ylabel('Next Segregation')
+        
+        foo = xlim; bar = ylim;
+        text(.03*foo(2), .6 * bar(2), figISText);
+        
+        %if rInd == 1, title('I -> S'); end
+    end
+    
+    [rPear pPear rlo rup] = corrcoef(Spre,Ipost);
+    statsSI.Pearson(rInd,1:4) = [rPear(1,2) pPear(1,2) rlo(1,2) rup(1,2)];
+    
+    if exist('bSpear','var') && bSpear
+        statsSI.Spearman(rInd,1:2) = corr(Spre,Ipost,'type','Spearman');
+    end
+    
+    if exist('bPerm','var') && bPerm
+        statsSI.pPerm = rPerm(Spre,Ipost);
+    end
+    
+    if bPlot
+        pPerm = rPerm(Spre,Ipost);
+        SI_pPear(sInd,rInd,cInd) = pPerm;
+        
+        
+        subplot(NumReps+1,2,rInd*2);
+        plot(Spre, Ipost, 'm.'); %mk_Nice_Plot;
+        xlabel('Segregation'); ylabel('Next Integration');
+        
+        foo = xlim; bar = ylim;
+        
+        text(.03*foo(2), .6 * bar(2), figSIText);

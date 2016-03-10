@@ -1,7 +1,7 @@
 function [pBoot] = rPerm(x,y,nBoot)
 
 if ~exist('nBoot','var')
-	nBoot = 10000;
+	nBoot = 5000;
 end
 
 
@@ -22,7 +22,9 @@ end
 rNullSort = sort(rNullVec);
 
 pInd = find(rNullSort>rHat,1);
-
-pBoot = 1-pInd/nBoot;
-
+if isempty(pInd)
+    pBoot = 0;
+else    
+    pBoot = 1-pInd/nBoot;
+end
 

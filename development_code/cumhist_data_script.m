@@ -10,8 +10,10 @@
 % k, mn, (big dot) and cumhist range (vert line)
 
 % this is James Dataset with DF=5, 8 subjs, 5 reps (!!!)
-load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF1_NSJ8_NREPS5.mat');
+%load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF1_NSJ8_NREPS5.mat');
 
+% this is James's Dataset with 15 subjs, 8 condns, 3 reps
+load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat')
 
 bPlot = 0;
 
@@ -47,6 +49,225 @@ H2cell{NumReps,NumSubj} = [];
 mnscell1{NumReps,NumSubj} = [];
 mnscell2{NumReps,NumSubj} = [];
 
+%% compute percept to percept corr's
+
+% split this into I->S and S->I
+
+ItoS_lag1_corr(NumSubj,NumReps) = 0;
+StoI_lag1_corr(NumSubj,NumReps) = 0;
+
+
+% each row is going to carry for each subject:
+% [r pval ciLo ciHi]
+IStotCorr(NumSubj,4) = 0; SItotCorr_spear(NumSubj,2) = 0; 
+
+IS_pvals(NumSubj) = 0; SI_pvals(NumSubj) = 0;
+
+for cInd = 1:NumCond
+    DF = DF
+for sInd = 1:NumSubj
+    
+    htmp = figure;
+    set(htmp, 'Position', [0 0 360 720]);
+    
+    
+    IpreTot = []; SpostTot = []; SpreTot = []; IpostTot = [];
+    
+    for rInd = 1:NumReps
+        Durs = DurationsCell{5,sInd,rInd};
+
+        sampLen = length(Durs(:,2));
+                
+        IntInds = find(Durs(:,2)==1);
+        
+        % since I don't know whether a trial ends on a Int or a Seg, I have
+        % to make it work for either one, ie whichever one is end-1 is pre
+        IntPreInds = IntInds(IntInds<sampLen);
+
+        SegInds = find(Durs(:,2)==2);
+        SegPreInds = SegInds(SegInds<sampLen);
+        
+        Ipre = Durs(IntPreInds,1);
+        Spost = Durs(IntPreInds+1,1);
+        
+        [rtmp pval rlo rup] = corrcoef(Ipre,Spost);
+        ItoS_lag1_corr(sInd,rInd) = rtmp(1,2);
+        
+        subplot(NumReps+1,2,rInd * 2 - 1);
+        plot(Ipre,Spost,'.'); %mk_Nice_Plot; 
+        xlabel('I pre'); ylabel('S post')
+        
+        foo = xlim; bar = ylim;
+        text(.25*foo(2), .75 * bar(2), sprintf('r=%.2f',rtmp(1,2)))
+        
+        if rInd == 1, title('I -> S'); end
+        
+        Spre = Durs(SegPreInds,1);
+        Ipost = Durs(SegPreInds+1,1);
+        
+        [rtmp pval rlo rup] = corrcoef(Spre,Ipost);
+        StoI_lag1_corr(sInd,rInd) = rtmp(1,2);
+
+        subplot(NumReps+1,2,rInd*2);
+        plot(Spre, Ipost, '.'); %mk_Nice_Plot;
+        xlabel('S pre'); ylabel('I post');
+        foo = xlim; bar = ylim;
+        text(.25*foo(2), .75 * bar(2), sprintf('r=%.2f',rtmp(1,2)))
+        
+        if rInd == 1, title('S -> I'); 
+            foo = ylim;
+            bar = xlim;
+            text(.5*bar(2), foo(2)*1.6,sprintf('Subj %d lag 1', sInd),'HorizontalAlignment'...
+                ,'center','VerticalAlignment', 'top', 'FontSize',16)
+        end
+        
+        
+        SpreTot = [SpreTot; Spre]; IpreTot = [IpreTot; Ipre];
+        SpostTot = [SpostTot; Spost]; IpostTot = [IpostTot; Ipost];
+        
+        
+        
+    end
+    keyboard;
+    
+    % these guys might not wind up being the same length...?
+    % they seem to...
+    [rtmp pval cLo cHi] = corrcoef(IpreTot, SpostTot);
+    
+    pvalPerm = rPerm(IpreTot,SpostTot);
+    
+    IStotCorr(sInd,:) = [rtmp(1,2) pval(1,2) cLo(1,2) cHi(1,2)]; 
+    subplot(NumReps+1,2,(NumReps + 1) * 2 - 1);
+    plot(IpreTot,SpostTot,'.'); %mk_Nice_Plot;
+    xlabel('I pre total'); ylabel('S post total');
+    
+    
+    [rtmp pval cLo cHi] = corrcoef(SpreTot, IpostTot);
+    SItotCorr_spear(sInd,:) = [rtmp(1,2) pval(1,2) cLo(1,2) cHi(1,2)];
+    subplot(NumReps+1,2,(NumReps+1)*2);
+    plot(SpreTot,IpostTot,'.'); %mk_Nice_Plot;
+    xlabel('S pre'); ylabel('I post');    
+    
+end
+
+ figure;       
+ItoS_lag1_corrVec = reshape(ItoS_lag1_corr,1,NumSubj*NumReps);
+figure; subplot(211);
+hist(ItoS_lag1_corrVec); %mk_Nice_Hist
+xlabel('lag 1 corrs')
+ylabel('trials'); title('I -> S');
+
+StoI_lag1_corrVec = reshape(StoI_lag1_corr,1,NumSubj*NumReps);
+subplot(212); hist(StoI_lag1_corrVec); %mk_Nice_Hist
+title('S -> I');
+
+end
+%% same as above with Spearmann's
+
+% split this into I->S and S->I
+
+ItoS_lag1_corr(NumSubj,NumReps) = 0;
+StoI_lag1_corr(NumSubj,NumReps) = 0;
+
+
+% each row is going to carry for each subject:
+% [r pval ciLo ciHi]
+IStotCorr_spear(NumSubj,2) = 0; SItotCorr_spear(NumSubj,2) = 0; 
+
+IS_pvals(NumSubj) = 0; SI_pvals(NumSubj) = 0;
+
+for sInd = 1:NumSubj
+    
+    htmp = figure;
+    set(htmp, 'Position', [0 0 360 720]);
+    
+    IpreTot = []; SpostTot = []; SpreTot = []; IpostTot = [];
+    
+    for rInd = 1:NumReps
+        Durs = DurationsCell{1,sInd,rInd};
+
+        sampLen = length(Durs(:,2));
+                
+        IntInds = find(Durs(:,2)==1);
+        
+        % since I don't know whether a trial ends on a Int or a Seg, I have
+        % to make it work for either one, ie whichever one is end-1 is pre
+        IntPreInds = IntInds(IntInds<sampLen);
+
+        SegInds = find(Durs(:,2)==2);
+        SegPreInds = SegInds(SegInds<sampLen);
+        
+        Ipre = Durs(IntPreInds,1);
+        Spost = Durs(IntPreInds+1,1);
+        
+        [rtmp pval] = corr(Ipre,Spost,'type','Spearman');
+        ItoS_lag1_corr(sInd,rInd) = rtmp;
+        
+        subplot(NumReps+1,2,rInd * 2 - 1);
+        plot(Ipre,Spost,'.'); %mk_Nice_Plot; 
+        xlabel('I pre'); ylabel('S post')
+        
+        foo = xlim; bar = ylim;
+        text(.25*foo(2), .75 * bar(2), sprintf('r=%.2f',rtmp))
+        
+        if rInd == 1, title('I -> S'); end
+        
+        Spre = Durs(SegPreInds,1);
+        Ipost = Durs(SegPreInds+1,1);
+        
+        [rtmp pval] = corr(Spre,Ipost,'type','Spearman');
+        StoI_lag1_corr(sInd,rInd) = rtmp;
+
+        subplot(NumReps+1,2,rInd*2);
+        plot(Spre, Ipost, '.'); %mk_Nice_Plot;
+        xlabel('S pre'); ylabel('I post');
+        foo = xlim; bar = ylim;
+        text(.25*foo(2), .75 * bar(2), sprintf('r=%.2f',rtmp))
+        
+        if rInd == 1, title('S -> I'); 
+            foo = ylim;
+            bar = xlim;
+            text(.5*bar(2), foo(2)*1.6,sprintf('Subj %d lag 1', sInd),'HorizontalAlignment'...
+                ,'center','VerticalAlignment', 'top', 'FontSize',16)
+        end
+        
+        
+        SpreTot = [SpreTot; Spre]; IpreTot = [IpreTot; Ipre];
+        SpostTot = [SpostTot; Spost]; IpostTot = [IpostTot; Ipost];
+        
+        
+    end
+    
+    % these guys might not wind up being the same length...?
+    % they seem to...
+    [rtmp pval] = corr(IpreTot, SpostTot,'type','Spearman');
+    %keyboard;
+    pvalPerm = rPerm(IpreTot,SpostTot);
+    
+    IStotCorr_spear(sInd,:) = [rtmp pval]; 
+    subplot(NumReps+1,2,(NumReps + 1) * 2 - 1);
+    plot(IpreTot,SpostTot,'.'); %mk_Nice_Plot;
+    xlabel('I pre total'); ylabel('S post total');
+    
+    
+    [rtmpS pvalS] = corr(SpreTot, IpostTot,'type','Spearman');
+    SItotCorr_spear(sInd,:) = [rtmp pval];
+    subplot(NumReps+1,2,(NumReps+1)*2);
+    plot(SpreTot,IpostTot,'.'); %mk_Nice_Plot;
+    xlabel('S pre'); ylabel('I post');    
+    
+end
+
+ figure;       
+ItoS_lag1_corrVec = reshape(ItoS_lag1_corr,1,NumSubj*NumReps);
+figure; subplot(211);
+hist(ItoS_lag1_corrVec); %mk_Nice_Hist
+xlabel('lag 1 corrs')
+ylabel('trials'); title('I -> S');
+
+StoI_lag1_corrVec = reshape(StoI_lag1_corr,1,NumSubj*NumReps);
+subplot(212); hist(StoI_lag1_corrVec); %mk_Nice_Hist
+title('S -> I');
 
 %% Basic Stats
 if bPlot
@@ -210,113 +431,6 @@ for sInd = 1:NumSubj
        ,'center','VerticalAlignment', 'top', 'FontSize',20)
     
 end
-%% compute percept to percept corr's
-
-% split this into I->S and S->I
-
-ItoS_lag1_corr(NumSubj,NumReps) = 0;
-StoI_lag1_corr(NumSubj,NumReps) = 0;
-
-
-% each row is going to carry for each subject:
-% [r pval ciLo ciHi]
-IStotCorr(NumSubj,4) = 0; SItotCorr(NumSubj,4) = 0; 
-
-for sInd = 1:NumSubj
-    
-    htmp = figure;
-    set(htmp, 'Position', [0 0 360 720]);
-    
-    
-    IpreTot = []; SpostTot = []; SpreTot = []; IpostTot = [];
-    
-    for rInd = 1:NumReps
-        Durs = DurationsCell{1,sInd,rInd};
-
-        sampLen = length(Durs(:,2));
-                
-        IntInds = find(Durs(:,2)==1);
-        
-        % since I don't know whether a trial ends on a Int or a Seg, I have
-        % to make it work for either one, ie whichever one is end-1 is pre
-        IntPreInds = IntInds(IntInds<sampLen);
-
-        SegInds = find(Durs(:,2)==2);
-        SegPreInds = SegInds(SegInds<sampLen);
-        
-        Ipre = Durs(IntPreInds,1);
-        Spost = Durs(IntPreInds+1,1);
-        
-        [rtmp pval rlo rup] = corrcoef(Ipre,Spost);
-        ItoS_lag1_corr(sInd,rInd) = rtmp(1,2);
-        
-        subplot(NumReps+1,2,rInd * 2 - 1);
-        plot(Ipre,Spost,'.'); %mk_Nice_Plot; 
-        xlabel('I pre'); ylabel('S post')
-        
-        foo = xlim; bar = ylim;
-        text(.25*foo(2), .75 * bar(2), sprintf('r=%.2f',rtmp(1,2)))
-        
-        if rInd == 1, title('I -> S'); end
-        
-        Spre = Durs(SegPreInds,1);
-        Ipost = Durs(SegPreInds+1,1);
-        
-        [rtmp pval rlo rup] = corrcoef(Spre,Ipost);
-        StoI_lag1_corr(sInd,rInd) = rtmp(1,2);
-
-        subplot(NumReps+1,2,rInd*2);
-        plot(Spre, Ipost, '.'); %mk_Nice_Plot;
-        xlabel('S pre'); ylabel('I post');
-        foo = xlim; bar = ylim;
-        text(.25*foo(2), .75 * bar(2), sprintf('r=%.2f',rtmp(1,2)))
-        
-        if rInd == 1, title('S -> I'); 
-            foo = ylim;
-            bar = xlim;
-            text(.5*bar(2), foo(2)*1.6,sprintf('Subj %d lag 1', sInd),'HorizontalAlignment'...
-                ,'center','VerticalAlignment', 'top', 'FontSize',16)
-        end
-        
-        
-        SpreTot = [SpreTot; Spre]; IpreTot = [IpreTot; Ipre];
-        SpostTot = [SpostTot; Spost]; IpostTot = [IpostTot; Ipost];
-        
-        
-        
-    end
-    keyboard;
-    
-    % these guys might not wind up being the same length...?
-    [rtmp pval cLo cHi] = corrcoef(IpreTot, SpostTot);
-    
-    IStotCorr(sInd,:) = [rtmp(1,2) pval(1,2) cLo(1,2) cHi(1,2)]; 
-    subplot(NumReps+1,2,(NumReps + 1) * 2 - 1);
-    plot(IpreTot,SpostTot,'.'); %mk_Nice_Plot;
-    xlabel('I pre total'); ylabel('S post total');
-    
-    %title('All trials')
-    
-    [rtmp pval cLo cHi] = corrcoef(SpreTot, IpostTot);
-    SItotCorr(sInd,:) = [rtmp(1,2) pval(1,2) cLo(1,2) cHi(1,2)];
-    subplot(NumReps+1,2,(NumReps+1)*2);
-    plot(SpreTot,IpostTot,'.'); %mk_Nice_Plot;
-    xlabel('S pre'); ylabel('I post');    
-    
-    
-end
-
- figure;       
-ItoS_lag1_corrVec = reshape(ItoS_lag1_corr,1,NumSubj*NumReps);
-figure; subplot(211);
-hist(ItoS_lag1_corrVec); %mk_Nice_Hist
-xlabel('lag 1 corrs')
-ylabel('trials'); title('I -> S');
-
-StoI_lag1_corrVec = reshape(StoI_lag1_corr,1,NumSubj*NumReps);
-subplot(212); hist(StoI_lag1_corrVec); %mk_Nice_Hist
-title('S -> I');
-
 %%
 slopes = [parmhat_cumhist(5,:) parmhat_cumhist(6,:)];
 taus = [parmhat_cumhist(7,:)];
