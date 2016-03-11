@@ -14,7 +14,7 @@
 % this is James Dataset with DF=5, 8 subjs, 5 reps (!!!)
 
 clear;
-%load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF1_NSJ8_NREPS5.mat');
+load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF1_NSJ8_NREPS5.mat');
 
 % this is James's Dataset with 15 subjs, 8 condns, 3 reps
 load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat')

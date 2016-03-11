@@ -1,4 +1,4 @@
-function [DursOut, mu1, mu2] = normalizeDurs(DursIn)
+function [DursOut, mu1,a mu2] = normalizeDurs(DursIn)
 
 DursOut = DursIn;
 
