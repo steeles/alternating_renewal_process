@@ -1,7 +1,7 @@
 % preamble - gonna start this off with specific data then extract a
  % function outta this script
 
-data=load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat');
+%data=load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat');
 
 %i = condn; j = subj; k = trial;
 
