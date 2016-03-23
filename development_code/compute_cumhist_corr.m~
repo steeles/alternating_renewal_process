@@ -1,0 +1,3 @@
+function [r] = compute_cumhist_corr(Durs,tau)
+
+[lnT1, lnT2, H11, H22] = Durs_to_H_pred_lnT(D

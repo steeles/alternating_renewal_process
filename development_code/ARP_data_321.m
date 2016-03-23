@@ -1,7 +1,7 @@
 % preamble - gonna start this off with specific data then extract a
  % function outta this script
 
-data=load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat');
+%data=load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat');
 
 %i = condn; j = subj; k = trial;
 
@@ -20,8 +20,8 @@ cumhist_data_tot = struct('mean_1', {}, 'mean_2', {}, ...
 % plot k, mean for each subj/condn/trial (small dots) and across trials 
 % k, mn, (big dot) and cumhist range (vert line)
 
-% this is James Dataset with DF=5, 8 subjs, 5 reps (!!!)
-load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF1_NSJ8_NREPS5.mat');
+% this is James Dataset with DF=5, 8 subjs, 5 reps (!!!) 
+load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_All_DFsExtraTrials');
   
 
 
@@ -79,9 +79,12 @@ for sInd = 1:NumSubj
 %         'Color',cmap(sInd,:));
 
     DursCell = {DurationsCell{1,sInd,:}};
-    [parmhat_cumhist(:,sInd) fval] = estimate_cumhist_pars(DursCell);
     
-    [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p12 h1] = ...
+    if length(vertcat(DursCell{:}))<6, continue; end
+    
+    [parmhat_cumhist(:,sInd) fval parsMaxR] = estimate_cumhist_pars(DursCell);
+    
+    [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p12 y11 y22] = ...
         compute_combined_cum_history(DursCell,parmhat_cumhist(end,sInd),1);
     
     figure(h1); set(gca,'Color',cmap(sInd,:));
@@ -98,7 +101,8 @@ for sInd = 1:NumSubj
     title(sprintf('Subject %d', sInd));
     
     %for sInd = 1:NumSubj
-    legtext(sInd) = {sprintf('Subject %d',sInd)};
+    legtext1(sInd) = {sprintf('s %d, n = %d',sInd,length(Durs1t))};
+    legtext2(sInd) = {sprintf('s %d, n = %d',sInd,length(Durs2t))};
 
 end
 
@@ -106,24 +110,24 @@ figure(h); subplot(121);
 
 set(gca,'NextPlot','replacechildren')
 set(gca,'ColorOrder', cmap)
-errorbar(grand_stats1(:,1), grand_stats1(:,2), grand_stats1(:,2)-grand_stats1(:,3), ...
-    grand_stats1(:,4)-grand_stats1(:,2),'k.'); hold on;
+%errorbar(grand_stats1(:,1), grand_stats1(:,2), grand_stats1(:,2)-grand_stats1(:,3), ...
+%    grand_stats1(:,4)-grand_stats1(:,2),'k.'); hold on;
 
-gscatter(grand_stats1(:,1), grand_stats1(:,2),legtext',cmap,'o',14);
+gscatter(grand_stats1(:,1), grand_stats1(:,2),legtext1',cmap,'o',14);
 plot(squeeze(per_trial_stats1(1,:,:)), squeeze(per_trial_stats1(2,:,:)),...
     '.');
-mk_Nice_Plot; axis([0 2 0 100]);
+mk_Nice_Plot; axis([0 3 0 100]); xlabel('k'); ylabel('mean')
 
 subplot(122);
 set(gca,'NextPlot','replacechildren')
 set(gca,'ColorOrder', cmap)
-errorbar(grand_stats2(:,1), grand_stats2(:,2), grand_stats2(:,2)-grand_stats2(:,3), ...
-    grand_stats2(:,4)-grand_stats2(:,2),'k.'); hold on;
+%errorbar(grand_stats2(:,1), grand_stats2(:,2), grand_stats2(:,2)-grand_stats2(:,3), ...
+%    grand_stats2(:,4)-grand_stats2(:,2),'k.'); hold on;
 
-gscatter(grand_stats2(:,1), grand_stats2(:,2),legtext',cmap,'o',14);
+gscatter(grand_stats2(:,1), grand_stats2(:,2),legtext2',cmap,'o',14);
 plot(squeeze(per_trial_stats2(1,:,:)), squeeze(per_trial_stats2(2,:,:)),...
     '.');
-mk_Nice_Plot; axis([0 2 0 100]);
+mk_Nice_Plot; axis([0 3 0 100]);
 
 %plot(kth(1), mu, 'o', 'Color', cmap(sInd,:), 'MarkerSize', 24)
 
@@ -131,10 +135,10 @@ mk_Nice_Plot; axis([0 2 0 100]);
 
 %norm_cumhist_data(15,3) = ;
 
-for j = 2%1:data.NumSubj
+for j = 2 %1:data.NumSubj
     
     DursCell = cell(1,3);
-    [DursCell{:}] = deal(data.DurationsCell{i,j,:});
+    [DursCell{:}] = deal(DurationsCell{i,j,:});
     
     nDatasets = length(DursCell);
     
@@ -153,7 +157,7 @@ for j = 2%1:data.NumSubj
     %plot_ARP_histBUFs(ARP_data_tot(j),titletext);
     
 
-    % DATA
+    %% DATA
     
     
     nTaus = 20;

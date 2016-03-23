@@ -5,6 +5,9 @@
 
 function [rCombined ] = fisher_combine_corrs(R_array,NumSamples)
 
+if ~exist('NumSamples','var')
+    NumSamples = ones(size(R_array));
+end
 % R_array(isnan(R_array)) = 0;
 
 tmp = size(NumSamples);

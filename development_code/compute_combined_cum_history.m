@@ -27,6 +27,8 @@ DursCell{nDatasets} = [];
 for ind = 1:nDatasets
     
     Dursin = DursCellin{ind};
+    if length(Dursin)<5, continue; end
+    %keyboard;
     if Dursin(1,1) ~=0
         Dursin = [0 0 ; Dursin];
     end
@@ -65,7 +67,7 @@ groupedMat = mat(groupedInds,:); splitMat = mat(splitInds,:);
 
 [rGrouped pGrouped] = corrcoef(groupedMat); 
 [rSplit pSplit] = corrcoef(splitMat);
-
+keyboard
 pVals = [pGrouped; pSplit];
 if any(pVals([1 2 4 5],3)<.05)
     sigFlag = 1;

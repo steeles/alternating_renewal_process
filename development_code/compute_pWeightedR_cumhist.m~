@@ -1,0 +1,11 @@
+% so I'm going to use the fisher combination of the correlations by the
+% standard errors to get a sort of super Z score for the correlation
+% coefficient
+
+function [ZrCombined r11 r22] = compute_pWeightedR_cumhist(lnT1, lnT2, H11, H22, bPlot)
+
+if ~exist('bPlot','var')
+   bPlot = 0; 
+end
+
+r11 = corr(
