@@ -17,11 +17,11 @@ end
 if ~exist('init','var') || isempty(init)
     
     if iscell(Durs)
-        Durs = vertcat(Durs{:});
+        Dursn = vertcat(Durs{:});
     end
-    
-    durs1 = Durs(Durs(:,2)==1,1);
-    durs2 = Durs(Durs(:,2)==2,1);
+    Durs = Durs(~cellfun('isempty',Durs));
+    durs1 = Dursn(Dursn(:,2)==1,1);
+    durs2 = Dursn(Dursn(:,2)==2,1);
     
     g1 = gamfit(durs1); g2 = gamfit(durs2);
     

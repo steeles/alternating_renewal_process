@@ -2,9 +2,8 @@
 clear;
 
 % corrected 3 Rep over original
-load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_15SJ_3REP.mat')
+load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_All_DFsExtraTrials.mat')
 %load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF8_NSJ15_NREPS3.mat')
-
 
 % corrected 5 Rep over original
 % load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_8SJ_5REP.mat')
@@ -37,6 +36,9 @@ NumDursSI(NumReps,NumSubj,NumCond) = 0;
 muInt(NumReps,NumSubj,NumCond) = 0;
 muSeg(NumReps,NumSubj,NumCond) = 0;
 
+zIS(NumReps,NumSubj,NumCond) = 0;
+zSI(NumReps,NumSubj,NumCond) = 0;
+
 firstDurRatio(NumReps,NumSubj,NumCond) = 0;
 lastDurRatio(NumReps,NumSubj,NumCond) = 0; 
 
@@ -45,10 +47,10 @@ remainingTwitches(NumReps,NumSubj,NumCond) = 0;
 % SegStarts = [cInd sInd rInd Durs(2,1) muSeg(rInd,sInd,cInd)];
 SegStarts = [];
 
-IpreTot{NumCond,NumSubj,NumReps} = 0;
-SpostTot{NumCond,NumSubj,NumReps} = 0;
-SpreTot{NumCond,NumSubj,NumReps} = 0;
-SpostTot{NumCond,NumSubj,NumReps} = 0;
+IpreTot{NumCond,NumSubj,NumReps} = [];
+SpostTot{NumCond,NumSubj,NumReps} = [];
+SpreTot{NumCond,NumSubj,NumReps} = [];
+SpostTot{NumCond,NumSubj,NumReps} = [];
 % get the base stats from the data
 for cInd = 1:NumCond
     
@@ -57,6 +59,10 @@ for cInd = 1:NumCond
         for rInd = 1:NumReps
             
             Durs = DurationsCell{cInd,sInd,rInd};
+            
+            if length(Durs)<4
+                continue
+            end
             
             if any(Durs(:,1)<0)
                 error('negative dur detected')
@@ -74,9 +80,10 @@ for cInd = 1:NumCond
             end
             %disp([rInd sInd cInd])
             [Ipre, Spre, Ipost, Spost] = split_Durs(Durs);
-            % cut off the first, longer duration
-            muInt(rInd,sInd,cInd) = mean(Ipre);
-            muSeg(rInd,sInd,cInd) = mean(Spre);
+            
+            muInt(rInd,sInd,cInd) = mean(Ipost);
+            muSeg(rInd,sInd,cInd) = mean(Spost);
+            
             
             if length(Spre)<2
                 IScorr(rInd,sInd,cInd) = NaN;
@@ -90,6 +97,7 @@ for cInd = 1:NumCond
                 continue
             end
             
+            % cut off the first, longer duration
             if Durs(2,2) == 1 % first percept is probably grouped, and longer
                 firstDurRatio(rInd,sInd,cInd) = Ipre(1)/muInt(rInd,sInd,cInd);
                 Ipre = Ipre(2:end); Spost = Spost(2:end);
@@ -98,6 +106,9 @@ for cInd = 1:NumCond
                 SegStarts = [SegStarts; cInd sInd rInd Durs(2,1) muSeg(rInd,sInd,cInd)];
                 firstDurRatio(rInd,sInd,cInd) = 1;
             end
+            
+            
+            
             
             IpreTot{cInd,sInd,rInd}=Ipre; SpostTot{cInd,sInd,rInd}=Spost;
             SpreTot{cInd,sInd,rInd}=Spre; IpostTot{cInd,sInd,rInd}=Ipost;
@@ -117,6 +128,11 @@ for cInd = 1:NumCond
             IScorr(rInd,sInd,cInd) = r1;
             SIcorr(rInd,sInd,cInd) = r2;
             
+            [ZrCombined, r11, r22, z1, z2] = ...
+    compute_pWeightedR_cumhist(Spost, Ipost, Ipre, Spre);
+
+            zIS(rInd,sInd,cInd) = z1; zSI(rInd,sInd,cInd) = z2;
+            
             pIScorrEachTrial(rInd,sInd,cInd) = p1;
             pSIcorrEachTrial(rInd,sInd,cInd) = p2;
               
@@ -130,6 +146,60 @@ for cInd = 1:NumCond
     meanSIcorrTrials(:,cInd) = fisher_combine_corrs(SIcorr(:,:,cInd),...
         NumDursSI(:,:,cInd));
     
+end
+
+%% trial z by prop split
+
+%[intCol segCol] = set_int_seg_colors;
+prop_split = muSeg./(muInt + muSeg); pSplitVec = reshape(prop_split,1,numel(prop_split));
+zISvec = reshape(zIS,1,numel(zIS)); zSIvec = reshape(zSI, 1, numel(zSI));
+
+figure; plot(pSplitVec,zISvec,'b.'); mk_Nice_Plot;
+hold on; plot(pSplitVec,zSIvec,'m.');
+xlabel('Proportion segregated (trials)'); ylabel('Trial Correlation Z score')
+legend('I->S','S->I'); title('r vs proportion seg, each trial')
+%% Subj/Condn z by prop split
+% preallocate
+
+SC_muInt(NumSubj,NumCond) = 0;
+SC_muSeg(NumSubj,NumCond) = 0;
+SC_zIS(NumSubj,NumCond) = 0;
+SC_zSI(NumSubj,NumCond) = 0;
+
+ZrCombined(NumSubj,NumCond) = 0;
+
+%
+for cInd = 1:NumCond
+    for sInd = 1:NumSubj
+        
+        Ipre = vertcat(IpreTot{cInd,sInd,:});
+        Spost = vertcat(SpostTot{cInd,sInd,:});
+        Spre = vertcat(SpreTot{cInd,sInd,:});
+        Ipost = vertcat(IpostTot{cInd,sInd,:});
+        
+        SC_muInt(sInd,cInd) = mean(Ipost); 
+        SC_muSeg(sInd,cInd) = mean(Spost);
+        
+        [ZrCombined(sInd,cInd), r11, r22, z1, z2] = ...
+    compute_pWeightedR_cumhist(Spost, Ipost, Ipre, Spre);
+
+        SC_zIS(sInd,cInd) = z1; SC_zSI(sInd,cInd) = z2;
+        
+    end
+end
+prop_splitSC = SC_muSeg./(SC_muInt + SC_muSeg); 
+pSplitVecSC = reshape(prop_splitSC,1,numel(prop_splitSC));
+zISvecSC = reshape(SC_zIS,1,numel(SC_zIS)); ...
+    zSIvecSC = reshape(SC_zSI, 1, numel(SC_zSI));
+
+figure; plot(pSplitVecSC,zISvecSC,'b.','MarkerSize',9); mk_Nice_Plot;
+hold on; plot(pSplitVecSC,zSIvecSC,'m.','MarkerSize',9);
+xlabel('Proportion segregated (Subj/Condn)'); ylabel('Correlation Z score')
+legend('I->S','S->I'); title('r vs proportion seg, each subj/condn')
+
+
+%%
+for cInd = 1:NumCond
     for pInd = 1:nPerm
         
         for sInd = 1:NumSubj
@@ -179,20 +249,22 @@ for cInd = 1:NumCond
     end
     % Null distribution constructed! Moving on!
     
-    for cInd = 1:NumCond
+    %for cInd = 1:NumCond
     for ind = 1:NumSubj
-        pIS = sum(mnIScorrNull(ind,:,cInd)>meanIScorrTrials(ind,cInd))/nPerm;
+        pIS = sum(abs(mnIScorrNull(ind,:,cInd))>...
+            abs(meanIScorrTrials(ind,cInd)))/nPerm;
         
         if isnan(meanIScorrTrials(ind,cInd)), pIS = NaN;
         elseif  pIS == 0, pIS = 1/nPerm; end
         pValIS(cInd,ind) = pIS;
         %keyboard;
-        pSI = sum(mnSIcorrNull(ind,:,cInd)>meanSIcorrTrials(ind,cInd))/nPerm;
+        pSI = sum(abs(mnSIcorrNull(ind,:,cInd))>...
+            abs(meanSIcorrTrials(ind,cInd)))/nPerm;
         if isnan(meanSIcorrTrials(ind,cInd)), pSI = NaN;
         elseif pSI == 0, pSI = 1/nPerm;  end
         pValSI(cInd,ind) = pSI;
     end
-    end
+    %end
     
     % now we want to see how the corr's for all subjects look
     NumISSubj = sum(NumDursIS(:,:,cInd),1);

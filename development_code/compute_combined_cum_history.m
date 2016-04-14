@@ -18,7 +18,6 @@ if ~iscell(DursCellin)
     DursCellin{1} = tmp;
 end
 
-%keyboard;
 nDatasets = length(DursCellin);
 
 H1_cell{nDatasets} = [];
@@ -28,7 +27,7 @@ for ind = 1:nDatasets
     
     Dursin = DursCellin{ind};
     if length(Dursin)<5, continue; end
-    %keyboard;
+    
     if Dursin(1,1) ~=0
         Dursin = [0 0 ; Dursin];
     end
@@ -40,17 +39,21 @@ for ind = 1:nDatasets
     
     Durs = Dursin(4:end-1,:); H1 = H1in(3:end-2,1); H2 = H2in(3:end-2,1);
     
-    %keyboard;
+    
     DursCell{ind} = Durs;
     
     H1_cell{ind} = H1; H2_cell{ind} = H2;
     
 end
-%keyboard;
 %% compute r
 r = [];
 
 Durs = vertcat(DursCell{:}); H1 = vertcat(H1_cell{:}); H2 = vertcat(H2_cell{:});
+
+if length(Durs)<5, % if we have too few, just fill everything with NaNs and exit the function
+    for ind = 1:nargout, varargout(ind) = {NaN}; end
+    return; 
+end
 
 groupedInds = Durs(:,2)==1; splitInds = Durs(:,2)==2;
 
@@ -67,7 +70,7 @@ groupedMat = mat(groupedInds,:); splitMat = mat(splitInds,:);
 
 [rGrouped pGrouped] = corrcoef(groupedMat); 
 [rSplit pSplit] = corrcoef(splitMat);
-keyboard
+
 pVals = [pGrouped; pSplit];
 if any(pVals([1 2 4 5],3)<.05)
     sigFlag = 1;
@@ -75,7 +78,6 @@ else
     sigFlag = 0;
 end
 
-%keyboard;
 % should be H1 x 1, H2 x 1, H1 x 2, H2 x 2
 rAbs = abs([rGrouped(3,1:2) rSplit(3,1:2)]);
 
@@ -110,8 +112,8 @@ r2(4) = calc_rSquared(lnT2, y22);
 %%
 if exist('bPlot','var') && bPlot
     
-   h = bigFigure; 
-   subplot(2,1,1); plot(H11, lnT1, '.')
+   bigFigure; 
+   subplot(2,1,1); h1 = plot(H11, lnT1, '.');
    mk_Nice_Plot; hold on
    % plot regression line
    plot(H11,y11,'r'); title(sprintf('r = %.2f',rAbs(1)))
@@ -123,7 +125,7 @@ if exist('bPlot','var') && bPlot
 %    plot(H21,y21,'r'); title(sprintf('r = %.2f',rAbs(2)))
 %    xlabel('H2'); xlim([0 1])
    
-   subplot(2,1,2); plot(H22, lnT2, '.')
+   subplot(2,1,2); h2 = plot(H22, lnT2, '.');
    mk_Nice_Plot; hold on
    % plot regression line
    plot(H22,y22,'r'); title(sprintf('r = %.2f',rAbs(3)))
@@ -134,15 +136,14 @@ if exist('bPlot','var') && bPlot
 %    % plot regression line
 %    plot(H22,y22,'r'); title(sprintf('r = %.2f',rAbs(4)))
    
-%   keyboard;
    ha = axes('Position',[0 0 1 1],'Xlim',[0 1],'Ylim',[0
        1],'Box','off','Visible','off','Units','normalized', 'clipping' , 'off');
    
    text(0.5, 1,sprintf('tau = %.2f', tau),'HorizontalAlignment'...
        ,'center','VerticalAlignment', 'top', 'FontSize',20)
-   
+   h=[h1;h2];
 else
-    h=0;
+    h=[0;0];
    
 end
 

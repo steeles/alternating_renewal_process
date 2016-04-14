@@ -53,6 +53,7 @@ if ~exist('pars','var') || isempty(pars)
         sig = .02/sqrt(dt);
     end
     
+    bPlot=1;
     sig =0;
     
     

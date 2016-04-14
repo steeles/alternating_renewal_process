@@ -21,7 +21,7 @@ cumhist_data_tot = struct('mean_1', {}, 'mean_2', {}, ...
 % k, mn, (big dot) and cumhist range (vert line)
 
 % this is James Dataset with DF=5, 8 subjs, 5 reps (!!!)
-load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/SwitchTimes_NDF1_NSJ8_NREPS5.mat');
+load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_All_DFsExtraTrials');
   
 
 
@@ -38,12 +38,12 @@ TotDurs2{NumSubj} = [];
 
 parmhat(7,NumSubj) = 0;
 
-h = bigFigure; 
+%h = bigFigure; 
 cmap = colormap(jet(NumSubj));
-
+cInd = 4;
 for sInd = 1:NumSubj
     for rInd = 1:NumReps
-        Durs = DurationsCell{1,sInd,rInd};
+        Durs = DurationsCell{cInd,sInd,rInd};
         
         durs1 = Durs(Durs(:,2)==1);
         [kth] = gamfit(durs1); mu = mean(durs1);
@@ -78,13 +78,15 @@ for sInd = 1:NumSubj
 %     plot(per_trial_stats2(1,:,sInd), per_trial_stats2(2,:,sInd), '.', ...
 %         'Color',cmap(sInd,:));
 
-    DursCell = {DurationsCell{1,sInd,:}};
+if 0
+    DursCell = {DurationsCell{cInd,sInd,:}};
     [parmhat_cumhist(:,sInd) fval parsMaxR] = estimate_cumhist_pars(DursCell);
     
-    [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p12 y11 y22] = ...
+    [r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p22 h1 y11 y22 r11 r22] = ...
         compute_combined_cum_history(DursCell,parmhat_cumhist(end,sInd),1);
-    
-    figure(h1); set(gca,'Color',cmap(sInd,:));
+   
+    %figure(h1); 
+    set(h1,'Color',cmap(sInd,:));
     
     text(0.75, 1,sprintf('Subj %d', sInd),'HorizontalAlignment'...
        ,'center','VerticalAlignment', 'top', 'FontSize',20)
@@ -93,7 +95,7 @@ for sInd = 1:NumSubj
     grand_stats1(sInd,4) = exp(max(lnT1));
     grand_stats2(sInd,3) = exp(min(lnT2));
     grand_stats2(sInd,4) = exp(max(lnT2));
-    
+end
     
     title(sprintf('Subject %d', sInd));
     
@@ -102,29 +104,34 @@ for sInd = 1:NumSubj
     legtext2(sInd) = {sprintf('s %d, n = %d',sInd,length(Durs2t))};
 
 end
-
-figure(h); subplot(121);
+%%
+h = bigFigure; subplot(121);
 
 set(gca,'NextPlot','replacechildren')
 set(gca,'ColorOrder', cmap)
-%errorbar(grand_stats1(:,1), grand_stats1(:,2), grand_stats1(:,2)-grand_stats1(:,3), ...
-%    grand_stats1(:,4)-grand_stats1(:,2),'k.'); hold on;
+% errorbar(grand_stats1(:,1), grand_stats1(:,2), grand_stats1(:,2)-grand_stats1(:,3), ...
+%     grand_stats1(:,4)-grand_stats1(:,2),'k.'); 
+hold on;
 
 gscatter(grand_stats1(:,1), grand_stats1(:,2),legtext1',cmap,'o',14);
 plot(squeeze(per_trial_stats1(1,:,:)), squeeze(per_trial_stats1(2,:,:)),...
     '.');
-mk_Nice_Plot; axis([0 3 0 100]); xlabel('k'); ylabel('mean')
+mk_Nice_Plot; axis([0 3 0 40]); xlabel('k'); ylabel('mean'); title('Integration')
 
 subplot(122);
 set(gca,'NextPlot','replacechildren')
 set(gca,'ColorOrder', cmap)
-%errorbar(grand_stats2(:,1), grand_stats2(:,2), grand_stats2(:,2)-grand_stats2(:,3), ...
-%    grand_stats2(:,4)-grand_stats2(:,2),'k.'); hold on;
+% errorbar(grand_stats2(:,1), grand_stats2(:,2), grand_stats2(:,2)-grand_stats2(:,3), ...
+%     grand_stats2(:,4)-grand_stats2(:,2),'k.'); 
+hold on;
 
 gscatter(grand_stats2(:,1), grand_stats2(:,2),legtext2',cmap,'o',14);
 plot(squeeze(per_trial_stats2(1,:,:)), squeeze(per_trial_stats2(2,:,:)),...
     '.');
-mk_Nice_Plot; axis([0 3 0 100]);
+mk_Nice_Plot; axis([0 3 0 40]); xlabel('k'); title('Segregation')
+
+text(-1, 45,sprintf('DF=%d', DFvals(cInd)),'HorizontalAlignment'...
+       ,'center','VerticalAlignment', 'top', 'FontSize',20)
 
 %plot(kth(1), mu, 'o', 'Color', cmap(sInd,:), 'MarkerSize', 24)
 
