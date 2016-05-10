@@ -21,10 +21,10 @@ weights = NumSamples./repmat(sum(NumSamples,1),tmp(1),1);
 %weights(isnan(weights)) = 0;
 
 rCombined = tanh(sum(weights .* atanh(R_array),1,'omitnan'));
-
-if any(abs(rCombined)>1)
-    error('averaged correlations go outside -1:1')
-end
-bogusCorrs = find(~any(~isnan(R_array)));
-
-rCombined(bogusCorrs)=NaN;
+% 
+% if any(abs(rCombined)>1)
+%     error('averaged correlations go outside -1:1')
+% end
+% bogusCorrs = find(~any(~isnan(R_array)));
+% 
+% rCombined(bogusCorrs)=NaN;

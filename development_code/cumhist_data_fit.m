@@ -1,20 +1,41 @@
 % fit cumhist to corrected data
 % we're going to start with the plot of corr vs tau?
 clear;
+close all;
+bSim = 0;
+
+h = figure(); hold on;
+
 
 [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation;
-pars.t_in_seconds = 5000; pars.tau_slow = 1000;
-[u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation(pars);
-[T1 T2 Durs u1_timecourse] = timecourse2durs(u1,u2,tax);
-DursCell = {Durs};
 
-%load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_All_DFsExtraTrials');
+for mInd = 1:1
 
+    if bSim
+        
+        pars.t_in_seconds = 10; pars.sig=0;
+        pars.tau_slow = 400; % 4 sec
+        pars.Gamma = .01; pars.bPlot=1;
+         
+        [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation(pars);
+        pars.t_in_seconds = 2000; pars.sig = .12; pars.bPlot = 0;
+        [u1 u2 s1 s2 tax n1 n2 iboth pars] = noise_adaptation(pars);
+        [T1 T2 Durs u1_timecourse] = timecourse2durs(u1,u2,tax);
+        DurationsCell = {Durs};
+        NumCond = 1;
+        NumSubj = 1;
+        NumReps = 1;
+        DFvals = [5];
+    else
+        load('/Users/steeles/Dropbox/my codes/rinzel/experiment_code/data/James Data/Corrected_All_DFsExtraTrials');
+    end
+    
 nTaus = 20;
 tau_ax = logspace(-.5,1.75,nTaus);
     
 equidom_condns_by_subj(1,2) = 0;
 thresh_equidom = [.45,.55];
+
 
 EquidomDurs = cell(5,1);
 % first goal is to try to see how new maxRbyP works
@@ -57,9 +78,9 @@ end
     % now step through, plot them all on one graph
     %bigFigure; hold on;
     colormap jet
+    
 for nInd = 1:tmp(2)
 
-    
     DursCell = EquidomDurs(:,nInd);
     DursCell = DursCell(~cellfun('isempty',DursCell));
     
@@ -83,20 +104,32 @@ for nInd = 1:tmp(2)
             zVals(tInd) = ZrCombined;
         
        end
-       figure;
+       figure(h); hold on;
        semilogx(tau_ax,rVals,':',tau_ax, zVals*.1); mk_Nice_Plot;
        
        %h(:,nInd) = semilogx(tau_ax, zVals); mk_Nice_Plot;
        %hold on;
-       legend('r_{absCombined}','z (se_r) * .1')
+       legend('r_{absCombined}','Fisher Distance * .1')
        xlabel('tau'); ylabel('Correlation value (r and Z)');
        
-        title(sprintf('s%d | DF=%d | N=%d | \\mu_1=%.2f | \\mu_2=%.2f',...
-            foo(1), DFvals(foo(2)), length(allDurs),mu1,mu2));
-%        
+       
 end
-%    xlabel('tau/mean'); ylabel('correlation strength (Z score)')
-%    legend(legText); title('r vs tau, normalized equidominant')
+end
+set(gca,'xscale','log')
+title(sprintf('G=%.1f, noise=%.2f, tauA=%.1f, N=%d, mu=%.1f',...
+               pars.Gamma,pars.sig,pars.tau_slow/100,length(T1), (mu1+mu2)/2))
+           
+[tauH fval exitflag] = fit_tauR(DursCell);
+[lnT1, lnT2, H11, H22] = Durs_to_H_pred_lnT(DursCell,tauH);
+
+figure; H1Pre = H11(2:end-1); H1Post = H11(3:end);
+plot(H1Pre,H1Post,'.'); mk_Nice_Plot;
+xlabel('H1'); ylabel('H1 next interval')
+figure; plot(H11,H22(1:length(H11)));
+
+
+           %    xlabel('tau/mean'); ylabel('correlation strength (Z score)')
+           %    legend(legText); title('r vs tau, normalized equidominant')
            
 %end
 % %%

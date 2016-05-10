@@ -1,4 +1,4 @@
-function [Durs r11 r22 h1 h2 T1_mns T2_mns] = ...
+function [Durs] = ... r11 r22 h1 h2 T1_mns T2_mns] = ...
     generate_cumhist_func(pars0,nSwitches,bPlot)
 
 k1 = pars0(1);
@@ -51,5 +51,5 @@ for ind = 4:nSwitches % first row is [0 0]
     
 end
 
-[r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p22 h y11 y22 r11 r22] = compute_combined_cum_history(Durs,tau,bPlot);
+%[r r2 H1 H2 pVals sigFlag H11 H12 lnT1 lnT2 p11 p22 h y11 y22 r11 r22] = compute_combined_cum_history(Durs,tau,bPlot);
     

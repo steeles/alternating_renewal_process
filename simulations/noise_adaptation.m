@@ -75,6 +75,7 @@ else
     SFA = pars.SFA; SD = pars.SD;
     
     i1 = pars.i1; i2 = pars.i2;
+    bPlot = pars.bPlot;
     
     % optionally vary time scale; doesn't get output in pars bc idk what
     % other codes reference this one and use that struct

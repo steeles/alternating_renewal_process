@@ -52,7 +52,14 @@ SpostTot{NumCond,NumSubj,NumReps} = [];
 SpreTot{NumCond,NumSubj,NumReps} = [];
 SpostTot{NumCond,NumSubj,NumReps} = [];
 
-% get the p2p base stats from the data
+% get the p2p base stats from the data as well as optimal taus
+
+nTaus = 20;
+tau_ax = logspace(-.5,1.75,nTaus);
+
+f = @(tau)compute_cumhist_corr(Durs,tau);
+g = @(tau)-f(tau);
+
 for cInd = 1:NumCond
     
     for sInd = 1:NumSubj
@@ -101,6 +108,8 @@ for cInd = 1:NumCond
             if Durs(2,2) == 1 % first percept is probably grouped, and longer
                 firstDurRatio(rInd,sInd,cInd) = Ipre(1)/muInt(rInd,sInd,cInd);
                 Ipre = Ipre(2:end); Spost = Spost(2:end);
+                
+                
                 
             else
                 SegStarts = [SegStarts; cInd sInd rInd Durs(2,1) muSeg(rInd,sInd,cInd)];
@@ -410,7 +419,7 @@ ylabel('Subject','FontSize',18)
 zlabel('r value (red=p<.05)','FontSize',18)
 title('I-->S','FontSize',24)
 %%
-figure;
+%figure;
 
 pSigSI = pValSI<.05;
 h = bar3(meanSIcorrTrials);
