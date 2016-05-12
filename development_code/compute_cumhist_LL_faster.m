@@ -2,15 +2,16 @@
 
 function LL = compute_cumhist_LL_faster(DursCell,pars)
 
-k1 = pars(1); % +
-k2 = pars(2); % +
+k1 = abs(pars(1)); % +
+k2 = abs(pars(2)); % +
 
-b1 = pars(3); % +
-b2 = pars(4); % +
+b1 = pars(3); % 
+b2 = pars(4); % 
 
 m1 = pars(5);
 m2 = pars(6);
-tau = pars(7); % +
+tau = abs(pars(7)); % +
+
 
 th1 = exp(b1)/k1;
 th2 = exp(b2)/k2;
@@ -54,8 +55,8 @@ for tInd = 1:length(DursCell)
             lik(ind) = gampdf(Durs(ind,1),k2,th_new);
         end
     end
-    
-    LL = LL+sum(log(lik));
+    lik(lik==0) = eps;
+    LL = LL+sum(log(lik),'omitnan');
     if isnan(LL)
        keyboard;
     end

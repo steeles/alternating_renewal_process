@@ -39,7 +39,10 @@ zCumhist_Avg(NumCond,NumSubj) = 0;
 tauOpt(NumCond,NumSubj) = 0;
 tauMaxR(NumCond,NumSubj) = 0;
             
-SegStarts = [];
+SegStarts = []; maxR(NumCond,NumSubj) = 0;
+firstDurRatio(NumReps,NumSubj,NumCond) = 0;
+firstSegRatio(NumReps,NumSubj,NumCond) = 0; 
+
 for cInd = 1:NumCond
     
     for sInd = 1:NumSubj
@@ -52,16 +55,23 @@ for cInd = 1:NumCond
             Durs = DurationsCell{cInd,sInd,rInd};
             
             if length(Durs)<5 % at 4 rows we get at least one S->I
-                
+                firstDurRatio(rInd,sInd,cInd) = NaN; 
+                firstSegRatio(rInd,sInd,cInd) = NaN;
                 continue
             end
             
             [Ipre, Spre, Ipost, Spost] = split_Durs(Durs);
+            mu1 = mean(Ipost); mu2 = mean(Spost);
+            SegProp(cInd,sInd) = mu2/(mu1+mu2);
+            IntMeans(cInd,sInd) = mu1; SegMeans(cInd,sInd) = mu2;
+            firstSegRatio(rInd,sInd,cInd) = Spre(1)/mu2;
             
             if Durs(2,2) == 1 % first percept is probably grouped, and longer
                 Ipre = Ipre(2:end); Spost = Spost(2:end);
+                firstDurRatio(rInd,sInd,cInd) = Ipre(1)/mu1;
             else
                 SegStarts = [SegStarts; cInd sInd rInd];
+                firstDurRatio(rInd,sInd,cInd) = NaN;
             end
             
             IpreTot{cInd,sInd} = [IpreTot{cInd,sInd}; Ipre];
@@ -75,9 +85,7 @@ for cInd = 1:NumCond
         Spre = SpreTot{cInd,sInd}; Ipost = IpostTot{cInd,sInd};
         
         % find frac Dom
-        mu1 = mean(Ipost); mu2 = mean(Spost);
-        SegProp(cInd,sInd) = mu2/(mu1+mu2);
-        IntMeans(cInd,sInd) = mu1; SegMeans(cInd,sInd) = mu2;
+        
         
         if length(Spost) < 3
             pIS(cInd,sInd) = NaN;
@@ -122,13 +130,13 @@ for cInd = 1:NumCond
             history_to_lnT_avg_r(cInd,sInd) = NaN;
             zCumhist_Avg(cInd,sInd) = NaN;
             tauOpt(cInd,sInd) = NaN;
-            tauMaxR(cInd,sInd) = NaN;
+            tauMaxR(cInd,sInd) = NaN; maxR(cInd,sInd) = NaN;
             continue
         else
             % consider trying random inits (third argument after bNull=0)
-            [parmhat fval parsMaxR output] = estimate_cumhist_pars(DursCell);
-            tauH = parmhat(end);
-            
+            [parmhat fval parsMaxR output rval] = estimate_cumhist_pars(DursCell);
+            tauH = abs(parmhat(end)); maxR(cInd,sInd) = rval;
+            parmhat([1 2 7]) = abs(parmhat([1 2 7]));
             
             [ZrCombined, r11, r22, z1, z2, p11, p22, n1, n2] = ...
                 compute_cumhist_corr(DursCell,tauH);

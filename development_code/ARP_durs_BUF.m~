@@ -1,18 +1,21 @@
 function ARP_datastruct = ARP_durs_BUF(Durs, pars)
 
+if Durs(1,1) == 0
+    Durs = Durs(2:end,:)
 if exist('pars','var'), v2struct(pars);
 else window = 15; step = .1;
 end
 
-if any(diff(durs(:,2))==0), 
+if any(diff(Durs(:,2))==0), 
     disp('Non-alternating percept found');
 	ARP_datastruct = [];
     return
 end
 
-if durs(1,2) ~=1
+if Durs(1,2) ~=1
     disp('Coherent percept not first');
-    ARP_datastruct = [];
+    ARP_datastruct = struct('durs1',{[]}, 'durs2',{[]}, 'tax', {[]},...
+        'BUF',{[]},'BUF_adj',{[]},'g1',{[]},'g2',{[]},'rows',{[]});
     return
 end
 

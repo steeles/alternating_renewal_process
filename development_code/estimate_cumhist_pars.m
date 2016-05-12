@@ -8,7 +8,7 @@
 
 % i should overload my functions for Durs & Durs Cell
 
-function [parmhat fval parsMaxR output exitflag] = estimate_cumhist_pars(Durs,bNull,init,bPlot)
+function [parmhat fval parsMaxR output maxR] = estimate_cumhist_pars(Durs,bNull,init,bPlot)
 
 if ~exist('bPlot','var')
     bPlot = 0;
@@ -36,7 +36,7 @@ if ~exist('init','var') || isempty(init)
 %     
 %     [tau fval] = fminsearch(g,b1/2);
      
-    [tau fval] = fit_tauR(Durs);
+    [tau maxR] = fit_tauR(Durs);
     m1 = 1; m2 = 1;
     
     pars0 = [k1; k2; b1; b2; m1; m2; tau];
@@ -52,13 +52,15 @@ if ~exist('init','var') || isempty(init)
 
 else    
     pars0 = init;
-    
+    [tau maxR] = fit_tauR(Durs);
+    parsMaxR = [tau];
 end
 
 fun = @(pars)compute_cumhist_LL_faster(Durs,pars);
 nfun = @(pars)-fun(pars);
 
-opts = optimoptions('fminunc','Algorithm','quasi-newton')
+opts = optimoptions('fminunc','Algorithm','quasi-newton');
+
 if exist('bNull','var') && logical(bNull)
     pars0(5:7) = [0;0;1];
     %keyboard;
@@ -69,11 +71,15 @@ if exist('bNull','var') && logical(bNull)
     
 else
 %    keyboard;
-    [pars fval exitflag output] = fminunc(nfun, pars0);
+    [pars fval exitflag output] = fminunc(nfun, pars0,opts);
     if exitflag~=1
-        [pars fval exitflag output] = fminunc(nfun,pars);
+        [pars fval exitflag output] = fminunc(nfun,pars,opts);
+        if exitflag~=1
+            [pars fval exitflag output] = fminunc(nfun,pars,opts);
+        end
     end
 end
+pars([1 2 7]) = abs(pars([1 2 7]));
 parmhat = pars;
 
     
