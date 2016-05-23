@@ -31,15 +31,22 @@ Tsame_over_muSame = zeros(numSig,nBins);
 Tother_over_muOther = zeros(numSig,nBins);
 
 T1_by_H1 = zeros(numSig,nBins);
-T2_by_H1 = zeros(numSig,nBins);
+%T2_by_H1 = zeros(numSig,nBins);
+T2_by_H2 = zeros(numSig,nBins);
 
 segProp = zeros(numSig,1);
 tauSig = zeros(numSig,1);
 
 suboptimalFits = []; goodFits = []; noBUF = []; numSamples = [];
 
+T1Durs = cell(1,nBins);
+T2Durs = cell(1,nBins);
+H11s = cell(1,nBins);
+H22s = cell(1,nBins);
 
-bPlot = 0;
+
+
+bPlot = 1;
 if bPlot
     hCloud = bigFigure; hCloudStabilized = bigFigure;
 end
@@ -102,13 +109,18 @@ for ind = 1:numSig
         
         intInds = H_Durs(:,4)==1; segInds = H_Durs(:,4) == 2;
         
-        if bPlot
+%         if bPlot
+%             figure(hCloud); plot(H_Durs(intInds,1),H_Durs(intInds,3),'r.'); hold on;
+%             plot(H_Durs(intInds,2),H_Durs(intInds,3),'b.');
+%             plot(H_Durs(segInds,2),H_Durs(segInds,3),'r.');
+%             plot(H_Durs(segInds,1),H_Durs(segInds,3),'b.');
+%         end
+        if 0
             figure(hCloud); plot(H_Durs(intInds,1),H_Durs(intInds,3),'r.'); hold on;
-            plot(H_Durs(intInds,2),H_Durs(intInds,3),'b.');
-            plot(H_Durs(segInds,2),H_Durs(segInds,3),'r.');
-            plot(H_Durs(segInds,1),H_Durs(segInds,3),'b.');
+            %plot(H_Durs(intInds,2),H_Durs(intInds,3),'b.');
+            plot(H_Durs(segInds,2),H_Durs(segInds,3),'b.');
+            %plot(H_Durs(segInds,1),H_Durs(segInds,3),'b.');
         end
-        
         tolerance = 1e-5;
         stabilized = (abs(H_Durs(:,1) + H_Durs(:,2) - 1) < tolerance);
         %stabilized = ones(size(H_Durs,1),1) > 0;
@@ -121,9 +133,9 @@ for ind = 1:numSig
         if bPlot
             figure(hCloudStabilized); plot(H1(intInds),durstmp(intInds,1),'r.');
             hold on;
-            plot(H1(segInds),durstmp(segInds,1),'b.');
-            plot(H2(segInds),durstmp(segInds,1),'r.');
-            plot(H2(intInds),durstmp(intInds,1),'b.');
+            %plot(H1(segInds),durstmp(segInds,1),'b.');
+            plot(H2(segInds),durstmp(segInds,1),'b.');
+            %plot(H2(intInds),durstmp(intInds,1),'b.');
         end
         
         for hInd = 1:length(Hbins)-1
@@ -138,9 +150,14 @@ for ind = 1:numSig
             h11Durs = H1Durs(H1Durs(:,2)==1,1);
             h12Durs = H1Durs(H1Durs(:,2)==2,1);
             
+            T1Durs{ind,hInd} = h11Durs; H11s{ind,hInd} = H1(h1vals(H1Durs(:,2)==1));
+            
+            
             H2Durs = durstmp(h2vals,:);
             h22Durs = H2Durs(H2Durs(:,2)==2,1);
             h21Durs = H2Durs(H2Durs(:,2)==1,1);
+            
+            T2Durs{ind,hInd} = h22Durs; H22s{ind,hInd} = H2(h2vals(H2Durs(:,2)==2));
             
             % this is probably the right way
             normSame = vertcat(h11Durs/muInt,h22Durs/muSeg);
@@ -156,7 +173,8 @@ for ind = 1:numSig
             % if foo>5, keyboard; end
             
             T1_by_H1(ind,hInd) = mean(h11Durs)/muInt;
-            T2_by_H1(ind,hInd) = mean(h12Durs)/muSeg;
+            %T2_by_H1(ind,hInd) = mean(h12Durs)/muSeg;
+            T2_by_H2(ind,hInd) = mean(h22Durs)/muSeg;
         end
         
     else
@@ -168,7 +186,8 @@ end
 Tsame_over_muSame(all(Tsame_over_muSame==0,2),:) = [];
 Tother_over_muOther(all(Tother_over_muOther==0,2),:) = [];
 T1_by_H1(all(T1_by_H1==0,2),:) = [];
-T2_by_H1(all(T2_by_H1==0,2),:) = [];
+%T2_by_H1(all(T2_by_H1==0,2),:) = [];
+T2_by_H2(all(T2_by_H2==0,2),:) = [];
 
 binCenters = binWidth/2:binWidth:1;
 
@@ -196,9 +215,9 @@ seT1 = stdT1./sqrt(nT1);
 t1inds = ~isnan(mnT1byH1);
 f1 = fit(binCenters(t1inds)',mnT1byH1(t1inds)','exp1');
 
-mnT2byH2 = mean(T2_by_H1,'omitnan');
-stdT2 = std(T2_by_H1,'omitnan');
-nT2 = sum(~isnan(T2_by_H1));
+mnT2byH2 = mean(T2_by_H2,'omitnan');
+stdT2 = std(T2_by_H2,'omitnan');
+nT2 = sum(~isnan(T2_by_H2));
 seT2 = stdT2./sqrt(nT2);
 t2inds = ~isnan(mnT2byH2);
 f2 = fit(binCenters(t2inds)',mnT2byH2(t2inds)','exp1');
@@ -223,20 +242,98 @@ f2 = fit(binCenters(t2inds)',mnT2byH2(t2inds)','exp1');
     plot(f1,binCenters,mnT1byH1,'ro');
     h=plot(f2,binCenters,mnT2byH2,'bo'); set(h,'color','b');
     mk_Nice_Plot;
-    xlabel('H1'); ylabel('T_{h=x} / T_{avg}'); legend('T1','T2')
+    xlabel('H_x'); hy=ylabel('$T_x / \bar{T}_x$'); legend('x=1','x=2')
+    set(hy,'interpreter','Latex','FontSize',18); %set(h,'FontName','Arial')
     %title('Duration as a function of history')
     
 if bPlot
-    figure(hCloud); axis([0 1 0 60]); mk_Nice_Plot; xlabel('H');
-    ylabel('T_{h=x} / T_{avg}'); legend('same','other');
+    figure(hCloudStabilized); axis([0 1 0 60]); mk_Nice_Plot; xlabel('H_x');
+    hy=ylabel('$T_x / \bar{T}_x$'); legend('x=1','x=2')
+    set(hy,'interpreter','Latex','FontSize',18);
     title('T vs cumulative history');
     
-    figure(hCloudStabilized); axis([0 1 0 60]); mk_Nice_Plot; xlabel('H');
-    ylabel('T_{h=x} / T_{avg}'); legend('same','other');title('T vs cumulative history (steady state)');
+%     figure(hCloudStabilized); axis([0 1 0 60]); mk_Nice_Plot; xlabel('H');
+%     ylabel('T_{h=x} / T_{avg}'); legend('same','other');title('T vs cumulative history (steady state)');
 end
+
+%%
+for ind = 1:length(goodFits)
+    
+    cond = goodFits(ind,1); subj = goodFits(ind,2);
+    
+    chParams = cumhist_pars(:,cond,subj);
+    DursCell = squeeze(squeeze(DurationsCell(cond,subj,:)));
+    DursCell = DursCell(~cellfun('isempty',DursCell));
+    hists_by_H_cumhist(DursCell, chParams); title(sprintf('s%d tau=%.2f',chParams(end)))
+    
+end
+
+%%
+allT1 = vertcat(T1Durs{:}); g1 = gamfit(allT1);
+allH1 = vertcat(H11s{:}); 
+
+lnT1 = log(allT1); 
+
+figure; plot(allH1,lnT1,'.')
+
+%%
+pSplitVecSC = reshape(SegProp,1,numel(SegProp));
+zP2Pvec = reshape(zP2P_avg,1,numel(zP2P_avg)); ...
+    %zSIvecSC = reshape(SC_zSI, 1, numel(SC_zSI));
+
+figure; plot(pSplitVecSC,zP2Pvec,'b.','MarkerSize',9); mk_Nice_Plot;
+%hold on; plot(pSplitVecSC,zSIvecSC,'m.','MarkerSize',9);
+xlabel('Proportion segregated (Subj/Condn)'); ylabel('Fisher Distance')
+hold on; plot([0 1], [2.447 2.447], 'r--')
+title('correlation strength vs proportion seg')
+
+%% sensitivity
+sum(sum(MaxR<-2.447))
+sum(sum(zP2P_avg>2.447))
+
+%%
+
+
+
+%%
+mnP2P_cond = mean(zP2P_avg,2,'omitnan');
+figure; plot(1:8, mnP2P_cond);
+%set(gca,'FontName','Arial','FontSize',20,'LineWidth',2)
+mk_Nice_Plot;
+set(gca,'XTickLabel',DFvals,'XTick',[1:8]); xlim([1 8])
+ xlabel('DF'); ylabel('serial correlation'); hold on 
+plot([1 8],[2.447 2.447],'r--')
+%%
+mnP2P_subj= mean(zP2P_avg,1,'omitnan');
+figure; plot(1:15, mnP2P_subj);
+%set(gca,'FontName','Arial','FontSize',20,'LineWidth',2)
+mk_Nice_Plot;
+set(gca,'XTickLabel',1:15,'XTick',[1:15]); xlim([1 15])
+ xlabel('subject'); ylabel('serial correlation'); hold on 
+plot([1 15],[2.447 2.447],'r--')
+
+%%
+mnR_cond = mean(percept_to_percept_avg_r,2,'omitnan');
+figure; plot(1:8, mnR_cond);
+%set(gca,'FontName','Arial','FontSize',20,'LineWidth',2)
+mk_Nice_Plot;
+set(gca,'XTickLabel',DFvals,'XTick',[1:8]); xlim([1 8])
+ xlabel('DF'); ylabel('serial correlation'); hold on 
+%plot([1 8],[2.447 2.447],'r--')
+
+%%
+%%
+mnR_subj = mean(percept_to_percept_avg_r,1,'omitnan');
+figure; plot(1:15, mnR_subj);
+%set(gca,'FontName','Arial','FontSize',20,'LineWidth',2)
+mk_Nice_Plot;
+set(gca,'XTickLabel',[1:15],'XTick',[1:15]); xlim([1 15])
+ xlabel('Subject'); ylabel('serial correlation'); hold on 
+%plot([1 8],[2.447 2.447],'r--')
+
 %% make some BUFs! use only the good fits
 
-nBoot = 10000;
+nBoot = 1000;
 bufLength = size(ARP_data_tot(1).BUF,2);
 
 if length(goodFits) ~= length(ARP_data_tot), 
@@ -274,17 +371,22 @@ for ind = 1:length(goodFits)
     
     arpUB = arpSort(tail,:);
     arpLB = arpSort(end-tail,:);
-    arpPred = mean(arpSort,1,'excludenan');
+    arpPred = mean(arpSort,1,'omitnan');
     
     chUB = chSort(tail,:);
     chLB = chSort(end-tail,:);
-    cumhistPred = mean(chSort,1,'excludenan');
+    cumhistPred = mean(chSort,1,'omitnan');
     
     figure; hold on; plot(tax,BUF,'r')
     plot(tax,arpPred,'b'); plot(tax,cumhistPred,'g')
     plot(tax,arpUB,'b--'); plot(tax,chUB,'g--');
     plot(tax,arpLB,'b--'); plot(tax,chLB,'g--');
-    mk_Nice_Plot; title(sprintf('u_1=%.2f,u_2=%.
+    mk_Nice_Plot; title(sprintf('u_1=%.2f,u_2=%.2f|c%d,s%d',...
+    IntMeans(cond,subj),SegMeans(cond,subj),cond,subj));
+    
+    text(10,0.1,sprintf('(r1,r2)=(r1,r2)=%.2f,%.2f',...
+         ...
+        rH1T(cond,subj),rH2T(cond,subj)))
     
 end
 
