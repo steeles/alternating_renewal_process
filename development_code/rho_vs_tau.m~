@@ -1,0 +1,25 @@
+% Plot rho vs tau for some given durs
+
+function [rho_vs_tau(DursCell, tauRange)
+
+    if ~isCell(DursCell)
+        DursCell = {DursCell};
+    end
+
+    logTauLow = log10(tauRange(1));
+    logTauHi = log10(tauRange(2));
+    
+    nTaus = 20;
+    
+    tau_ax = logspace(logTauLow,logTauHi,nTaus);
+    
+    
+    rho_vals(nTaus) = 0;
+    
+    for tInd = 1:nTaus
+        
+        tau = tau_ax(tInd);
+        
+        rho_vals(tInd) = compute_combined_cum_history(DursCell,tau);
+        
+    end

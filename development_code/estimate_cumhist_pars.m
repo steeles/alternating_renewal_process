@@ -10,6 +10,7 @@
 
 function [parmhat fval parsMaxR output maxR] = estimate_cumhist_pars(Durs,bNull,init,bPlot)
 
+% nothing plots here; i could make the tau vs rho an option
 if ~exist('bPlot','var')
     bPlot = 0;
 end
@@ -82,6 +83,9 @@ end
 pars([1 2 7]) = abs(pars([1 2 7]));
 parmhat = pars;
 
+if bPlot
+    
+end
     
 %struct('k1',pars(1), 'k2', pars(2), 'b1', pars(3), 'b2', ...
 %    pars(4), 'm1', pars(5), 'm2', pars(6), 'tau', pars(7));
